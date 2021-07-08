@@ -1,18 +1,27 @@
+// 빌드 과정에서 필요한 설정. 외부 라이브러리를 클래스패스에 추가하는 등의 기능을 함
 buildscript {
-    ext {
-        springBootVersion = '2.3.0.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
+    // 개발에 필요한 의존성 선언
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.0.RELEASE")
     }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE' // 스프링 부트 의존성 관리
 }
 
 group = 'com.kosalaam'
 version = '1.0'
 sourceCompatibility = '14'
+
+// 각종 의존성 라이브러리들을 어떤 원격 저장소에서 받을지 정함
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
