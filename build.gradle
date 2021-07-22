@@ -28,8 +28,8 @@ dependencies {
 
     // database
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql'
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -43,8 +43,24 @@ dependencies {
     // Swagger 2
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.10.5'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.10.5'
+
+    // hibernate-validator
+    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.8.Final'
 }
 
 test {
     useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources"
+        }
+    }
+    test {
+        resources {
+            srcDirs "src/main/resources"
+        }
+    }
 }
