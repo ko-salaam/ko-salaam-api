@@ -1,62 +1,55 @@
-package com.kosalaam.api.domain.accommodation;
+package com.kosalaam.api.web.restaurant.dto;
 
 import com.kosalaam.api.domain.restaurant.MuslimFriendlies;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@NoArgsConstructor
-//@Table(name="accommodation")
-@Entity
-public class Accommodation {
+@Getter
+@RequiredArgsConstructor
+@ApiModel
+public class RestaurantRespDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
     @ApiModelProperty(notes = "식당 ID", position = 1)
-    private Long restaurantId;
+    private Long id;
 
-    @Column(nullable = false)
     @ApiModelProperty(notes = "이름", position = 2)
     private String name;
 
-    @Column(nullable = false)
     @ApiModelProperty(notes = "위도", position = 3)
     private double latitude;
 
-    @Column(nullable = false)
     @ApiModelProperty(notes = "경도", position = 4)
     private double longitude;
 
-    @Column(length = 500, nullable = false)
     @ApiModelProperty(notes = "상세 주소", position = 5)
     private String address;
 
-    @Column
     @ApiModelProperty(notes = "전화번호", position = 6)
     private String phoneNumber;
 
-    @Column
     @ApiModelProperty(notes = "사진 ID", position = 7)
     private Long imagesId;
 
-    @Column
     @ApiModelProperty(notes = "요리 분류", position = 8)
-    private MuslimFriendlies DishType;
+    private String dishType;
 
-    @Column
+    @ApiModelProperty(notes = "무슬림 친화", position = 8)
+    private MuslimFriendlies muslimFriendly;
+
     @ApiModelProperty(notes = "좋아요 수", position = 8)
     private int likedCount;
 
-    @Column
-    @ApiModelProperty(notes = "평점", position = 9)
-    private float rating;
-
-    @Column
     @ApiModelProperty(notes = "영업 시간", position = 10)
     private String openingHours;
 
-    @Column
     @ApiModelProperty(notes = "주차장 여부", position = 11)
     private Boolean isParkingLot;
+
 }

@@ -17,10 +17,9 @@ import javax.persistence.*;
 public class Restaurant {
 
     @Id
-    @Column(name="restaurant_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
     @ApiModelProperty(notes = "식당 ID", position = 1)
-    private Long restaurantId;
+    private Long id;
 
     @Column(nullable = false)
     @ApiModelProperty(notes = "이름", position = 2)

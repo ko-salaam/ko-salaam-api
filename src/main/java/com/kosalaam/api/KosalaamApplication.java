@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class KosalaamApplication {
 
     public static void main(String[] args) {

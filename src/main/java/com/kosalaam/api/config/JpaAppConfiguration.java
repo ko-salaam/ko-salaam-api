@@ -1,4 +1,4 @@
-package com.kosalaam.api;
+package com.kosalaam.api.config;
 
 import java.util.HashMap;
 import java.util.Map;
