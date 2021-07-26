@@ -3,16 +3,13 @@ package com.kosalaam.api.web.restaurant.dto;
 import com.kosalaam.api.domain.restaurant.MuslimFriendlies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Getter
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
 @ApiModel
 public class RestaurantRespDto {
 

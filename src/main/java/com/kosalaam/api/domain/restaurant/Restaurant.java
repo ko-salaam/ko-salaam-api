@@ -64,4 +64,8 @@ public class Restaurant {
     @Column(name="is_parking_lot")
     @ApiModelProperty(notes = "주차장 여부", position = 11)
     private Boolean isParkingLot;
+
+    @Column(name="detail_info")
+    @ApiModelProperty(notes = "비고", position = 12)
+    private Boolean detailInfo;
 }

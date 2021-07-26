@@ -13,9 +13,12 @@ public class RestaurantRespDtoTest {
         Long id = 1L;
         String name = "카메";
 
-        RestaurantRespDto dto = new RestaurantRespDto(id, name);
+        RestaurantRespDto dto = RestaurantRespDto.builder()
+                .id(id)
+                .name(name)
+                .build();
 
-        assertThat(dto.getRestaurantId()).isEqualTo(id);
+        assertThat(dto.getId()).isEqualTo(id);
         assertThat(dto.getName()).isEqualTo(name);
     }
 }

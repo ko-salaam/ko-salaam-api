@@ -1,4 +1,4 @@
-package com.kosalaam.api.web;
+package com.kosalaam.api.web.restaurant;
 
 import com.kosalaam.api.web.restaurant.dto.RestaurantRespDto;
 import com.kosalaam.api.web.restaurant.dto.RestaurantReviewRespDto;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "Restaurant")
