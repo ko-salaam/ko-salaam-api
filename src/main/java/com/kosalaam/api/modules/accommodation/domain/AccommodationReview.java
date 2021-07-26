@@ -1,4 +1,4 @@
-package com.kosalaam.api.domain.accommodation;
+package com.kosalaam.api.modules.accommodation.domain;
 
 import javax.persistence.*;
 

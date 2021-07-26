@@ -1,4 +1,4 @@
-package com.kosalaam.api.domain.restaurant;
+package com.kosalaam.api.modules.restaurant.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

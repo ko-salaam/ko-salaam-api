@@ -1,7 +1,7 @@
-package com.kosalaam.api.web.accommodation;
+package com.kosalaam.api.modules.accommodation;
 
-import com.kosalaam.api.web.accommodation.dto.AccommodationRespDto;
-import com.kosalaam.api.web.accommodation.dto.AccommodationReviewRespDto;
+import com.kosalaam.api.modules.accommodation.dto.AccommodationRespDto;
+import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewRespDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

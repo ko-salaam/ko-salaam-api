@@ -52,7 +52,7 @@ public class SwaggerConfig {
     public Docket prayerroomApi() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .groupName("기도실").select()
-                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.web.prayerroom")).paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.modules.prayerroom")).paths(PathSelectors.any())
                 .build();
 
         return setDocketCommonConfig(docket, "[Prayerroom] API", "기도실 API");
@@ -67,7 +67,7 @@ public class SwaggerConfig {
     public Docket restaurantApi() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .groupName("식당").select()
-                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.web.restaurant")).paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.modules.restaurant")).paths(PathSelectors.any())
                 .build();
 
         return setDocketCommonConfig(docket, "[Restaurant] API", "식당 API");
@@ -82,7 +82,7 @@ public class SwaggerConfig {
     public Docket accommodationApi() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .groupName("숙소").select()
-                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.web.accommodation")).paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.modules.accommodation")).paths(PathSelectors.any())
                 .build();
 
         return setDocketCommonConfig(docket, "[Accommodation] API", "숙소 API");

@@ -1,6 +1,6 @@
-package com.kosalaam.api.web.restaurant.dto;
+package com.kosalaam.api.modules.restaurant.dto;
 
-import com.kosalaam.api.domain.restaurant.MuslimFriendlies;
+import com.kosalaam.api.modules.restaurant.domain.MuslimFriendlies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

@@ -1,5 +1,6 @@
-package com.kosalaam.api.web.prayerroom.dto;
+package com.kosalaam.api.modules.prayerroom.dto;
 
+import com.kosalaam.api.modules.common.PraySupplies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -41,30 +42,18 @@ public class PrayerroomRespDto {
     @ApiModelProperty(notes = "주차장 여부", position = 10)
     private Boolean isParkingLot;
 
-    @ApiModelProperty(notes = "코란 여부", position = 13)
-    private Boolean isKoran;
+    @ApiModelProperty(notes = "기도실 물품 구비 여부", position = 11)
+    private PraySupplies praySupplies;
 
-    @ApiModelProperty(notes = "매트 여부", position = 14)
-    private Boolean isMat;
-
-    @ApiModelProperty(notes = "기도실 의상 여부", position = 15)
-    private Boolean isClothes;
-
-    @ApiModelProperty(notes = "키블라 여부", position = 16)
-    private Boolean isQibla;
-
-    @ApiModelProperty(notes = "세족실 여부", position = 17)
-    private Boolean isWashingRoom;
-
-    @ApiModelProperty(notes = "코살람 호스팅 기도실 여부", position = 2)
+    @ApiModelProperty(notes = "코살람 호스팅 기도실 여부", position = 12)
     private Boolean isKosalaamRoom;
 
-    @ApiModelProperty(notes = "호스트 ID", position = 3)
+    @ApiModelProperty(notes = "호스트 ID", position = 13)
     private Long hostId;
 
-    @ApiModelProperty(notes = "이용 가격", position = 3)
+    @ApiModelProperty(notes = "이용 가격", position = 14)
     private int price;
 
-    @ApiModelProperty(notes = "비고", position = 18)
+    @ApiModelProperty(notes = "비고", position = 15)
     private String detailInfo;
 }

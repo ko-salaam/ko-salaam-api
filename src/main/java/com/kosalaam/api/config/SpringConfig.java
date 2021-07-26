@@ -1,6 +1,5 @@
 package com.kosalaam.api.config;
 
-import com.kosalaam.api.domain.restaurant.RestaurantRepository;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

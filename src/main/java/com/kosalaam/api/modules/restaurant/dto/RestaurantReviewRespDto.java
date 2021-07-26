@@ -1,4 +1,4 @@
-package com.kosalaam.api.web.accommodation.dto;
+package com.kosalaam.api.modules.restaurant.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 @ApiModel
-public class AccommodationReviewRespDto {
+public class RestaurantReviewRespDto {
 
-    @ApiModelProperty(notes = "숙소 리뷰 ID")
+    @ApiModelProperty(notes = "식당 리뷰 ID")
     private Long id;
 
-    @ApiModelProperty(notes = "숙소 ID")
-    private Long AccommodationId;
+    @ApiModelProperty(notes = "식당 ID")
+    private Long restaurantId;
 
     @ApiModelProperty(notes = "사용자 ID")
     private Long KoUserId;

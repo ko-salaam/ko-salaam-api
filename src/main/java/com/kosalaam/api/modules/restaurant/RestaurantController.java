@@ -1,7 +1,7 @@
-package com.kosalaam.api.web.restaurant;
+package com.kosalaam.api.modules.restaurant;
 
-import com.kosalaam.api.web.restaurant.dto.RestaurantRespDto;
-import com.kosalaam.api.web.restaurant.dto.RestaurantReviewRespDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewRespDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

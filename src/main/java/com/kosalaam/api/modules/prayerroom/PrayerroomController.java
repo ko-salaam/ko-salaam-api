@@ -1,7 +1,8 @@
-package com.kosalaam.api.web.prayerroom;
+package com.kosalaam.api.modules.prayerroom;
 
-import com.kosalaam.api.web.prayerroom.dto.PrayerroomRespDto;
-import com.kosalaam.api.web.prayerroom.dto.PrayerroomReviewRespDto;
+import com.kosalaam.api.modules.common.PraySupplies;
+import com.kosalaam.api.modules.prayerroom.dto.PrayerroomRespDto;
+import com.kosalaam.api.modules.prayerroom.dto.PrayerroomReviewRespDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,6 +32,15 @@ public class PrayerroomController {
     ) throws Exception {
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiOperation(value = "기도실 등록", notes = "kosalaam 호스트가 기도실을 새로 등록")
+    @PostMapping
+    public void setPrayerroom(
+            @ApiParam(value="기도실 이름") @RequestBody String name,
+            @ApiParam(value="주소") @RequestBody String address,
+            @ApiParam(value="기도실 운영형태") @RequestBody String managingType,
+            @ApiParam(value="기도실 물품 구비 여부") @RequestBody PraySupplies praySupplies
+            ) throws  Exception {}
 
     @ApiOperation(value = "기도실 좋아요 등록", notes = "기도실에 좋아요 등록")
     @ResponseBody

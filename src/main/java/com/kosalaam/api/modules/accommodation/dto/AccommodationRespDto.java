@@ -1,5 +1,6 @@
-package com.kosalaam.api.web.accommodation.dto;
+package com.kosalaam.api.modules.accommodation.dto;
 
+import com.kosalaam.api.modules.common.PraySupplies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -44,21 +45,9 @@ public class AccommodationRespDto {
     @ApiModelProperty(notes = "기도실 여부", position = 12)
     private Boolean isPrayerRoom;
 
-    @ApiModelProperty(notes = "코란 여부", position = 13)
-    private Boolean isKoran;
+    @ApiModelProperty(notes = "기도 물품 구비 여부", position = 13)
+    private PraySupplies praySupplies;
 
-    @ApiModelProperty(notes = "매트 여부", position = 14)
-    private Boolean isMat;
-
-    @ApiModelProperty(notes = "기도실 의상 여부", position = 15)
-    private Boolean isClothes;
-
-    @ApiModelProperty(notes = "키블라 여부", position = 16)
-    private Boolean isQibla;
-
-    @ApiModelProperty(notes = "세족실 여부", position = 17)
-    private Boolean isWashingRoom;
-
-    @ApiModelProperty(notes = "비고", position = 18)
+    @ApiModelProperty(notes = "비고", position = 14)
     private String detailInfo;
 }

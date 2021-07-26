@@ -1,4 +1,4 @@
-package com.kosalaam.api.web.prayerroom.dto;
+package com.kosalaam.api.modules.prayerroom.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 

@@ -1,4 +1,4 @@
-package com.kosalaam.api.domain.prayerroom;
+package com.kosalaam.api.modules.prayerroom.domain;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

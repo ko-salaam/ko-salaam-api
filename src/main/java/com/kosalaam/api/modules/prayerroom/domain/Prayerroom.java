@@ -1,24 +1,17 @@
-package com.kosalaam.api.domain.accommodation;
+package com.kosalaam.api.modules.prayerroom.domain;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name="accommodation")
-@Entity
-public class Accommodation {
+public class Prayerroom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
-    @ApiModelProperty(notes = "숙소 ID", position = 1)
+    @ApiModelProperty(notes = "기도실 ID", position = 1)
     private Long id;
 
     @Column(nullable = false)
@@ -53,17 +46,14 @@ public class Accommodation {
     @ApiModelProperty(notes = "영업 시간", position = 9)
     private String openingHours;
 
+    @Column
+    @ApiModelProperty(notes = "휴일", position = 9)
+    private String holiday;
+
     @Column(name="is_parking_lot")
     @ApiModelProperty(notes = "주차장 여부", position = 10)
     private Boolean isParkingLot;
 
-    @Column(name="is_muslim_friendly")
-    @ApiModelProperty(notes = "무슬림 친화 여부", position = 11)
-    private Boolean isMuslimFriendly;
-
-    @Column(name="is_prayer_room")
-    @ApiModelProperty(notes = "기도실 여부", position = 12)
-    private Boolean isPrayerRoom;
 
     @Column(name="is_koran")
     @ApiModelProperty(notes = "코란 여부", position = 13)
@@ -85,8 +75,19 @@ public class Accommodation {
     @ApiModelProperty(notes = "세족실 여부", position = 17)
     private Boolean isWashingRoom;
 
+    @Column(name = "is_kosalaam_room", nullable = false)
+    @ApiModelProperty(notes = "코살람 호스팅 기도실 여부", position = 2)
+    private Boolean isKosalaamRoom;
+
+    @Column(name = "host_id")
+    @ApiModelProperty(notes = "호스트 ID", position = 3)
+    private Long hostId;
+
+    @Column
+    @ApiModelProperty(notes = "이용 가격", position = 3)
+    private int price;
+
     @Column(name="detail_info")
     @ApiModelProperty(notes = "비고", position = 18)
     private String detailInfo;
-
 }
