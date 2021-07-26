@@ -2,6 +2,7 @@ package com.kosalaam.api.web.prayerroom;
 
 import com.kosalaam.api.web.prayerroom.dto.PrayerroomRespDto;
 import com.kosalaam.api.web.prayerroom.dto.PrayerroomReviewRespDto;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public class PrayerRoomController {
+@Api(tags = "Prayer Room")
+@RequestMapping("/api/prayerroom")
+@RestController
+public class PrayerroomController {
     @ApiOperation(value = "기도실 리스트 조회", notes = "반경 5km 이내의 기도실 리스트를 조회")
     @GetMapping
     public ResponseEntity<List<PrayerroomRespDto>> getAccomodations(

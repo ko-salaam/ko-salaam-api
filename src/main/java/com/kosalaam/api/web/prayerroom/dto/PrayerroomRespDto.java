@@ -1,12 +1,11 @@
 package com.kosalaam.api.web.prayerroom.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+@Getter
+@ApiModel
 public class PrayerroomRespDto {
 
     @ApiModelProperty(notes = "기도실 ID", position = 1)

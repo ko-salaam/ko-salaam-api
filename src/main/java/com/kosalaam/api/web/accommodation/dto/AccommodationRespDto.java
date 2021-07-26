@@ -1,12 +1,11 @@
 package com.kosalaam.api.web.accommodation.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+@Getter
+@ApiModel
 public class AccommodationRespDto {
 
     @ApiModelProperty(notes = "숙소 ID", position = 1)
