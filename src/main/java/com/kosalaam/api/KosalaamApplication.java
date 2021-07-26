@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 public class KosalaamApplication {
 
     public static void main(String[] args) {
-        System.out.println("test");
         SpringApplication.run(KosalaamApplication.class, args
         );
     }
