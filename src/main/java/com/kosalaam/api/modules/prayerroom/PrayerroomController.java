@@ -42,6 +42,12 @@ public class PrayerroomController {
             @ApiParam(value="기도실 물품 구비 여부") @RequestBody PraySupplies praySupplies
             ) throws  Exception {}
 
+    @ApiOperation(value = "기도실 삭제", notes = "kosalaam 호스트가 등록한 기도실을 삭제")
+    @DeleteMapping
+    public void deletePrayerroom(
+            @ApiParam(value="기도실 ID") @RequestParam Long id
+    ) throws  Exception {}
+
     @ApiOperation(value = "기도실 좋아요 등록", notes = "기도실에 좋아요 등록")
     @ResponseBody
     @PostMapping("like")
