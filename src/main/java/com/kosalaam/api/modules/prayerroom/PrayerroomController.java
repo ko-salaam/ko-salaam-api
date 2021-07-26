@@ -48,6 +48,15 @@ public class PrayerroomController {
             @ApiParam(value="기도실 ID") @RequestParam Long id
     ) throws  Exception {}
 
+    @ApiOperation(value = "기도실 정보 수정", notes = "kosalaam 호스트가 등록한 기도실의 정보를 수정")
+    @PutMapping
+    public void deletePrayerroom(
+            @ApiParam(value="기도실 이름") @RequestBody String name,
+            @ApiParam(value="주소") @RequestBody String address,
+            @ApiParam(value="기도실 운영형태") @RequestBody String managingType,
+            @ApiParam(value="기도실 물품 구비 여부") @RequestBody PraySupplies praySupplies
+    ) throws  Exception {}
+
     @ApiOperation(value = "기도실 좋아요 등록", notes = "기도실에 좋아요 등록")
     @ResponseBody
     @PostMapping("like")
