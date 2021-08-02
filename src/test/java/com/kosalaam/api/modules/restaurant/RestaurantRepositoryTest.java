@@ -1,4 +1,4 @@
-package com.kosalaam.api.domain;
+package com.kosalaam.api.modules.restaurant;
 
 import com.kosalaam.api.modules.restaurant.domain.RestaurantRepository;
 import org.junit.Test;

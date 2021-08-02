@@ -1,6 +1,7 @@
 package com.kosalaam.api.modules.restaurant.dto;
 
 import com.kosalaam.api.modules.restaurant.domain.MuslimFriendlies;
+import com.kosalaam.api.modules.restaurant.domain.Restaurant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ public class RestaurantRespDto {
     private String phoneNumber;
 
     @ApiModelProperty(notes = "사진 ID", position = 7)
-    private Long imagesId;
+    private String imagesId;
 
     @ApiModelProperty(notes = "요리 분류", position = 8)
     private String dishType;
@@ -49,4 +50,22 @@ public class RestaurantRespDto {
     @ApiModelProperty(notes = "주차장 여부", position = 11)
     private Boolean isParkingLot;
 
+    @ApiModelProperty(notes = "비고", position = 12)
+    private String detailInfo;
+
+    public RestaurantRespDto(Restaurant entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.latitude = entity.getLatitude();
+        this.longitude = entity.getLongitude();
+        this.address = entity.getAddress();
+        this.phoneNumber = entity.getPhoneNumber();
+        this.imagesId = entity.getImagesId();
+        this.dishType = entity.getDishType();
+        this.muslimFriendly = entity.getMuslimFriendly();
+        this.likedCount = entity.getLikedCount();
+        this.openingHours = entity.getOpeningHours();
+        this.isParkingLot = entity.getIsParkingLot();
+        this.detailInfo = entity.getDetailInfo();
+    }
 }

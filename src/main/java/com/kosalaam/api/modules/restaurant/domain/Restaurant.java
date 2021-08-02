@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -43,12 +44,13 @@ public class Restaurant {
 
     @Column(name="images_id")
     @ApiModelProperty(notes = "사진 ID", position = 7)
-    private Long imagesId;
+    private String imagesId;
 
     @Column(name="dish_type")
     @ApiModelProperty(notes = "요리 분류", position = 8)
     private String dishType;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="muslim_friendly")
     @ApiModelProperty(notes = "무슬림 친화", position = 8)
     private MuslimFriendlies muslimFriendly;
@@ -67,5 +69,5 @@ public class Restaurant {
 
     @Column(name="detail_info")
     @ApiModelProperty(notes = "비고", position = 12)
-    private Boolean detailInfo;
+    private String detailInfo;
 }

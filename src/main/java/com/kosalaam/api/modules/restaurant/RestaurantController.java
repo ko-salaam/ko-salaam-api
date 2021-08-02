@@ -2,19 +2,25 @@ package com.kosalaam.api.modules.restaurant;
 
 import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewRespDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantSaveReqDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.Response;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Api(tags = "Restaurant")
 @RequestMapping("/api/restaurant")
 @RestController
 public class RestaurantController {
+
+    private final RestaurantService restaurantService;
 
     @ApiOperation(value = "식당 리스트 조회", notes = "반경 5km 이내의 식당 리스트를 조회")
     @GetMapping
@@ -30,7 +36,21 @@ public class RestaurantController {
     public ResponseEntity<RestaurantRespDto> getRestaurant(
             @ApiParam(value="식당 ID") @RequestParam Long id
     ) throws Exception {
-        return new ResponseEntity<RestaurantRespDto>(HttpStatus.OK);
+        return new ResponseEntity<>(
+                restaurantService.findById(id),
+                HttpStatus.OK
+        );
+    }
+
+    @ApiOperation(value = "식당 등록", notes = "식당 등록")
+    @PostMapping("info")
+    public ResponseEntity<Long> saveRestaurant(
+            @RequestBody RestaurantSaveReqDto restaurantSaveReqDto) {
+        System.out.println("test----");
+        return new ResponseEntity<>(
+                restaurantService.save(restaurantSaveReqDto),
+                HttpStatus.OK
+        );
     }
 
     @ApiOperation(value = "식당 좋아요 등록", notes = "식당에 좋아요 등록")

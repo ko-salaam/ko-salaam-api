@@ -1,6 +1,5 @@
-package com.kosalaam.api.web.dto;
+package com.kosalaam.api.modules.restaurant.dto;
 
-import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
