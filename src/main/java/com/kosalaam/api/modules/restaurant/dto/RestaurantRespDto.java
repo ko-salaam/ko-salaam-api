@@ -53,6 +53,9 @@ public class RestaurantRespDto {
     @ApiModelProperty(notes = "비고", position = 12)
     private String detailInfo;
 
+    @ApiModelProperty(notes = "좋아요 여부", position = 13)
+    private Boolean isLiked;
+
     public RestaurantRespDto(Restaurant entity) {
         this.id = entity.getId();
         this.name = entity.getName();
@@ -67,5 +70,6 @@ public class RestaurantRespDto {
         this.openingHours = entity.getOpeningHours();
         this.isParkingLot = entity.getIsParkingLot();
         this.detailInfo = entity.getDetailInfo();
+        this.isLiked = Boolean.FALSE;
     }
 }

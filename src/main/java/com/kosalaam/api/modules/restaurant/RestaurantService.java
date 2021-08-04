@@ -19,7 +19,7 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
-    public RestaurantRespDto getRestaurant(Long id) {
+    public RestaurantRespDto getRestaurant(Long id) throws Exception {
 
         Restaurant entity = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -30,7 +30,7 @@ public class RestaurantService {
     }
 
     @Transactional
-    public List<RestaurantRespDto> getRestaurants(int pageNum, int pageSize) {
+    public List<RestaurantRespDto> getRestaurants(int pageNum, int pageSize) throws Exception {
 
         List<Restaurant> entities = restaurantRepository.findAll(
                 PageRequest.of(pageNum,pageSize)
@@ -43,7 +43,7 @@ public class RestaurantService {
     }
 
     @Transactional
-    public Long save(RestaurantSaveReqDto restaurantSaveReqDto) {
+    public Long save(RestaurantSaveReqDto restaurantSaveReqDto) throws Exception {
         System.out.println(restaurantSaveReqDto);
         return restaurantRepository.save(restaurantSaveReqDto.toEntity()).getId();
     }

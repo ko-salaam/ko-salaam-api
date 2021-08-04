@@ -47,10 +47,9 @@ public class RestaurantController {
     }
 
     @ApiOperation(value = "식당 등록", notes = "식당 등록")
-    @PostMapping("info")
-    public Long saveRestaurant(
-            @RequestBody RestaurantSaveReqDto restaurantSaveReqDto) {
-        System.out.println("test----");
+    @PostMapping
+    public Long saveRestaurant (
+            @RequestBody RestaurantSaveReqDto restaurantSaveReqDto) throws Exception {
         return restaurantService.save(restaurantSaveReqDto);
     }
 
