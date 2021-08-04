@@ -66,6 +66,9 @@ public class RestaurantRespDto {
         this.imagesId = entity.getImagesId();
         this.dishType = entity.getDishType();
         this.muslimFriendly = entity.getMuslimFriendly();
+        if (entity.getMuslimFriendly() == null) {
+            this.muslimFriendly = MuslimFriendlies.NONE;
+        }
         this.likedCount = entity.getLikedCount();
         this.openingHours = entity.getOpeningHours();
         this.isParkingLot = entity.getIsParkingLot();
