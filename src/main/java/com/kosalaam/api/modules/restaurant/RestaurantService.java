@@ -5,6 +5,7 @@ import com.kosalaam.api.modules.restaurant.domain.RestaurantRepository;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantSaveReqDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +30,11 @@ public class RestaurantService {
     }
 
     @Transactional
-    public List<RestaurantRespDto> getRestaurants() {
+    public List<RestaurantRespDto> getRestaurants(int pageNum, int pageSize) {
 
-        List<Restaurant> entities = restaurantRepository.findAll();
+        List<Restaurant> entities = restaurantRepository.findAll(
+                PageRequest.of(pageNum,pageSize)
+        ).getContent();
 
         return entities.stream()
                 .map(RestaurantRespDto::new)
