@@ -28,29 +28,28 @@ public class RestaurantController {
             @ApiParam(value="현재 위치 위도값") @RequestParam double latitude,
             @ApiParam(value="현재 위치 경도값") @RequestParam double longitude
     ) throws Exception {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(restaurantService.getRestaurants(),
+                HttpStatus.OK
+        );
     }
 
     @ApiOperation(value = "식당 정보 조회", notes = "식당 ID로 상세 정보 조회")
-    @GetMapping("info")
+    @GetMapping("{id}")
     public ResponseEntity<RestaurantRespDto> getRestaurant(
-            @ApiParam(value="식당 ID") @RequestParam Long id
+            @ApiParam(value="식당 ID") @PathVariable Long id
     ) throws Exception {
         return new ResponseEntity<>(
-                restaurantService.findById(id),
+                restaurantService.getRestaurant(id),
                 HttpStatus.OK
         );
     }
 
     @ApiOperation(value = "식당 등록", notes = "식당 등록")
     @PostMapping("info")
-    public ResponseEntity<Long> saveRestaurant(
+    public Long saveRestaurant(
             @RequestBody RestaurantSaveReqDto restaurantSaveReqDto) {
         System.out.println("test----");
-        return new ResponseEntity<>(
-                restaurantService.save(restaurantSaveReqDto),
-                HttpStatus.OK
-        );
+        return restaurantService.save(restaurantSaveReqDto);
     }
 
     @ApiOperation(value = "식당 좋아요 등록", notes = "식당에 좋아요 등록")

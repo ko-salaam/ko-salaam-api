@@ -48,7 +48,6 @@ public class RestaurantControllerTest {
         String dishType = "dishType";
         MuslimFriendlies muslimFriendly = MuslimFriendlies.HALAL_CERTIFIED;
         String openingHours = "openingHours";
-        Boolean isParkingLot = Boolean.FALSE;
 
 
         RestaurantSaveReqDto reqDto = RestaurantSaveReqDto.builder()
@@ -60,8 +59,10 @@ public class RestaurantControllerTest {
                 .imagesId(imagesId)
                 .dishType(dishType)
                 .muslimFriendly(muslimFriendly)
+                .likedCount(0)
                 .openingHours(openingHours)
-                .isParkingLot(isParkingLot)
+                .isParkingLot(Boolean.FALSE)
+                .detailInfo("test")
                 .build();
         String url = "http://localhost:" + port  + "/api/restaurant/info";
 
@@ -69,7 +70,7 @@ public class RestaurantControllerTest {
         System.out.println(url);
 
 
-        // when
+//        // when
 //        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, reqDto, Long.class);
 //        System.out.println("2");
 //

@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class RestaurantService {
@@ -15,13 +18,24 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
-    public RestaurantRespDto findById(Long id) {
+    public RestaurantRespDto getRestaurant(Long id) {
 
         Restaurant entity = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
                 ));
         return new RestaurantRespDto(entity);
+
+    }
+
+    @Transactional
+    public List<RestaurantRespDto> getRestaurants() {
+
+        List<Restaurant> entities = restaurantRepository.findAll();
+
+        return entities.stream()
+                .map(RestaurantRespDto::new)
+                .collect(Collectors.toList());
 
     }
 
