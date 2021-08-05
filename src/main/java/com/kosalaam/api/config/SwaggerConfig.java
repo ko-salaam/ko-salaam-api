@@ -89,6 +89,21 @@ public class SwaggerConfig {
     }
 
     /**
+     * [restaurant] group swagger Docket
+     *
+     * @return <Docket>
+     */
+    @Bean
+    public Docket userApi() {
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("사용자").select()
+                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.modules.kouser")).paths(PathSelectors.any())
+                .build();
+
+        return setDocketCommonConfig(docket, "[KoUser] API", "사용자 API");
+    }
+
+    /**
      * Set Docket Common Config
      *
      * @param docket    <Docket>
