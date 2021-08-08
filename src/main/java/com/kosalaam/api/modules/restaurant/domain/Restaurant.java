@@ -1,18 +1,21 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
+import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateReqDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
-import java.util.Optional;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name="restaurant")
 @Entity
 public class Restaurant {
@@ -63,11 +66,69 @@ public class Restaurant {
     @ApiModelProperty(notes = "영업 시간", position = 10)
     private String openingHours;
 
+    @Column
+    @ApiModelProperty(notes = "휴일", position = 11)
+    private String holiday;
+
     @Column(name="is_parking_lot")
-    @ApiModelProperty(notes = "주차장 여부", position = 11)
+    @ApiModelProperty(notes = "주차장 여부", position = 12)
     private Boolean isParkingLot;
 
     @Column(name="detail_info")
-    @ApiModelProperty(notes = "비고", position = 12)
+    @ApiModelProperty(notes = "비고", position = 13)
     private String detailInfo;
+
+    public void update(RestaurantUpdateReqDto restaurantUpdateReqDto) {
+        if (ObjectUtils.isEmpty(restaurantUpdateReqDto))
+            throw new IllegalArgumentException("요청 파라미터가 NULL입니다.");
+
+        if (restaurantUpdateReqDto.getName() != null) {
+            this.name = restaurantUpdateReqDto.getName();
+        }
+
+        if (restaurantUpdateReqDto.getLatitude() != 0) {
+            this.latitude = restaurantUpdateReqDto.getLatitude();
+        }
+
+        if (restaurantUpdateReqDto.getLongitude() != 0) {
+            this.longitude = restaurantUpdateReqDto.getLongitude();
+        }
+
+        if (restaurantUpdateReqDto.getAddress() != null) {
+            this.address = restaurantUpdateReqDto.getAddress();
+        }
+
+        if (restaurantUpdateReqDto.getPhoneNumber() != null) {
+            this.phoneNumber = restaurantUpdateReqDto.getPhoneNumber();
+        }
+
+        if (restaurantUpdateReqDto.getImagesId() != null) {
+            this.imagesId = restaurantUpdateReqDto.getImagesId();
+        }
+
+        if (restaurantUpdateReqDto.getDishType() != null) {
+            this.dishType = restaurantUpdateReqDto.getDishType();
+        }
+
+        if (restaurantUpdateReqDto.getMuslimFriendly() != null) {
+            this.muslimFriendly = restaurantUpdateReqDto.getMuslimFriendly();
+        }
+
+        if (restaurantUpdateReqDto.getOpeningHours() != null) {
+            this.openingHours = restaurantUpdateReqDto.getOpeningHours();
+        }
+
+        if (restaurantUpdateReqDto.getHoliday() != null) {
+            this.holiday = restaurantUpdateReqDto.getHoliday();
+        }
+
+        if (restaurantUpdateReqDto.getIsParkingLot() != null) {
+            this.isParkingLot = restaurantUpdateReqDto.getIsParkingLot();
+        }
+
+        if (restaurantUpdateReqDto.getDetailInfo() != null) {
+            this.detailInfo = restaurantUpdateReqDto.getDetailInfo();
+        }
+
+    }
 }

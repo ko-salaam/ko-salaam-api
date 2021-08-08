@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantSaveReqDto {
+public class RestaurantUpdateReqDto {
 
     @ApiModelProperty(notes = "이름", position = 1)
     private String name;
@@ -38,19 +38,16 @@ public class RestaurantSaveReqDto {
     @ApiModelProperty(notes = "무슬림 친화", position = 8)
     private MuslimFriendlies muslimFriendly;
 
-    @ApiModelProperty(notes = "좋아요 수", position = 9)
-    private int likedCount;
-
-    @ApiModelProperty(notes = "영업 시간", position = 10)
+    @ApiModelProperty(notes = "영업 시간", position = 9)
     private String openingHours;
 
-    @ApiModelProperty(notes = "휴일", position = 11)
+    @ApiModelProperty(notes = "휴일", position = 10)
     private String holiday;
 
-    @ApiModelProperty(notes = "주차장 여부", position = 12)
+    @ApiModelProperty(notes = "주차장 여부", position = 11)
     private Boolean isParkingLot;
 
-    @ApiModelProperty(notes = "비고", position = 13)
+    @ApiModelProperty(notes = "비고", position = 12)
     private String detailInfo;
 
     public Restaurant toEntity() {
@@ -63,7 +60,6 @@ public class RestaurantSaveReqDto {
                 .imagesId(imagesId)
                 .dishType(dishType)
                 .muslimFriendly(muslimFriendly)
-                .likedCount(likedCount)
                 .openingHours(openingHours)
                 .holiday(holiday)
                 .isParkingLot(isParkingLot)

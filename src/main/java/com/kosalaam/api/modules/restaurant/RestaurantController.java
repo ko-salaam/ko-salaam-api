@@ -3,6 +3,7 @@ package com.kosalaam.api.modules.restaurant;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewRespDto;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantSaveReqDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateReqDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -46,11 +47,30 @@ public class RestaurantController {
         );
     }
 
+    @ApiOperation(value = "식당 정보 수정", notes = "식당 ID로 상세 정보 수정")
+    @PutMapping("{id}")
+    public ResponseEntity updateRestaurant(
+            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiParam(value="수정할 정보") @RequestBody RestaurantUpdateReqDto restaurantUpdateReqDto
+    ) throws Exception {
+        restaurantService.updateRestaurant(id, restaurantUpdateReqDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @ApiOperation(value = "식당 등록", notes = "식당 등록")
     @PostMapping
-    public Long saveRestaurant (
+    public ResponseEntity saveRestaurant (
             @RequestBody RestaurantSaveReqDto restaurantSaveReqDto) throws Exception {
-        return restaurantService.save(restaurantSaveReqDto);
+        restaurantService.saveRestaurant(restaurantSaveReqDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "식당 삭제", notes = "식당 삭제")
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteRestaurant (
+            @ApiParam(value="식당 ID") @PathVariable Long id) throws Exception {
+        restaurantService.deleteRestaurant(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @ApiOperation(value = "식당 좋아요 등록", notes = "식당에 좋아요 등록")

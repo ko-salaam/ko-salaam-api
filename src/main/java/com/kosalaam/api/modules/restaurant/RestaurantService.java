@@ -4,6 +4,7 @@ import com.kosalaam.api.modules.restaurant.domain.Restaurant;
 import com.kosalaam.api.modules.restaurant.domain.RestaurantRepository;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantSaveReqDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateReqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,26 @@ public class RestaurantService {
     }
 
     @Transactional
-    public Long save(RestaurantSaveReqDto restaurantSaveReqDto) throws Exception {
-        System.out.println(restaurantSaveReqDto);
+    public Long saveRestaurant(RestaurantSaveReqDto restaurantSaveReqDto) throws Exception {
         return restaurantRepository.save(restaurantSaveReqDto.toEntity()).getId();
+    }
+
+    @Transactional
+    public void updateRestaurant(Long id, RestaurantUpdateReqDto restaurantUpdateReqDto) throws Exception {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
+                ));
+
+        restaurant.update(restaurantUpdateReqDto);
+    }
+
+    @Transactional
+    public void deleteRestaurant(Long id) throws Exception {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
+                ));
+        restaurantRepository.delete(restaurant);
     }
 }
