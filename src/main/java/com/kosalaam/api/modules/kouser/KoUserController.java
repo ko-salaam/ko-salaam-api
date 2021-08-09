@@ -23,7 +23,7 @@ public class KoUserController {
     public void getUser(
             @ApiParam(value="사용자 ID") @PathVariable String uid
     ) throws Exception {
-        koUserService.getUser();
+        koUserService.getUser(uid);
     }
 
 }
