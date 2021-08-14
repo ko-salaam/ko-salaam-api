@@ -31,17 +31,6 @@ public class SwaggerConfig {
                 .build();
     }
 
-//    @Bean
-//    public Docket commonApi() {
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .groupName("example")
-//                .apiInfo(this.apiInfo())
-//                .select()
-//                .apis(RequestHandlerSelectors
-//                        .basePackage("com.kosalaam.api.web"))
-//                .paths(PathSelectors.ant("/**"))
-//                .build();
-//    }
 
     /**
      * [restaurant] group swagger Docket
@@ -204,7 +193,7 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey("Authorization", "Authorization", "header");
     }
 
     private SecurityContext securityContext() {
@@ -221,7 +210,7 @@ public class SwaggerConfig {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
     }
 
 }
