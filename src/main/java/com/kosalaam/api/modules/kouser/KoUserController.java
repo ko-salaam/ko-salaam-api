@@ -5,14 +5,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RequiredArgsConstructor
 @Api(tags = "User")
-@RequestMapping("/api/user")
+@RequestMapping("/api/auth")
 @RestController
 public class KoUserController {
 
@@ -24,6 +22,22 @@ public class KoUserController {
             @ApiParam(value="사용자 ID") @PathVariable String uid
     ) throws Exception {
         koUserService.getUser(uid);
+    }
+
+    @ApiOperation(value = "로그인")
+    @PostMapping
+    public void signIn(
+            @ApiIgnore @RequestHeader(value="Authorization") String token
+    ) throws Exception {
+        koUserService.signIn(token);
+    }
+
+    @ApiOperation(value = "회원가입")
+    @PostMapping("/new")
+    public void signUp(
+            @ApiIgnore @RequestHeader(value="Authorization") String token
+    ) throws Exception {
+        koUserService.signUp(token);
     }
 
 }
