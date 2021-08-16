@@ -23,7 +23,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableJpaRepositories(basePackages = "com.kosalaam.api", entityManagerFactoryRef = "appEntityManager", transactionManagerRef = "appTransactionManager")
 @ConfigurationProperties("spring.datasource.hikari")
 @EnableTransactionManagement
-public class JpaAppConfiguration extends HikariConfig {
+public class JpaAppConfig extends HikariConfig {
 
     @Value("${hibernate.dialect}")
     private String dialect;

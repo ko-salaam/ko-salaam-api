@@ -1,4 +1,4 @@
-package com.kosalaam.api.utils;
+package com.kosalaam.api.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 
+
 @Component
-public class AuthUtils {
+public class Firebase {
 
     public void initFireBaseSDK() throws Exception {
 
