@@ -52,6 +52,7 @@ public class Firebase {
     }
 
     public String checkToken(String token) throws Exception {
+        initFireBaseSDK();
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
         String uuid = decodedToken.getUid();
 

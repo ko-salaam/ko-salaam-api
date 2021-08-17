@@ -2,10 +2,7 @@ package com.kosalaam.api.modules.kouser.domain;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -44,6 +41,8 @@ public class KoUser {
         UserRecord userRecord = FirebaseAuth.getInstance().getUser(firebaseUuid);
 
         this.firebaseUuid = firebaseUuid;
+        this.isCertificated = Boolean.FALSE;
+        this.isHost = Boolean.FALSE;
         this.phoneNumber = userRecord.getPhoneNumber();
         this.email = userRecord.getEmail();
         this.profileImg = userRecord.getPhotoUrl();
