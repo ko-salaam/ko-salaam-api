@@ -7,11 +7,11 @@ import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateReqDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -39,10 +39,11 @@ public class RestaurantController {
     @ApiOperation(value = "식당 정보 조회", notes = "식당 ID로 상세 정보 조회")
     @GetMapping("{id}")
     public ResponseEntity<RestaurantRespDto> getRestaurant(
+            @ApiIgnore @RequestHeader(value="Authorization", required = false) String token,
             @ApiParam(value="식당 ID") @PathVariable Long id
     ) throws Exception {
         return new ResponseEntity<>(
-                restaurantService.getRestaurant(id),
+                restaurantService.getRestaurant(id, token),
                 HttpStatus.OK
         );
     }
