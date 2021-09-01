@@ -1,4 +1,4 @@
-package com.kosalaam.api.config.common;
+package com.kosalaam.api.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -32,7 +32,7 @@ public class FirebaseUtils {
     public GoogleCredentials getGoogleCredentials() throws Exception {
 
         // Firebase Admin SDK 용 credential json
-        HashMap<String, String> firebaseCredential = new HashMap<String, String>();
+        HashMap<String, String> firebaseCredential = new HashMap<>();
         firebaseCredential.put("type", "service_account");
         firebaseCredential.put("project_id", System.getenv("FB_PROJECT_ID"));
         firebaseCredential.put("private_key_id", System.getenv("FB_PRIVATE_KEY_ID"));
@@ -54,9 +54,8 @@ public class FirebaseUtils {
     public String checkToken(String token) throws Exception {
         initFireBaseSDK();
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-        String uuid = decodedToken.getUid();
 
-        return uuid;
+        return decodedToken.getUid();
     }
 
 }

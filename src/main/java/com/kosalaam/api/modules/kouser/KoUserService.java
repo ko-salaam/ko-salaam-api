@@ -2,7 +2,7 @@ package com.kosalaam.api.modules.kouser;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
-import com.kosalaam.api.config.common.FirebaseUtils;
+import com.kosalaam.api.common.FirebaseUtils;
 
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;

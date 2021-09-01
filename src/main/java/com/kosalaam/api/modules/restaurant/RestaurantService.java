@@ -1,6 +1,6 @@
 package com.kosalaam.api.modules.restaurant;
 
-import com.kosalaam.api.config.common.FirebaseUtils;
+import com.kosalaam.api.common.FirebaseUtils;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import com.kosalaam.api.modules.restaurant.domain.Restaurant;

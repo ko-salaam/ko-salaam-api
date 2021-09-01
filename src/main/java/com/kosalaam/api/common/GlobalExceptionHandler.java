@@ -1,6 +1,7 @@
-package com.kosalaam.api.config.common;
+package com.kosalaam.api.common;
 
 import com.google.api.gax.rpc.NotFoundException;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -70,7 +71,7 @@ public class GlobalExceptionHandler {
         return newResponse(e, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
+    @ExceptionHandler(FirebaseAuthException.class)
     public ResponseEntity<?> handleUnauthorizedException(Exception e) {
         return newResponse(e, HttpStatus.UNAUTHORIZED);
     }
