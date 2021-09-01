@@ -2,7 +2,7 @@ package com.kosalaam.api.modules.kouser;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
-import com.kosalaam.api.auth.Firebase;
+import com.kosalaam.api.config.common.FirebaseUtils;
 
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
@@ -15,11 +15,11 @@ public class KoUserService {
 
     private final KoUserRepository koUserRepository;
 
-    private final Firebase firebase;
+    private final FirebaseUtils firebaseUtils;
 
     public void getUser(String uid) throws Exception {
 
-        firebase.initFireBaseSDK();
+        firebaseUtils.initFireBaseSDK();
 
         UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
 
@@ -28,7 +28,7 @@ public class KoUserService {
     public void signUp(String token) throws Exception {
 
         // token 체크
-        String firebaseUuid = firebase.checkToken(token);
+        String firebaseUuid = firebaseUtils.checkToken(token);
         if ( koUserRepository.findByFirebaseUuid(firebaseUuid).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 Firebase UUID입니다.");
         }
@@ -41,7 +41,7 @@ public class KoUserService {
         public void signIn(String token) throws Exception {
 
         // user 여부 체크
-        String firebaseUuid = firebase.checkToken(token);
+        String firebaseUuid = firebaseUtils.checkToken(token);
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+token+"' 는 존재하지 않는 사용자입니다."

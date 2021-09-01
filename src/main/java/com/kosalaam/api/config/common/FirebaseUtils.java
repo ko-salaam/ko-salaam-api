@@ -1,4 +1,4 @@
-package com.kosalaam.api.auth;
+package com.kosalaam.api.config.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Component
-public class Firebase {
+public class FirebaseUtils {
 
     public void initFireBaseSDK() throws Exception {
 

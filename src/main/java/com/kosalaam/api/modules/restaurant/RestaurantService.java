@@ -1,6 +1,6 @@
 package com.kosalaam.api.modules.restaurant;
 
-import com.kosalaam.api.auth.Firebase;
+import com.kosalaam.api.config.common.FirebaseUtils;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import com.kosalaam.api.modules.restaurant.domain.Restaurant;
@@ -28,13 +28,13 @@ public class RestaurantService {
 
     private final KoUserRepository koUserRepository;
 
-    private final Firebase firebase;
+    private final FirebaseUtils firebaseUtils;
 
     @Transactional
     public RestaurantRespDto getRestaurant(Long id, String token) throws Exception {
 
         // user 체크
-        String firebaseUuid = firebase.checkToken(token);
+        String firebaseUuid = firebaseUtils.checkToken(token);
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+token+"' 는 존재하지 않는 사용자입니다."
@@ -98,7 +98,7 @@ public class RestaurantService {
     public void setLikeRestaurant(Long restaurantId, String token) throws Exception {
 
         // user
-        String firebaseUuid = firebase.checkToken(token);
+        String firebaseUuid = firebaseUtils.checkToken(token);
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+token+"' 는 존재하지 않는 사용자입니다."
@@ -124,7 +124,7 @@ public class RestaurantService {
     public void deleteLikeRestaurant(Long restaurantId, String token) throws Exception {
 
         // user
-        String firebaseUuid = firebase.checkToken(token);
+        String firebaseUuid = firebaseUtils.checkToken(token);
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+token+"' 는 존재하지 않는 사용자입니다."
