@@ -114,13 +114,14 @@ public class RestaurantService {
         if (restaurantLikeRepository.findByKoUserIdAndRestaurantId(
                 koUser.getId(), restaurantId
         ).isPresent()) {
-            new IllegalArgumentException("이미 좋아요로 등록한 식당입니다.");
+            throw new IllegalArgumentException("이미 좋아요로 등록한 식당입니다.");
         }
         RestaurantLike restaurantLike = new RestaurantLike(koUser.getId(), restaurantId);
         restaurantLikeRepository.save(restaurantLike);
 
     }
 
+    @Transactional
     public void deleteLikeRestaurant(Long restaurantId, String token) throws Exception {
 
         // user
@@ -137,12 +138,12 @@ public class RestaurantService {
                 ));
 
         // like
-        if (!restaurantLikeRepository.findByKoUserIdAndRestaurantId(
-                koUser.getId(), restaurantId
-        ).isPresent()) {
-            new IllegalArgumentException("좋아요로 등록되지 않은 식당입니다.");
-        }
-        RestaurantLike restaurantLike = new RestaurantLike(koUser.getId(), restaurantId);
-        restaurantLikeRepository.save(restaurantLike);
+        RestaurantLike restaurantLike = restaurantLikeRepository
+                .findByKoUserIdAndRestaurantId(koUser.getId(), restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "좋아요로 등록되지 않은 식당입니다."
+                ));
+
+        restaurantLikeRepository.deleteById(restaurantLike.getId());
     }
 }

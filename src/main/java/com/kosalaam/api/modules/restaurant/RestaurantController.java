@@ -26,8 +26,8 @@ public class RestaurantController {
     @ApiOperation(value = "식당 리스트 조회", notes = "반경 5km 이내의 식당 리스트를 조회")
     @GetMapping
     public ResponseEntity<List<RestaurantRespDto>> getRestaurants(
-            @ApiParam(value="현재 위치 위도값", defaultValue = "127.269311") @RequestParam(defaultValue = "127.269311") double latitude,
-            @ApiParam(value="현재 위치 경도값", defaultValue = "37.413294") @RequestParam(defaultValue = "37.413294") double longitude,
+            @ApiParam(value="현재 위치 위도값", defaultValue = "37.413294") @RequestParam(defaultValue = "37.413294") double latitude,
+            @ApiParam(value="현재 위치 경도값", defaultValue = "127.269311") @RequestParam(defaultValue = "127.269311") double longitude,
             @ApiParam(value="페이지 번호", defaultValue = "1") @RequestParam(defaultValue = "1") int pageNum,
             @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize
     ) throws Exception {
@@ -76,16 +76,24 @@ public class RestaurantController {
 
     @ApiOperation(value = "식당 좋아요 등록", notes = "식당에 좋아요 등록")
     @ResponseBody
-    @PostMapping("like")
-    public void setRestaurantLike(
-            @ApiParam(value="식당 ID") @RequestBody Long id
-    ) throws Exception {}
+    @PostMapping("like/{id}")
+    public ResponseEntity setRestaurantLike(
+            @ApiIgnore @RequestHeader(value="Authorization", required = false) String token,
+            @ApiParam(value="식당 ID") @PathVariable Long id
+    ) throws Exception {
+        restaurantService.setLikeRestaurant(id, token);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @ApiOperation(value = "식당 좋아요 취소", notes = "식당 좋아요 취소")
-    @DeleteMapping("like")
-    public void deleteRestaurantLike(
-            @ApiParam(value="식당 ID") @RequestParam Long id
-    ) throws Exception {}
+    @DeleteMapping("like/{id}")
+    public ResponseEntity deleteRestaurantLike(
+            @ApiIgnore @RequestHeader(value="Authorization", required = false) String token,
+            @ApiParam(value="식당 ID") @PathVariable Long id
+    ) throws Exception {
+        restaurantService.deleteLikeRestaurant(id, token);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @ApiOperation(value = "식당 리뷰 조회", notes = "식당 리뷰 조회")
     @GetMapping("review")

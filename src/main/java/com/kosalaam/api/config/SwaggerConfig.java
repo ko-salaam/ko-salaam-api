@@ -135,6 +135,10 @@ public class SwaggerConfig {
         responseMessageCommon.add(new ResponseMessageBuilder().code(HttpStatus.BAD_REQUEST.value())
                 .message(HttpStatus.BAD_REQUEST.getReasonPhrase()).build());
 
+        // 401 : UnAuthorized
+        responseMessageCommon.add(new ResponseMessageBuilder().code(HttpStatus.UNAUTHORIZED.value())
+                .message(HttpStatus.UNAUTHORIZED.getReasonPhrase()).build());
+
         // 404 : NOT_FOUND
         responseMessageCommon.add(new ResponseMessageBuilder().code(HttpStatus.NOT_FOUND.value())
                 .message(HttpStatus.NOT_FOUND.getReasonPhrase()).build());

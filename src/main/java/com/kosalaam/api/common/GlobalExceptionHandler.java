@@ -71,7 +71,10 @@ public class GlobalExceptionHandler {
         return newResponse(e, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(FirebaseAuthException.class)
+    @ExceptionHandler({
+            FirebaseAuthException.class,
+            UnauthorizedException.class
+    })
     public ResponseEntity<?> handleUnauthorizedException(Exception e) {
         return newResponse(e, HttpStatus.UNAUTHORIZED);
     }
@@ -83,8 +86,8 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException.class
     })
     public ResponseEntity<?> handleBadRequestException(Exception e) {
-        log.debug("Bad request exception occurred: {}", e.getMessage(), e);
-        log.debug("Stack Trace: {}", e.getStackTrace(), e);
+        log.error("Bad request exception occurred: {}", e.getMessage(), e);
+        log.error("Stack Trace: {}", e.getStackTrace(), e);
 
         if (e instanceof MethodArgumentNotValidException) {
             return newResponse(
@@ -107,8 +110,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({Exception.class, RuntimeException.class})
     public ResponseEntity<?> handleException(Exception e) {
-        log.debug("Unexpected exception occurred: {}", e.getMessage(), e);
-        log.debug("Stack Trace: {}", e.getStackTrace(), e);
+        log.error("Unexpected exception occurred: {}", e.getMessage(), e);
+        log.error("Stack Trace: {}", e.getStackTrace(), e);
 
         return newResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }

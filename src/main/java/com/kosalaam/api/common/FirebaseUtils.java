@@ -53,9 +53,25 @@ public class FirebaseUtils {
 
     public String checkToken(String token) throws Exception {
         initFireBaseSDK();
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(authExtractor(token));
 
         return decodedToken.getUid();
+    }
+
+    public String authExtractor(String token) throws Exception {
+
+        String[] splitedToken = token.split("Bearer ");
+        String rawToken = "";
+
+        if (splitedToken.length == 2) {
+            rawToken = splitedToken[1];
+        } else {
+            throw new UnauthorizedException("Bearer 타입이 아닙니다.");
+        }
+
+        return rawToken;
+
+
     }
 
 }
