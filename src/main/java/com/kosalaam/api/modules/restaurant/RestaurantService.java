@@ -49,7 +49,7 @@ public class RestaurantService {
         // 좋아요 체크
         RestaurantRespDto restaurantRespDto = new RestaurantRespDto(entity);
         if (restaurantLikeRepository.findByKoUserIdAndRestaurantId(koUser.getId(), id).isPresent()) {
-            restaurantRespDto.setIsLiked(Boolean.FALSE);
+            restaurantRespDto.setIsLiked(Boolean.TRUE);
         }
 
         return restaurantRespDto;
