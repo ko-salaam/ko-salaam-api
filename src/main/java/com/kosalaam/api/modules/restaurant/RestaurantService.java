@@ -33,23 +33,26 @@ public class RestaurantService {
     @Transactional
     public RestaurantRespDto getRestaurant(Long id, String token) throws Exception {
 
-        // user 체크
-        String firebaseUuid = firebaseUtils.checkToken(token);
-        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "'"+token+"' 는 존재하지 않는 사용자입니다."
-                ));
-
         Restaurant entity = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
                 ));
 
-
-        // 좋아요 체크
         RestaurantRespDto restaurantRespDto = new RestaurantRespDto(entity);
-        if (restaurantLikeRepository.findByKoUserIdAndRestaurantId(koUser.getId(), id).isPresent()) {
-            restaurantRespDto.setIsLiked(Boolean.TRUE);
+
+        if (token != null) {
+
+            // user 체크
+            String firebaseUuid = firebaseUtils.checkToken(token);
+            KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            "'"+token+"' 는 존재하지 않는 사용자입니다."
+                    ));
+
+            // 좋아요 체크
+            if (restaurantLikeRepository.findByKoUserIdAndRestaurantId(koUser.getId(), id).isPresent()) {
+                restaurantRespDto.setIsLiked(Boolean.TRUE);
+            }
         }
 
         return restaurantRespDto;
