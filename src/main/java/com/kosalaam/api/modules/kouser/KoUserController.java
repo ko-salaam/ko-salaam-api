@@ -40,4 +40,11 @@ public class KoUserController {
         koUserService.signUp(token);
     }
 
+    @ApiOperation(value = "회원탈퇴")
+    @DeleteMapping
+    public void deleteUser(
+            @ApiIgnore @RequestHeader(value="Authorization") String token
+    ) throws Exception {
+        koUserService.deleteUser(token);
+    }
 }

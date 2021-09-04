@@ -6,14 +6,19 @@ import com.kosalaam.api.common.FirebaseUtils;
 
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
+import com.kosalaam.api.modules.restaurant.domain.RestaurantLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class KoUserService {
 
     private final KoUserRepository koUserRepository;
+
+    private final RestaurantLikeRepository restaurantLikeRepository;
+
 
     private final FirebaseUtils firebaseUtils;
 
@@ -24,7 +29,8 @@ public class KoUserService {
         UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
 
     }
-    
+
+    @Transactional
     public void signUp(String token) throws Exception {
 
         // token 체크
@@ -36,9 +42,10 @@ public class KoUserService {
         // insert DB
         koUserRepository.save(new KoUser(firebaseUuid));
 
-        }
+    }
 
-        public void signIn(String token) throws Exception {
+    @Transactional
+    public void signIn(String token) throws Exception {
 
         // user 여부 체크
         String firebaseUuid = firebaseUtils.checkToken(token);
@@ -46,5 +53,20 @@ public class KoUserService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+token+"' 는 존재하지 않는 사용자입니다."
                 ));
+    }
+
+    @Transactional
+    public void deleteUser(String token) throws Exception {
+
+        // user 여부 체크
+        String firebaseUuid = firebaseUtils.checkToken(token);
+        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "'"+token+"' 는 존재하지 않는 사용자입니다."
+                ));
+
+        // 삭제
+        restaurantLikeRepository.deleteByKoUserId(koUser.getId());
+        koUserRepository.deleteById(koUser.getId());
     }
 }

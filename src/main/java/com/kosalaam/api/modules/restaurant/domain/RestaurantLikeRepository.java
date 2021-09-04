@@ -10,4 +10,5 @@ public interface RestaurantLikeRepository extends JpaRepository<RestaurantLike, 
 
     public Optional<RestaurantLike> findByKoUserIdAndRestaurantId(Long koUserId, Long restaurantId);
 
+    public Long deleteByKoUserId(Long koUserId);
 }

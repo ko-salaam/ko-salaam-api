@@ -60,6 +60,10 @@ public class FirebaseUtils {
 
     public String authExtractor(String token) throws Exception {
 
+        if (token == null) {
+            throw new UnauthorizedException("빈 토큰입니다.");
+        }
+
         String[] splitedToken = token.split("Bearer ");
         String rawToken = "";
 
