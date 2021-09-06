@@ -61,5 +61,5 @@ jobs:
   deploy:
     runs-on: [self-hosted, linux, x64]
     needs: build
-      - name: Deploy
-        run: sudo $HOME/deploy.sh
+    - name: Deploy
+      run: sudo $HOME/deploy.sh
