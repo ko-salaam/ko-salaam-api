@@ -1,9 +1,6 @@
 package com.kosalaam.api.modules.restaurant;
 
-import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewRespDto;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantSaveReqDto;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateReqDto;
+import com.kosalaam.api.modules.restaurant.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -96,9 +93,9 @@ public class RestaurantController {
     }
 
     @ApiOperation(value = "식당 리뷰 조회", notes = "식당 리뷰 조회")
-    @GetMapping("review")
-    public ResponseEntity<List<RestaurantReviewRespDto>> setRestaurantReview(
-            @ApiParam(value="식당 ID") @RequestParam Long id
+    @GetMapping("review/{id}")
+    public ResponseEntity<List<RestaurantReviewsDto>> setRestaurantReview(
+            @ApiParam(value="식당 ID") @PathVariable Long id
     ) throws Exception {
         return new ResponseEntity<>(HttpStatus.OK);
     }

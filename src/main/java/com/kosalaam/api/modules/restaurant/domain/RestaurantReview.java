@@ -1,7 +1,11 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+
+@Getter
 @Table(name="restaurant_review")
 @Entity
 public class RestaurantReview {

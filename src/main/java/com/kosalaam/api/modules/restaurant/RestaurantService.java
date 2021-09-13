@@ -3,19 +3,16 @@ package com.kosalaam.api.modules.restaurant;
 import com.kosalaam.api.common.FirebaseUtils;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
-import com.kosalaam.api.modules.restaurant.domain.Restaurant;
-import com.kosalaam.api.modules.restaurant.domain.RestaurantLike;
-import com.kosalaam.api.modules.restaurant.domain.RestaurantLikeRepository;
-import com.kosalaam.api.modules.restaurant.domain.RestaurantRepository;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantRespDto;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantSaveReqDto;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateReqDto;
+import com.kosalaam.api.modules.restaurant.domain.*;
+import com.kosalaam.api.modules.restaurant.dto.*;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -26,6 +23,8 @@ public class RestaurantService {
 
     private final RestaurantLikeRepository restaurantLikeRepository;
 
+    private final RestaurantReviewRepository restaurantReviewRepository;
+
     private final KoUserRepository koUserRepository;
 
     private final FirebaseUtils firebaseUtils;
@@ -33,12 +32,12 @@ public class RestaurantService {
     @Transactional
     public RestaurantRespDto getRestaurant(Long id, String token) throws Exception {
 
-        Restaurant entity = restaurantRepository.findById(id)
+        Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
                 ));
 
-        RestaurantRespDto restaurantRespDto = new RestaurantRespDto(entity);
+        RestaurantRespDto restaurantRespDto = new RestaurantRespDto(restaurant);
 
         if (token != null) {
 
@@ -62,11 +61,11 @@ public class RestaurantService {
     @Transactional
     public List<RestaurantRespDto> getRestaurants(int pageNum, int pageSize) throws Exception {
 
-        List<Restaurant> entities = restaurantRepository.findAll(
+        List<Restaurant> restaurants = restaurantRepository.findAll(
                 PageRequest.of(pageNum,pageSize)
         ).getContent();
 
-        return entities.stream()
+        return restaurants.stream()
                 .map(RestaurantRespDto::new)
                 .collect(Collectors.toList());
 
@@ -148,5 +147,31 @@ public class RestaurantService {
                 ));
 
         restaurantLikeRepository.deleteById(restaurantLike.getId());
+    }
+
+    @Transactional
+    public RestaurantReviewsDto getRestaurantReviews(Long id) throws Exception {
+
+        Optional<List<RestaurantReview>> restaurantReviews = Optional.ofNullable(restaurantReviewRepository.findByRestaurantId(id));
+
+        // Get Review count
+        Integer reviewCtn = 0;
+        if (restaurantReviews.isPresent()) {
+            reviewCtn = restaurantReviews.get().size();
+        }
+
+        restaurantReviews
+                .stream()
+                .map(RestaurantReviewDto::new)
+                .collect(Collectors.toList());
+
+
+        return RestaurantReviewsDto.builder()
+                .reviewCnt(reviewCtn)
+                .build();
+
+
+
+
     }
 }
