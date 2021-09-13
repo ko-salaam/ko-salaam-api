@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -152,26 +153,17 @@ public class RestaurantService {
     @Transactional
     public RestaurantReviewsDto getRestaurantReviews(Long id) throws Exception {
 
-        Optional<List<RestaurantReview>> restaurantReviews = Optional.ofNullable(restaurantReviewRepository.findByRestaurantId(id));
-
-        // Get Review count
-        Integer reviewCtn = 0;
-        if (restaurantReviews.isPresent()) {
-            reviewCtn = restaurantReviews.get().size();
-        }
-
-        restaurantReviews
+        List<RestaurantReviewDto> restaurantReviewDtos = Optional.ofNullable(
+                restaurantReviewRepository.findByRestaurantId(id)
+        ).orElseGet(ArrayList::new)
                 .stream()
                 .map(RestaurantReviewDto::new)
                 .collect(Collectors.toList());
 
-
         return RestaurantReviewsDto.builder()
-                .reviewCnt(reviewCtn)
+                .reviewCnt(restaurantReviewDtos.size())
+                .restaurantReviews(restaurantReviewDtos)
                 .build();
-
-
-
 
     }
 }
