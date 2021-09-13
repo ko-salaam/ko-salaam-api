@@ -49,7 +49,7 @@ public class RestaurantController {
     @PutMapping("{id}")
     public ResponseEntity updateRestaurant(
             @ApiParam(value="식당 ID") @PathVariable Long id,
-            @ApiParam(value="수정할 정보") @RequestBody RestaurantUpdateReqDto restaurantUpdateReqDto
+            @ApiParam(value="수정할 정보") @RequestBody RestaurantUpdateDto restaurantUpdateReqDto
     ) throws Exception {
         restaurantService.updateRestaurant(id, restaurantUpdateReqDto);
         return new ResponseEntity(HttpStatus.OK);
@@ -58,8 +58,8 @@ public class RestaurantController {
     @ApiOperation(value = "식당 등록", notes = "식당 등록")
     @PostMapping
     public ResponseEntity saveRestaurant (
-            @RequestBody RestaurantSaveReqDto restaurantSaveReqDto) throws Exception {
-        restaurantService.saveRestaurant(restaurantSaveReqDto);
+            @RequestBody RestaurantSaveDto restaurantSaveDto) throws Exception {
+        restaurantService.saveRestaurant(restaurantSaveDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -94,18 +94,40 @@ public class RestaurantController {
 
     @ApiOperation(value = "식당 리뷰 조회", notes = "식당 리뷰 조회")
     @GetMapping("review/{id}")
-    public ResponseEntity<List<RestaurantReviewsDto>> setRestaurantReview(
+    public ResponseEntity<RestaurantReviewsRespDto> setRestaurantReview(
             @ApiParam(value="식당 ID") @PathVariable Long id
     ) throws Exception {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(
+                restaurantService.getRestaurantReviews(id),
+                HttpStatus.OK
+        );
     }
 
     @ApiOperation(value = "식당 리뷰 작성", notes = "식당 리뷰 작성")
     @ResponseBody
     @PostMapping("review")
-    public void setRestaurantReview(
-            @ApiParam(value="식당 ID") @RequestBody Long id,
-            @ApiParam(value="리뷰 내용") @RequestBody String comment
-    ) throws Exception {}
+    public ResponseEntity<Long> setRestaurantReview(
+            @ApiIgnore @RequestHeader(value="Authorization") String token,
+            @ApiParam(value="식당 ID") @RequestBody RestaurantReviewSaveDto restaurantReviewSaveDto
+    ) throws Exception {
+        return new ResponseEntity<>(
+                restaurantService.saveRestaurantReview(restaurantReviewSaveDto, token),
+                HttpStatus.OK
+        );
+    }
+
+    @ApiOperation(value = "식당 리뷰 삭제", notes = "식당 리뷰 삭제")
+    @ResponseBody
+    @DeleteMapping("review/{id}")
+    public ResponseEntity<Long> deleteRestaurantReview(
+            @ApiIgnore @RequestHeader(value="Authorization") String token,
+            @ApiParam(value="식당 ID") @PathVariable Long id
+    ) throws Exception {
+        return new ResponseEntity<>(
+                restaurantService.deleteRestaurantReview(id, token),
+                HttpStatus.OK
+        );
+    }
+
 
 }

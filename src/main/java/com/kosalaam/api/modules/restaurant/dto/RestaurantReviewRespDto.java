@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @ApiModel
-public class RestaurantReviewDto {
+public class RestaurantReviewRespDto {
 
     @ApiModelProperty(notes = "식당 리뷰 ID")
     private Long id;
@@ -22,7 +22,7 @@ public class RestaurantReviewDto {
     @ApiModelProperty(notes = "리뷰 내용")
     private String comment;
 
-    public RestaurantReviewDto(RestaurantReview entity) {
+    public RestaurantReviewRespDto(RestaurantReview entity) {
         this.id = entity.getId();
         this.restaurantId = entity.getRestaurantId();
         this.koUserId = entity.getKoUserId();

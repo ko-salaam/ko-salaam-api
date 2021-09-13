@@ -6,15 +6,21 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
+import com.kosalaam.api.modules.kouser.domain.KoUser;
+import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-
+@RequiredArgsConstructor
 @Component
 public class FirebaseUtils {
+
+    private final KoUserRepository koUserRepository;
 
     public void initFireBaseSDK() throws Exception {
 
@@ -75,6 +81,21 @@ public class FirebaseUtils {
 
         return rawToken;
 
+
+    }
+
+    /**
+     * token 으로 KoUser 객체 반환
+     * @param token
+     * @return
+     * @throws Exception
+     */
+    public KoUser getKoUser(String token) throws Exception {
+        String firebaseUuid = checkToken(token);
+        return Optional.ofNullable(koUserRepository.findByFirebaseUuid(firebaseUuid))
+                .orElseThrow(() -> new UnauthorizedException(
+                        "존재하지 않는 사용자 Token 입니다."
+                ));
 
     }
 

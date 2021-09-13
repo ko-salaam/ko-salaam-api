@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Table(name="restaurant_review")
 @Entity
@@ -18,7 +20,7 @@ public class RestaurantReview {
     private Long restaurantId;
 
     @Column(name = "ko_user_id", nullable = false)
-    private Long KoUserId;
+    private Long koUserId;
 
     @Column(length = 500, nullable = false)
     private String comment;

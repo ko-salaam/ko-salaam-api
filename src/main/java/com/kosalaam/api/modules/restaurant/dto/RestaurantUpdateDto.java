@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantUpdateReqDto {
+public class RestaurantUpdateDto {
 
     @ApiModelProperty(notes = "이름", position = 1)
     private String name;

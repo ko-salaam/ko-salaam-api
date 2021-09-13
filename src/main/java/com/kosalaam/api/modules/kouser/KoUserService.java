@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class KoUserService {
@@ -35,8 +37,8 @@ public class KoUserService {
 
         // token 체크
         String firebaseUuid = firebaseUtils.checkToken(token);
-        if ( koUserRepository.findByFirebaseUuid(firebaseUuid).isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 Firebase UUID입니다.");
+        if (koUserRepository.findByFirebaseUuid(firebaseUuid) != null) {
+            throw new IllegalArgumentException("이미 존재하는 Firebase UUID 입니다.");
         }
 
         // insert DB
@@ -48,24 +50,13 @@ public class KoUserService {
     public void signIn(String token) throws Exception {
 
         // user 여부 체크
-        String firebaseUuid = firebaseUtils.checkToken(token);
-        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "'"+token+"' 는 존재하지 않는 사용자입니다."
-                ));
+        KoUser koUser = firebaseUtils.getKoUser(token);
+
     }
 
     @Transactional
     public void deleteUser(String token) throws Exception {
-
-        // user 여부 체크
-        String firebaseUuid = firebaseUtils.checkToken(token);
-        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "'"+token+"' 는 존재하지 않는 사용자입니다."
-                ));
-
-        // 삭제
+        KoUser koUser = firebaseUtils.getKoUser(token);
         restaurantLikeRepository.deleteByKoUserId(koUser.getId());
         koUserRepository.deleteById(koUser.getId());
     }

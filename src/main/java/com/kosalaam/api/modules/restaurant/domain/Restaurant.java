@@ -1,6 +1,6 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
-import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateReqDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -78,7 +78,7 @@ public class Restaurant {
     @ApiModelProperty(notes = "비고", position = 13)
     private String detailInfo;
 
-    public void update(RestaurantUpdateReqDto restaurantUpdateReqDto) {
+    public void update(RestaurantUpdateDto restaurantUpdateReqDto) {
         if (ObjectUtils.isEmpty(restaurantUpdateReqDto))
             throw new IllegalArgumentException("요청 파라미터가 NULL입니다.");
 

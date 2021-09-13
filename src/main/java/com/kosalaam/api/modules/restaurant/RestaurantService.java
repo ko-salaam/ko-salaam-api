@@ -1,11 +1,11 @@
 package com.kosalaam.api.modules.restaurant;
 
 import com.kosalaam.api.common.FirebaseUtils;
+import com.kosalaam.api.common.UnauthorizedException;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import com.kosalaam.api.modules.restaurant.domain.*;
 import com.kosalaam.api.modules.restaurant.dto.*;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -41,15 +41,8 @@ public class RestaurantService {
         RestaurantRespDto restaurantRespDto = new RestaurantRespDto(restaurant);
 
         if (token != null) {
-
-            // user 체크
-            String firebaseUuid = firebaseUtils.checkToken(token);
-            KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "'"+token+"' 는 존재하지 않는 사용자입니다."
-                    ));
-
             // 좋아요 체크
+            KoUser koUser = firebaseUtils.getKoUser(token);
             if (restaurantLikeRepository.findByKoUserIdAndRestaurantId(koUser.getId(), id).isPresent()) {
                 restaurantRespDto.setIsLiked(Boolean.TRUE);
             }
@@ -73,12 +66,12 @@ public class RestaurantService {
     }
 
     @Transactional
-    public Long saveRestaurant(RestaurantSaveReqDto restaurantSaveReqDto) throws Exception {
-        return restaurantRepository.save(restaurantSaveReqDto.toEntity()).getId();
+    public Long saveRestaurant(RestaurantSaveDto restaurantSaveDto) throws Exception {
+        return restaurantRepository.save(restaurantSaveDto.toEntity()).getId();
     }
 
     @Transactional
-    public void updateRestaurant(Long id, RestaurantUpdateReqDto restaurantUpdateReqDto) throws Exception {
+    public void updateRestaurant(Long id, RestaurantUpdateDto restaurantUpdateReqDto) throws Exception {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
@@ -101,11 +94,7 @@ public class RestaurantService {
     public void setLikeRestaurant(Long restaurantId, String token) throws Exception {
 
         // user
-        String firebaseUuid = firebaseUtils.checkToken(token);
-        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "'"+token+"' 는 존재하지 않는 사용자입니다."
-                ));
+        KoUser koUser = firebaseUtils.getKoUser(token);
 
         // restaurant
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -128,11 +117,7 @@ public class RestaurantService {
     public void deleteLikeRestaurant(Long restaurantId, String token) throws Exception {
 
         // user
-        String firebaseUuid = firebaseUtils.checkToken(token);
-        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "'"+token+"' 는 존재하지 않는 사용자입니다."
-                ));
+        KoUser koUser = firebaseUtils.getKoUser(token);
 
         // restaurant
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -150,20 +135,68 @@ public class RestaurantService {
         restaurantLikeRepository.deleteById(restaurantLike.getId());
     }
 
+    /**
+     * 식당 리뷰 리스트 조회
+     * @param id 식당 ID
+     * @return RestaurantReviewsDto 식당 리뷰 DTO
+     * @throws Exception
+     */
     @Transactional
-    public RestaurantReviewsDto getRestaurantReviews(Long id) throws Exception {
+    public RestaurantReviewsRespDto getRestaurantReviews(Long id) throws Exception {
 
-        List<RestaurantReviewDto> restaurantReviewDtos = Optional.ofNullable(
+        List<RestaurantReviewRespDto> restaurantReviewRespDtos = Optional.ofNullable(
                 restaurantReviewRepository.findByRestaurantId(id)
         ).orElseGet(ArrayList::new)
                 .stream()
-                .map(RestaurantReviewDto::new)
+                .map(RestaurantReviewRespDto::new)
                 .collect(Collectors.toList());
 
-        return RestaurantReviewsDto.builder()
-                .reviewCnt(restaurantReviewDtos.size())
-                .restaurantReviews(restaurantReviewDtos)
+        return RestaurantReviewsRespDto.builder()
+                .reviewCnt(restaurantReviewRespDtos.size())
+                .restaurantReviews(restaurantReviewRespDtos)
                 .build();
 
     }
+
+    /**
+     * 식당 리뷰 등록
+     * @param restaurantReviewSaveDto
+     * @return 식당 리뷰 ID
+     * @throws Exception
+     */
+    @Transactional
+    public Long saveRestaurantReview(RestaurantReviewSaveDto restaurantReviewSaveDto, String token) throws Exception {
+
+        KoUser koUser = firebaseUtils.getKoUser(token);
+        RestaurantReview restaurantReview = restaurantReviewSaveDto.toEntity(koUser.getId());
+        return restaurantReviewRepository.save(restaurantReview).getId();
+
+    }
+
+    /**
+     * 식당 리뷰 삭제
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public Long deleteRestaurantReview(Long id, String token) throws Exception {
+
+        RestaurantReview restaurantReview = restaurantReviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 식당 리뷰 ID 입니다."
+                ));
+
+        // 삭제 권한 확인
+        KoUser koUser = firebaseUtils.getKoUser(token);
+        if (restaurantReview.getKoUserId() != koUser.getId()) {
+            throw new UnauthorizedException("삭제 권한이 없는 식당 리뷰입니다.");
+        }
+
+        // 삭제
+        restaurantReviewRepository.delete(restaurantReview);
+
+        return restaurantReview.getId();
+    }
+
 }
