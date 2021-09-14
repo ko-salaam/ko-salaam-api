@@ -28,7 +28,7 @@ public class RestaurantController {
             @ApiParam(value="페이지 번호", defaultValue = "1") @RequestParam(defaultValue = "1") int pageNum,
             @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize
     ) throws Exception {
-        return new ResponseEntity<>(restaurantService.getRestaurants(pageNum, pageSize),
+        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, pageNum, pageSize),
                 HttpStatus.OK
         );
     }
@@ -121,7 +121,7 @@ public class RestaurantController {
     @DeleteMapping("review/{id}")
     public ResponseEntity<Long> deleteRestaurantReview(
             @ApiIgnore @RequestHeader(value="Authorization") String token,
-            @ApiParam(value="식당 ID") @PathVariable Long id
+            @ApiParam(value="식당 리뷰 ID") @PathVariable Long id
     ) throws Exception {
         return new ResponseEntity<>(
                 restaurantService.deleteRestaurantReview(id, token),
