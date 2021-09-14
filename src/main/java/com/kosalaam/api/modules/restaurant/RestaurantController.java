@@ -25,10 +25,11 @@ public class RestaurantController {
     public ResponseEntity<List<RestaurantRespDto>> getRestaurants(
             @ApiParam(value="현재 위치 위도값", defaultValue = "37.413294") @RequestParam(defaultValue = "37.413294") double latitude,
             @ApiParam(value="현재 위치 경도값", defaultValue = "127.269311") @RequestParam(defaultValue = "127.269311") double longitude,
+            @ApiParam(value="반경 N km", defaultValue = "5") @RequestParam(defaultValue = "5") int distance,
             @ApiParam(value="페이지 번호", defaultValue = "1") @RequestParam(defaultValue = "1") int pageNum,
             @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize
     ) throws Exception {
-        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, pageNum, pageSize),
+        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, distance, pageNum, pageSize),
                 HttpStatus.OK
         );
     }

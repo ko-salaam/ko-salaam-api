@@ -50,26 +50,14 @@ public class RestaurantService {
     }
 
     @Transactional
-    public List<RestaurantRespDto> getRestaurants(double latitude, double longitude, int pageNum, int pageSize) throws Exception {
+    public List<RestaurantRespDto> getRestaurants(double latitude, double longitude, int distance, int pageNum, int pageSize) throws Exception {
 
-        List<Restaurant> restaurants = restaurantRepository.findAll(
-                PageRequest.of(pageNum,pageSize)
-        ).getContent();
-
-        double arcHav = 6371*Math.acos(Math.cos(Math.toRadians(latitude)));
-        double longToRad = Math.toRadians(longitude);
-        double ladToSin = Math.sin(Math.toRadians(latitude));
-        int distance = 5;
-
-        List<Restaurant> restaurants1 = restaurantRepository.findByTest(
+        List<Restaurant> restaurants = restaurantRepository.findByLocation(
                 latitude,
                 longitude,
-                distance
+                distance,
+                PageRequest.of(pageNum,pageSize)
         );
-        System.out.println(restaurants1);
-
-//        List<Restaurant> restaurants2 = restaurantRepository.findByTest2(35.837957);
-//        System.out.println(restaurants2);
 
         return restaurants.stream()
                 .map(RestaurantRespDto::new)
