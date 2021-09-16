@@ -7,6 +7,7 @@ import com.kosalaam.api.modules.restaurant.domain.*;
 import com.kosalaam.api.modules.restaurant.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,14 +51,15 @@ public class RestaurantService {
     }
 
     @Transactional
-    public List<RestaurantRespDto> getRestaurants(double latitude, double longitude, int distance, int pageNum, int pageSize) throws Exception {
+    public List<RestaurantRespDto> getRestaurants(double latitude, double longitude, int distance, String keyword, int pageNum, int pageSize) throws Exception {
 
         List<Restaurant> restaurants = restaurantRepository.findByLocation(
                 latitude,
                 longitude,
                 distance,
-                PageRequest.of(pageNum,pageSize)
-        );
+                keyword,
+                PageRequest.of(pageNum, pageSize, Sort.Direction.ASC, "liked_count")
+        ).getContent();
 
         return restaurants.stream()
                 .map(RestaurantRespDto::new)

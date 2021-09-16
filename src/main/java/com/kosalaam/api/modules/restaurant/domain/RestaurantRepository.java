@@ -1,5 +1,6 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,15 +12,23 @@ import java.util.List;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
-    @Query( value = "SELECT * FROM restaurant r WHERE GET_DISTANCE(:latitude, :longitude, r.latitude, r.longitude) < :distance",
-            nativeQuery = true)
-    List<Restaurant> findByLocation(
+    @Query( value =
+            "SELECT * " +
+            "FROM restaurant r " +
+            "WHERE GET_DISTANCE(:latitude, :longitude, r.latitude, r.longitude) < :distance " +
+                "AND r.name LIKE '%'||:keyword||'%'",
+            countQuery =
+            "SELECT COUNT(*) " +
+            "FROM restaurant r " +
+            "WHERE GET_DISTANCE(:latitude, :longitude, r.latitude, r.longitude) < :distance " +
+                "AND r.name LIKE '%'||:keyword||'%'",
+            nativeQuery = true )
+    Page<Restaurant> findByLocation(
             @Param("latitude") double latitude,
             @Param("longitude") double longitude,
             @Param("distance") int distance,
+            @Param("keyword") String keyword,
             Pageable pageable
     );
-
-
 
 }

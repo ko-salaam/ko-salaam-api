@@ -23,13 +23,14 @@ public class RestaurantController {
     @ApiOperation(value = "식당 리스트 조회", notes = "반경 5km 이내의 식당 리스트를 조회")
     @GetMapping
     public ResponseEntity<List<RestaurantRespDto>> getRestaurants(
-            @ApiParam(value="현재 위치 위도값", defaultValue = "37.413294") @RequestParam(defaultValue = "37.413294") double latitude,
-            @ApiParam(value="현재 위치 경도값", defaultValue = "127.269311") @RequestParam(defaultValue = "127.269311") double longitude,
+            @ApiParam(value="현재 위치 위도값", defaultValue = "37.498095") @RequestParam(defaultValue = "37.498095") double latitude,
+            @ApiParam(value="현재 위치 경도값", defaultValue = "127.027610") @RequestParam(defaultValue = "127.027610") double longitude,
             @ApiParam(value="반경 N km", defaultValue = "5") @RequestParam(defaultValue = "5") int distance,
-            @ApiParam(value="페이지 번호", defaultValue = "1") @RequestParam(defaultValue = "1") int pageNum,
+            @ApiParam(value="검색 키워드") @RequestParam(required = false) String keyword,
+            @ApiParam(value="페이지 번호", defaultValue = "0") @RequestParam(defaultValue = "0") int pageNum,
             @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize
     ) throws Exception {
-        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, distance, pageNum, pageSize),
+        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, distance, keyword, pageNum, pageSize),
                 HttpStatus.OK
         );
     }
