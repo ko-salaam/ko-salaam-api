@@ -16,6 +16,8 @@ import java.util.List;
 @RestController
 public class AccommodationController {
 
+    private AccommodationService accommodationService;
+
     @ApiOperation(value = "숙소 리스트 조회", notes = "반경 5km 이내의 숙소 리스트를 조회")
     @GetMapping
     public ResponseEntity<List<AccommodationRespDto>> getAccomodations(
@@ -30,7 +32,7 @@ public class AccommodationController {
     public ResponseEntity<AccommodationRespDto> getAccommodation(
             @ApiParam(value="숙소 ID") @RequestParam Long id
     ) throws Exception {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(accommodationService.getAccommodation(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "숙소 좋아요 등록", notes = "숙소에 좋아요 등록")

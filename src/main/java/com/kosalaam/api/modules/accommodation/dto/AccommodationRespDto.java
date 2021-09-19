@@ -1,5 +1,6 @@
 package com.kosalaam.api.modules.accommodation.dto;
 
+import com.kosalaam.api.modules.accommodation.domain.Accommodation;
 import com.kosalaam.api.modules.common.PraySupplies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -50,4 +51,17 @@ public class AccommodationRespDto {
 
     @ApiModelProperty(notes = "비고", position = 14)
     private String detailInfo;
+
+    public AccommodationRespDto(Accommodation entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.latitude = entity.getLatitude();
+        this.longitude = entity.getLongitude();
+        this.address = entity.getAddress();
+        this.phoneNumber = entity.getPhoneNumber();
+        this.imagesId = entity.getImagesId();
+        this.likedCount = entity.getLikedCount();
+        this.isMuslimFriendly = entity.getIsMuslimFriendly();
+        this.detailInfo = entity.getDetailInfo();
+    }
 }
