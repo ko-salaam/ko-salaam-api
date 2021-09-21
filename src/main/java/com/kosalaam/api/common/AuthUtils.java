@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-public class FirebaseUtils {
+public class AuthUtils {
 
     private final KoUserRepository koUserRepository;
 
@@ -80,7 +80,6 @@ public class FirebaseUtils {
         }
 
         return rawToken;
-
 
     }
 

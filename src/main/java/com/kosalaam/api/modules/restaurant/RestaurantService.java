@@ -1,6 +1,6 @@
 package com.kosalaam.api.modules.restaurant;
 
-import com.kosalaam.api.common.FirebaseUtils;
+import com.kosalaam.api.common.AuthUtils;
 import com.kosalaam.api.common.UnauthorizedException;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.restaurant.domain.*;
@@ -26,7 +26,7 @@ public class RestaurantService {
 
     private final RestaurantReviewRepository restaurantReviewRepository;
 
-    private final FirebaseUtils firebaseUtils;
+    private final AuthUtils authUtils;
 
     @Transactional
     public RestaurantRespDto getRestaurant(Long id, String token) throws Exception {
@@ -40,7 +40,7 @@ public class RestaurantService {
 
         if (token != null) {
             // 좋아요 체크
-            KoUser koUser = firebaseUtils.getKoUser(token);
+            KoUser koUser = authUtils.getKoUser(token);
             if (restaurantLikeRepository.findByKoUserIdAndRestaurantId(koUser.getId(), id).isPresent()) {
                 restaurantRespDto.setIsLiked(Boolean.TRUE);
             }
@@ -96,7 +96,7 @@ public class RestaurantService {
     public void setLikeRestaurant(Long restaurantId, String token) throws Exception {
 
         // user
-        KoUser koUser = firebaseUtils.getKoUser(token);
+        KoUser koUser = authUtils.getKoUser(token);
 
         // restaurant
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -119,7 +119,7 @@ public class RestaurantService {
     public void deleteLikeRestaurant(Long restaurantId, String token) throws Exception {
 
         // user
-        KoUser koUser = firebaseUtils.getKoUser(token);
+        KoUser koUser = authUtils.getKoUser(token);
 
         // restaurant
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
@@ -169,7 +169,7 @@ public class RestaurantService {
     @Transactional
     public Long saveRestaurantReview(RestaurantReviewSaveDto restaurantReviewSaveDto, String token) throws Exception {
 
-        KoUser koUser = firebaseUtils.getKoUser(token);
+        KoUser koUser = authUtils.getKoUser(token);
         RestaurantReview restaurantReview = restaurantReviewSaveDto.toEntity(koUser.getId());
         return restaurantReviewRepository.save(restaurantReview).getId();
 
@@ -190,7 +190,7 @@ public class RestaurantService {
                 ));
 
         // 삭제 권한 확인
-        KoUser koUser = firebaseUtils.getKoUser(token);
+        KoUser koUser = authUtils.getKoUser(token);
         if (restaurantReview.getKoUserId() != koUser.getId()) {
             throw new UnauthorizedException("삭제 권한이 없는 식당 리뷰입니다.");
         }

@@ -35,9 +35,9 @@ public class KoUserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/new")
     public void signUp(
-            @ApiIgnore @RequestHeader(value="Authorization") String token
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
-        koUserService.signUp(token);
+        koUserService.signUp(firebaseUuid);
     }
 
     @ApiOperation(value = "회원탈퇴")
