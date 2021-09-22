@@ -21,7 +21,8 @@ public class MvcConfig implements WebMvcConfigurer {
         // 인증이 필수인 자원
         registry.addInterceptor(requiredAuthInterceptor)
                 .addPathPatterns("/api/auth/**")
-                .addPathPatterns("/api/**/like");
+                .addPathPatterns("/api/**/like")
+                .addPathPatterns("/api/**/review");
 
         // 인증이 선택인 자원
         registry.addInterceptor(unrequiredAuthInterceptor)
