@@ -158,6 +158,9 @@ public class RestaurantService {
         RestaurantLike restaurantLike = new RestaurantLike(koUser.getId(), restaurantId);
         restaurantLikeRepository.save(restaurantLike);
 
+        // 좋아요 수 반영
+        restaurant.setLikedCount(restaurant.getLikedCount() + 1);
+
     }
 
     /**
@@ -189,6 +192,9 @@ public class RestaurantService {
                 ));
 
         restaurantLikeRepository.deleteById(restaurantLike.getId());
+
+        // 좋아요 수 반영
+        restaurant.setLikedCount(restaurant.getLikedCount() - 1);
     }
 
     /**

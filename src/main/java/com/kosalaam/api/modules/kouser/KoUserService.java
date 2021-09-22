@@ -79,5 +79,6 @@ public class KoUserService {
         // Delete
         restaurantLikeRepository.deleteByKoUserId(koUser.getId());
         koUserRepository.deleteById(koUser.getId());
+
     }
 }
