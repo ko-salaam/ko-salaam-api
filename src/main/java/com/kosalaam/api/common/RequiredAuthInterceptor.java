@@ -22,9 +22,13 @@ public class RequiredAuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        System.out.println("----------");
+        System.out.println("required preHandle");
+        System.out.println("----------");
+
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         String uid = authUtils.checkToken(token);
-        request.setAttribute("firebaseUid", uid);
+        request.setAttribute("firebaseUuid", uid);
         return super.preHandle(request, response, handler);
 
     }

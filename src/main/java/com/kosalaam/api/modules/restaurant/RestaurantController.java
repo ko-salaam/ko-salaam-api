@@ -22,46 +22,46 @@ public class RestaurantController {
 
     @ApiOperation(value = "식당 리스트 조회", notes = "반경 5km 이내의 식당 리스트를 조회")
     @GetMapping
-    public ResponseEntity<List<RestaurantRespDto>> getRestaurants(
+    public ResponseEntity<List<RestaurantDto>> getRestaurants(
             @ApiParam(value="현재 위치 위도값", defaultValue = "37.498095") @RequestParam(defaultValue = "37.498095") double latitude,
             @ApiParam(value="현재 위치 경도값", defaultValue = "127.027610") @RequestParam(defaultValue = "127.027610") double longitude,
             @ApiParam(value="반경 N km", defaultValue = "5") @RequestParam(defaultValue = "5") int distance,
             @ApiParam(value="검색 키워드") @RequestParam(required = false) String keyword,
             @ApiParam(value="페이지 번호", defaultValue = "0") @RequestParam(defaultValue = "0") int pageNum,
-            @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize
-    ) throws Exception {
-        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, distance, keyword, pageNum, pageSize),
+            @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
+            ) throws Exception {
+        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, distance, keyword, pageNum, pageSize, firebaseUuid),
                 HttpStatus.OK
         );
     }
 
     @ApiOperation(value = "식당 정보 조회", notes = "식당 ID로 상세 정보 조회")
     @GetMapping("{id}")
-    public ResponseEntity<RestaurantRespDto> getRestaurant(
-            @ApiIgnore @RequestHeader(value="Authorization", required = false) String token,
-            @ApiParam(value="식당 ID") @PathVariable Long id
+    public ResponseEntity<RestaurantDto> getRestaurant(
+            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         return new ResponseEntity<>(
-                restaurantService.getRestaurant(id, token),
+                restaurantService.getRestaurant(id, firebaseUuid),
                 HttpStatus.OK
         );
+    }
+
+    @ApiOperation(value = "식당 등록", notes = "식당 등록")
+    @PostMapping
+    public ResponseEntity<RestaurantDto> saveRestaurant (
+            @RequestBody RestaurantDto restaurantDto) throws Exception {
+        return new ResponseEntity(restaurantService.saveRestaurant(restaurantDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "식당 정보 수정", notes = "식당 ID로 상세 정보 수정")
     @PutMapping("{id}")
     public ResponseEntity updateRestaurant(
             @ApiParam(value="식당 ID") @PathVariable Long id,
-            @ApiParam(value="수정할 정보") @RequestBody RestaurantUpdateDto restaurantUpdateReqDto
+            @ApiParam(value="수정할 정보") @RequestBody RestaurantDto restaurantDto
     ) throws Exception {
-        restaurantService.updateRestaurant(id, restaurantUpdateReqDto);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "식당 등록", notes = "식당 등록")
-    @PostMapping
-    public ResponseEntity saveRestaurant (
-            @RequestBody RestaurantSaveDto restaurantSaveDto) throws Exception {
-        restaurantService.saveRestaurant(restaurantSaveDto);
+        restaurantService.updateRestaurant(id, restaurantDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -77,20 +77,20 @@ public class RestaurantController {
     @ResponseBody
     @PostMapping("like/{id}")
     public ResponseEntity setRestaurantLike(
-            @ApiIgnore @RequestHeader(value="Authorization", required = false) String token,
-            @ApiParam(value="식당 ID") @PathVariable Long id
+            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
-        restaurantService.setLikeRestaurant(id, token);
+        restaurantService.setLikeRestaurant(id, firebaseUuid);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @ApiOperation(value = "식당 좋아요 취소", notes = "식당 좋아요 취소")
     @DeleteMapping("like/{id}")
     public ResponseEntity deleteRestaurantLike(
-            @ApiIgnore @RequestHeader(value="Authorization", required = false) String token,
-            @ApiParam(value="식당 ID") @PathVariable Long id
+            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
-        restaurantService.deleteLikeRestaurant(id, token);
+        restaurantService.deleteLikeRestaurant(id, firebaseUuid);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -109,11 +109,11 @@ public class RestaurantController {
     @ResponseBody
     @PostMapping("review")
     public ResponseEntity<Long> setRestaurantReview(
-            @ApiIgnore @RequestHeader(value="Authorization") String token,
-            @ApiParam(value="식당 ID") @RequestBody RestaurantReviewSaveDto restaurantReviewSaveDto
+            @ApiParam(value="식당 ID") @RequestBody RestaurantReviewSaveDto restaurantReviewSaveDto,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         return new ResponseEntity<>(
-                restaurantService.saveRestaurantReview(restaurantReviewSaveDto, token),
+                restaurantService.saveRestaurantReview(restaurantReviewSaveDto, firebaseUuid),
                 HttpStatus.OK
         );
     }
@@ -122,11 +122,11 @@ public class RestaurantController {
     @ResponseBody
     @DeleteMapping("review/{id}")
     public ResponseEntity<Long> deleteRestaurantReview(
-            @ApiIgnore @RequestHeader(value="Authorization") String token,
-            @ApiParam(value="식당 리뷰 ID") @PathVariable Long id
+            @ApiParam(value="식당 리뷰 ID") @PathVariable Long id,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         return new ResponseEntity<>(
-                restaurantService.deleteRestaurantReview(id, token),
+                restaurantService.deleteRestaurantReview(id, firebaseUuid),
                 HttpStatus.OK
         );
     }

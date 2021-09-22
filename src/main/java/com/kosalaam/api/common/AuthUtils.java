@@ -91,7 +91,7 @@ public class AuthUtils {
      */
     public KoUser getKoUser(String token) throws Exception {
         String firebaseUuid = checkToken(token);
-        return Optional.ofNullable(koUserRepository.findByFirebaseUuid(firebaseUuid))
+        return koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new UnauthorizedException(
                         "존재하지 않는 사용자 Token 입니다."
                 ));

@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class KoUserService {
@@ -20,40 +22,61 @@ public class KoUserService {
     private final RestaurantLikeRepository restaurantLikeRepository;
 
 
-    private final AuthUtils authUtils;
-
-    public void getUser(String uid) throws Exception {
-
-        authUtils.initFireBaseSDK();
-
-        UserRecord userRecord = FirebaseAuth.getInstance().getUser(uid);
-
+    /**
+     * 사용자 정보 조회
+     * @param uid
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public KoUser getUser(Long uid) throws Exception {
+        return koUserRepository.findById(uid)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("존재하지 않는 id 입니다.")
+                );
     }
 
+    /**
+     * 회원가입
+     * @param firebaseUuid
+     * @throws Exception
+     */
     @Transactional
-    public void signUp(String firebaseUuid) throws Exception {
-
-        // token 체크
-        if (koUserRepository.findByFirebaseUuid(firebaseUuid) != null) {
+    public KoUser signUp(String firebaseUuid) throws Exception {
+        if (koUserRepository.findByFirebaseUuid(firebaseUuid).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 Firebase UUID 입니다.");
         }
-
-        // insert DB
-        koUserRepository.save(new KoUser(firebaseUuid));
-
+        return koUserRepository.save(new KoUser(firebaseUuid));
     }
 
+    /**
+     * 로그인
+     * @param firebaseUuid
+     * @throws Exception
+     */
     @Transactional
-    public void signIn(String token) throws Exception {
-
-        // user 여부 체크
-        KoUser koUser = authUtils.getKoUser(token);
-
+    public KoUser signIn(String firebaseUuid) throws Exception {
+        return koUserRepository.findByFirebaseUuid(firebaseUuid)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("존재하지 않는 id 입니다.")
+                );
     }
 
+    /**
+     * 회원 탈
+     * @param firebaseUuid
+     * @throws Exception
+     */
     @Transactional
-    public void deleteUser(String token) throws Exception {
-        KoUser koUser = authUtils.getKoUser(token);
+    public void deleteUser(String firebaseUuid) throws Exception {
+
+        // Get User
+        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("존재하지 않는 id 입니다.")
+                );
+
+        // Delete
         restaurantLikeRepository.deleteByKoUserId(koUser.getId());
         koUserRepository.deleteById(koUser.getId());
     }

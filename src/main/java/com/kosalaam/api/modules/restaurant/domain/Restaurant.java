@@ -1,6 +1,6 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
-import com.kosalaam.api.modules.restaurant.dto.RestaurantUpdateDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -78,56 +78,52 @@ public class Restaurant {
     @ApiModelProperty(notes = "비고", position = 13)
     private String detailInfo;
 
-    public void update(RestaurantUpdateDto restaurantUpdateReqDto) {
-        if (ObjectUtils.isEmpty(restaurantUpdateReqDto))
+    public void update(RestaurantDto restaurantDto) {
+        if (ObjectUtils.isEmpty(restaurantDto))
             throw new IllegalArgumentException("요청 파라미터가 NULL입니다.");
 
-        if (restaurantUpdateReqDto.getName() != null) {
-            this.name = restaurantUpdateReqDto.getName();
+        if (restaurantDto.getName() != null) {
+            this.name = restaurantDto.getName();
         }
 
-        if (restaurantUpdateReqDto.getLatitude() != 0) {
-            this.latitude = restaurantUpdateReqDto.getLatitude();
+        if (restaurantDto.getLatitude() != 0) {
+            this.latitude = restaurantDto.getLatitude();
         }
 
-        if (restaurantUpdateReqDto.getLongitude() != 0) {
-            this.longitude = restaurantUpdateReqDto.getLongitude();
+        if (restaurantDto.getLongitude() != 0) {
+            this.longitude = restaurantDto.getLongitude();
         }
 
-        if (restaurantUpdateReqDto.getAddress() != null) {
-            this.address = restaurantUpdateReqDto.getAddress();
+        if (restaurantDto.getAddress() != null) {
+            this.address = restaurantDto.getAddress();
         }
 
-        if (restaurantUpdateReqDto.getPhoneNumber() != null) {
-            this.phoneNumber = restaurantUpdateReqDto.getPhoneNumber();
+        if (restaurantDto.getPhoneNumber() != null) {
+            this.phoneNumber = restaurantDto.getPhoneNumber();
         }
 
-        if (restaurantUpdateReqDto.getImagesId() != null) {
-            this.imagesId = restaurantUpdateReqDto.getImagesId();
+        if (restaurantDto.getImagesId() != null) {
+            this.imagesId = restaurantDto.getImagesId();
         }
 
-        if (restaurantUpdateReqDto.getDishType() != null) {
-            this.dishType = restaurantUpdateReqDto.getDishType();
+        if (restaurantDto.getDishType() != null) {
+            this.dishType = restaurantDto.getDishType();
         }
 
-        if (restaurantUpdateReqDto.getMuslimFriendly() != null) {
-            this.muslimFriendly = restaurantUpdateReqDto.getMuslimFriendly();
+        if (restaurantDto.getMuslimFriendly() != null) {
+            this.muslimFriendly = restaurantDto.getMuslimFriendly();
         }
 
-        if (restaurantUpdateReqDto.getOpeningHours() != null) {
-            this.openingHours = restaurantUpdateReqDto.getOpeningHours();
+        if (restaurantDto.getOpeningHours() != null) {
+            this.openingHours = restaurantDto.getOpeningHours();
         }
 
-        if (restaurantUpdateReqDto.getHoliday() != null) {
-            this.holiday = restaurantUpdateReqDto.getHoliday();
+        if (restaurantDto.getIsParkingLot() != null) {
+            this.isParkingLot = restaurantDto.getIsParkingLot();
         }
 
-        if (restaurantUpdateReqDto.getIsParkingLot() != null) {
-            this.isParkingLot = restaurantUpdateReqDto.getIsParkingLot();
-        }
-
-        if (restaurantUpdateReqDto.getDetailInfo() != null) {
-            this.detailInfo = restaurantUpdateReqDto.getDetailInfo();
+        if (restaurantDto.getDetailInfo() != null) {
+            this.detailInfo = restaurantDto.getDetailInfo();
         }
 
     }

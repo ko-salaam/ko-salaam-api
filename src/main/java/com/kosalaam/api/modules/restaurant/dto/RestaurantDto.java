@@ -1,20 +1,21 @@
 package com.kosalaam.api.modules.restaurant.dto;
 
+import com.kosalaam.api.common.UnauthorizedException;
+import com.kosalaam.api.modules.kouser.domain.KoUser;
+import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import com.kosalaam.api.modules.restaurant.domain.MuslimFriendlies;
 import com.kosalaam.api.modules.restaurant.domain.Restaurant;
+import com.kosalaam.api.modules.restaurant.domain.RestaurantLikeRepository;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @ApiModel
-public class RestaurantRespDto {
+public class RestaurantDto {
 
     @ApiModelProperty(notes = "식당 ID", position = 1)
     private Long id;
@@ -58,7 +59,11 @@ public class RestaurantRespDto {
     @ApiModelProperty(notes = "좋아요 여부", position = 13)
     private Boolean isLiked;
 
-    public RestaurantRespDto(Restaurant entity) {
+    /**
+     * Entity To DTO
+     * @param entity 식당 Entity
+     */
+    public RestaurantDto(Restaurant entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.latitude = entity.getLatitude();
@@ -76,5 +81,26 @@ public class RestaurantRespDto {
         this.isParkingLot = entity.getIsParkingLot();
         this.detailInfo = entity.getDetailInfo();
         this.isLiked = Boolean.FALSE;
+    }
+
+    /**
+     * DTO to Entity
+     * @return 식당 Entity
+     */
+    public Restaurant toEntity() {
+        return Restaurant.builder()
+                .name(name)
+                .latitude(latitude)
+                .longitude(longitude)
+                .address(address)
+                .phoneNumber(phoneNumber)
+                .imagesId(imagesId)
+                .dishType(dishType)
+                .muslimFriendly(muslimFriendly)
+                .likedCount(likedCount)
+                .openingHours(openingHours)
+                .isParkingLot(isParkingLot)
+                .detailInfo(detailInfo)
+                .build();
     }
 }

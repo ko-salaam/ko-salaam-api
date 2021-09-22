@@ -23,13 +23,17 @@ public class UnRequiredAuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        System.out.println("----------");
+        System.out.println("unrequired preHandle");
+        System.out.println("----------");
+
         try {
             String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-            request.setAttribute("firebaseUid", authUtils.checkToken(token));
+            request.setAttribute("firebaseUuid", authUtils.checkToken(token));
         } catch (UnauthorizedException ue){
-            request.setAttribute("firebaseUid", null);
+            request.setAttribute("firebaseUuid", "");
         } catch (FirebaseAuthException fe) {
-            request.setAttribute("firebaseUid", null);
+            request.setAttribute("firebaseUuid", "");
         } catch (Exception e) {
             throw e;
         }
