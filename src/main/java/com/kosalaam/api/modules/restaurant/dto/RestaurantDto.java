@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Builder
@@ -17,47 +19,51 @@ import lombok.*;
 @ApiModel
 public class RestaurantDto {
 
+
     @ApiModelProperty(notes = "식당 ID", position = 1)
     private Long id;
 
-    @ApiModelProperty(notes = "이름", position = 2)
+    @ApiModelProperty(notes = "이름", position = 3)
     private String name;
 
-    @ApiModelProperty(notes = "위도", position = 3)
+    @ApiModelProperty(notes = "위도", position = 4)
     private double latitude;
 
-    @ApiModelProperty(notes = "경도", position = 4)
+    @ApiModelProperty(notes = "경도", position = 5)
     private double longitude;
 
-    @ApiModelProperty(notes = "상세 주소", position = 5)
+    @ApiModelProperty(notes = "상세 주소", position = 6)
     private String address;
 
-    @ApiModelProperty(notes = "전화번호", position = 6)
+    @ApiModelProperty(notes = "전화번호", position = 7)
     private String phoneNumber;
 
-    @ApiModelProperty(notes = "사진 ID", position = 7)
+    @ApiModelProperty(notes = "사진 ID", position = 8)
     private String imagesId;
 
-    @ApiModelProperty(notes = "요리 분류", position = 8)
+    @ApiModelProperty(notes = "요리 분류", position = 9)
     private String dishType;
 
-    @ApiModelProperty(notes = "무슬림 친화", position = 8)
+    @ApiModelProperty(notes = "무슬림 친화", position = 10)
     private MuslimFriendlies muslimFriendly;
 
-    @ApiModelProperty(notes = "좋아요 수", position = 8)
+    @ApiModelProperty(notes = "좋아요 수", position = 11)
     private int likedCount;
 
-    @ApiModelProperty(notes = "영업 시간", position = 10)
+    @ApiModelProperty(notes = "영업 시간", position = 12)
     private String openingHours;
 
-    @ApiModelProperty(notes = "주차장 여부", position = 11)
+    @ApiModelProperty(notes = "주차장 여부", position = 13)
     private Boolean isParkingLot;
 
-    @ApiModelProperty(notes = "비고", position = 12)
+    @ApiModelProperty(notes = "비고", position = 14)
     private String detailInfo;
 
-    @ApiModelProperty(notes = "좋아요 여부", position = 13)
+    @ApiModelProperty(notes = "좋아요 여부", position = 15)
     private Boolean isLiked;
+
+    @ApiModelProperty(notes = "전체 UUID", position = 2)
+    private UUID uuid;
 
     /**
      * Entity To DTO

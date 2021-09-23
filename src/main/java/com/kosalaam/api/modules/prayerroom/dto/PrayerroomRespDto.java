@@ -1,6 +1,6 @@
 package com.kosalaam.api.modules.prayerroom.dto;
 
-import com.kosalaam.api.modules.common.PraySupplies;
+import com.kosalaam.api.modules.common.domain.PraySupplies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.kosalaam.api.modules.common;
+package com.kosalaam.api.modules.common.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,9 +13,6 @@ public class PraySupplies {
 
     @ApiModelProperty(notes = "매트 여부", position = 2)
     private Boolean isMat;
-
-    @ApiModelProperty(notes = "기도실 의상 여부", position = 3)
-    private Boolean isClothes;
 
     @ApiModelProperty(notes = "키블라 여부", position = 4)
     private Boolean isQibla;

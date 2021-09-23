@@ -20,7 +20,7 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
-    @ApiOperation(value = "식당 리스트 조회", notes = "반경 5km 이내의 식당 리스트를 조회")
+    @ApiOperation(value = "식당 리스트 조회", notes = "반경 Nkm 이내의 식당 리스트를 조회")
     @GetMapping
     public ResponseEntity<List<RestaurantDto>> getRestaurants(
             @ApiParam(value="현재 위치 위도값", defaultValue = "37.498095") @RequestParam(defaultValue = "37.498095") double latitude,

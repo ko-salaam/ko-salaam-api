@@ -1,6 +1,6 @@
 package com.kosalaam.api.modules.prayerroom;
 
-import com.kosalaam.api.modules.common.PraySupplies;
+import com.kosalaam.api.modules.common.domain.PraySupplies;
 import com.kosalaam.api.modules.prayerroom.dto.PrayerroomRespDto;
 import com.kosalaam.api.modules.prayerroom.dto.PrayerroomReviewRespDto;
 import io.swagger.annotations.Api;

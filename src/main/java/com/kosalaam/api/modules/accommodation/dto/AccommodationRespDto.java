@@ -1,7 +1,7 @@
 package com.kosalaam.api.modules.accommodation.dto;
 
 import com.kosalaam.api.modules.accommodation.domain.Accommodation;
-import com.kosalaam.api.modules.common.PraySupplies;
+import com.kosalaam.api.modules.common.domain.PraySupplies;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -42,9 +42,6 @@ public class AccommodationRespDto {
 
     @ApiModelProperty(notes = "무슬림 친화 여부", position = 11)
     private Boolean isMuslimFriendly;
-
-    @ApiModelProperty(notes = "기도실 여부", position = 12)
-    private Boolean isPrayerRoom;
 
     @ApiModelProperty(notes = "기도 물품 구비 여부", position = 13)
     private PraySupplies praySupplies;
