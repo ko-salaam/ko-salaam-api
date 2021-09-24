@@ -1,13 +1,15 @@
 package com.kosalaam.api.modules.accommodation;
 
-import com.kosalaam.api.modules.accommodation.dto.AccommodationRespDto;
+import com.kosalaam.api.modules.accommodation.dto.AccommodationDto;
 import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewRespDto;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -20,19 +22,41 @@ public class AccommodationController {
 
     @ApiOperation(value = "숙소 리스트 조회", notes = "반경 5km 이내의 숙소 리스트를 조회")
     @GetMapping
-    public ResponseEntity<List<AccommodationRespDto>> getAccomodations(
-            @ApiParam(value="현재 위치 위도값") @RequestParam double latitude,
-            @ApiParam(value="현재 위치 경도값") @RequestParam double longitude
+    public ResponseEntity<List<AccommodationDto>> getAccomodations(
+            @ApiParam(value="현재 위치 위도값", defaultValue = "37.498095") @RequestParam(defaultValue = "37.498095") double latitude,
+            @ApiParam(value="현재 위치 경도값", defaultValue = "127.027610") @RequestParam(defaultValue = "127.027610") double longitude,
+            @ApiParam(value="반경 N km", defaultValue = "5") @RequestParam(defaultValue = "5") int distance,
+            @ApiParam(value="검색 키워드") @RequestParam(required = false) String keyword,
+            @ApiParam(value="페이지 번호", defaultValue = "0") @RequestParam(defaultValue = "0") int pageNum,
+            @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(accommodationService.getAccommodations(latitude,longitude,distance, keyword, pageNum, pageSize, firebaseUuid), HttpStatus.OK);
     }
 
     @ApiOperation(value = "숙소 정보 조회", notes = "숙소 ID로 상세 정보 조회")
-    @GetMapping("info")
-    public ResponseEntity<AccommodationRespDto> getAccommodation(
-            @ApiParam(value="숙소 ID") @RequestParam Long id
+    @GetMapping("{id}")
+    public ResponseEntity<AccommodationDto> getAccommodation(
+            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
-        return new ResponseEntity<>(accommodationService.getAccommodation(id), HttpStatus.OK);
+        return new ResponseEntity<>(accommodationService.getAccommodation(id, firebaseUuid), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "숙소 등록", notes = "숙소 등록")
+    @PostMapping
+    public ResponseEntity<AccommodationDto> saveRestaurant (
+            @RequestBody AccommodationDto accommodationDto) throws Exception {
+        return new ResponseEntity(accommodationService.saveAccommodation(accommodationDto), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "숙소 정보 수정", notes = "숙소 ID로 상세 정보 수정")
+    @PutMapping("{id}")
+    public ResponseEntity updateRestaurant(
+            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiParam(value="수정할 정보") @RequestBody AccommodationDto accommodationDto
+    ) throws Exception {
+        return new ResponseEntity(accommodationService.updateAccommodation(id, accommodationDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "숙소 좋아요 등록", notes = "숙소에 좋아요 등록")

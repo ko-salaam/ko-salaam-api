@@ -2,8 +2,11 @@ package com.kosalaam.api.modules.common.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @ApiModel
 public class PraySupplies {
