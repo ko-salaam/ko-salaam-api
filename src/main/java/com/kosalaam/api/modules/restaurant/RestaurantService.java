@@ -1,6 +1,5 @@
 package com.kosalaam.api.modules.restaurant;
 
-import com.kosalaam.api.common.AuthUtils;
 import com.kosalaam.api.common.UnauthorizedException;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
@@ -30,8 +29,6 @@ public class RestaurantService {
 
     private final RestaurantReviewRepository restaurantReviewRepository;
 
-    private final AuthUtils authUtils;
-
     private final KoUserRepository koUserRepository;
 
     /**
@@ -39,10 +36,10 @@ public class RestaurantService {
      * @param id 식당 ID
      * @param firebaseUuid Firebase UUID
      * @return 식당 DTO
-     * @throws Exception 존재하지 않는 식당 ID or Auth 에러
+     * @throws IllegalArgumentException 존재하지 않는 식당 ID or Auth 에러
      */
     @Transactional
-    public RestaurantDto getRestaurant(Long id, String firebaseUuid) throws Exception {
+    public RestaurantDto getRestaurant(Long id, String firebaseUuid) throws IllegalArgumentException {
 
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -63,10 +60,9 @@ public class RestaurantService {
      * @param pageSize 페이지 사이즈
      * @param firebaseUuid firebase uuid
      * @return DTO 리스트
-     * @throws Exception Auth 에러
      */
     @Transactional
-    public List<RestaurantDto> getRestaurants(double latitude, double longitude, int distance, String keyword, int pageNum, int pageSize, String firebaseUuid) throws Exception {
+    public List<RestaurantDto> getRestaurants(double latitude, double longitude, int distance, String keyword, int pageNum, int pageSize, String firebaseUuid) {
 
         List<Restaurant> restaurants = restaurantRepository.findByLocation(
                 latitude,
@@ -89,7 +85,7 @@ public class RestaurantService {
      * @return 식당 DTO
      */
     @Transactional
-    public RestaurantDto saveRestaurant(RestaurantDto restaurantDto) throws Exception {
+    public RestaurantDto saveRestaurant(RestaurantDto restaurantDto) {
         Restaurant restaurant = restaurantRepository.save(restaurantDto.toEntity());
         return writeDto(restaurant, "");
     }
@@ -99,10 +95,10 @@ public class RestaurantService {
      * @param id 식당 ID
      * @param restaurantDto 식당 DTO
      * @return 식당 DTO
-     * @throws Exception 존재하지 않는 식당 ID
+     * @throws UnauthorizedException 존재하지 않는 식당 ID
      */
     @Transactional
-    public RestaurantDto updateRestaurant(Long id, RestaurantDto restaurantDto) throws Exception {
+    public RestaurantDto updateRestaurant(Long id, RestaurantDto restaurantDto) throws UnauthorizedException {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
@@ -132,10 +128,9 @@ public class RestaurantService {
      * 좋아요 등록
      * @param restaurantId 식당 ID
      * @param firebaseUuid Firebase UUID
-     * @throws Exception 존재하지 않는 식당 ID or Auth 에러
      */
     @Transactional
-    public void setLikeRestaurant(Long restaurantId, String firebaseUuid) throws Exception {
+    public void setLikeRestaurant(Long restaurantId, String firebaseUuid) {
 
         // user
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
@@ -167,10 +162,10 @@ public class RestaurantService {
      * 좋아요 취소
      * @param restaurantId 식당 ID
      * @param firebaseUuid Firebase UUID
-     * @throws Exception 존재하지 않는 식당 ID or Auth 에러
+     * @throws RuntimeException 존재하지 않는 식당 ID or Auth 에러
      */
     @Transactional
-    public void deleteLikeRestaurant(Long restaurantId, String firebaseUuid) throws Exception {
+    public void deleteLikeRestaurant(Long restaurantId, String firebaseUuid) throws RuntimeException {
 
         // user
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
@@ -201,10 +196,9 @@ public class RestaurantService {
      * 식당 리뷰 리스트 조회
      * @param id 식당 ID
      * @return RestaurantReviewsDto 식당 리뷰 DTO
-     * @throws Exception
      */
     @Transactional
-    public RestaurantReviewsRespDto getRestaurantReviews(Long id) throws Exception {
+    public RestaurantReviewsRespDto getRestaurantReviews(Long id) {
 
         List<RestaurantReviewRespDto> restaurantReviewRespDtos = Optional.ofNullable(
                 restaurantReviewRepository.findByRestaurantId(id)
@@ -224,10 +218,10 @@ public class RestaurantService {
      * 식당 리뷰 등록
      * @param restaurantReviewSaveDto 리뷰 등록용 DTO
      * @return 식당 리뷰 DTO
-     * @throws Exception Auth 에러
+     * @throws UnauthorizedException Auth 에러
      */
     @Transactional
-    public Long saveRestaurantReview(RestaurantReviewSaveDto restaurantReviewSaveDto, String firebaseUuid) throws Exception {
+    public Long saveRestaurantReview(RestaurantReviewSaveDto restaurantReviewSaveDto, String firebaseUuid) throws UnauthorizedException {
 
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new UnauthorizedException(
@@ -242,10 +236,10 @@ public class RestaurantService {
      * 식당 리뷰 삭제
      * @param id 식당 리뷰 ID
      * @return 식당 리뷰 ID
-     * @throws Exception 존재하지 않는 식당 리뷰 ID
+     * @throws RuntimeException 존재하지 않는 식당 리뷰 ID
      */
     @Transactional
-    public Long deleteRestaurantReview(Long id, String firebaseUuid) throws Exception {
+    public Long deleteRestaurantReview(Long id, String firebaseUuid) throws RuntimeException {
 
         RestaurantReview restaurantReview = restaurantReviewRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -257,7 +251,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new UnauthorizedException(
                         "존재하지 않는 사용자입니다."
                 ));
-        if (restaurantReview.getKoUserId() != koUser.getId()) {
+        if (restaurantReview.getKoUserId().equals(koUser.getId())) {
             throw new UnauthorizedException("삭제 권한이 없는 식당 리뷰입니다.");
         }
 
@@ -268,18 +262,18 @@ public class RestaurantService {
     }
 
     /**
-     * Restaurant 엔티티를 DTO 로 변환
+     * Restaurant 엔티티를 DTO 로 변환하고 좋아요 상태를 반영
      * @param restaurant 식당 Entity
      * @param firebaseUuid Firebase UUID
      * @return 식당 DTO
-     * @throws Exception Auth 에러
+     * @throws UnauthorizedException Auth 에러
      */
-    public RestaurantDto writeDto(Restaurant restaurant, String firebaseUuid) throws Exception {
+    private RestaurantDto writeDto(Restaurant restaurant, String firebaseUuid) throws UnauthorizedException {
 
         RestaurantDto restaurantDto = new RestaurantDto(restaurant);
 
         // 좋아요 체크
-        if (firebaseUuid != "") {
+        if (firebaseUuid.equals("")) {
             KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                     .orElseThrow(() -> new UnauthorizedException("존재하지 않는 사용자입니다."));
 

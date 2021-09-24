@@ -23,6 +23,9 @@ public class RestaurantDto {
     @ApiModelProperty(notes = "식당 ID", position = 1)
     private Long id;
 
+    @ApiModelProperty(notes = "전체 UUID", position = 2)
+    private UUID uuid;
+
     @ApiModelProperty(notes = "이름", position = 3)
     private String name;
 
@@ -62,8 +65,7 @@ public class RestaurantDto {
     @ApiModelProperty(notes = "좋아요 여부", position = 15)
     private Boolean isLiked;
 
-    @ApiModelProperty(notes = "전체 UUID", position = 2)
-    private UUID uuid;
+
 
     /**
      * Entity To DTO

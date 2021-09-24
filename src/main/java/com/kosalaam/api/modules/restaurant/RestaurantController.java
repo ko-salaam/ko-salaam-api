@@ -61,8 +61,7 @@ public class RestaurantController {
             @ApiParam(value="식당 ID") @PathVariable Long id,
             @ApiParam(value="수정할 정보") @RequestBody RestaurantDto restaurantDto
     ) throws Exception {
-        restaurantService.updateRestaurant(id, restaurantDto);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(restaurantService.updateRestaurant(id, restaurantDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "식당 삭제", notes = "식당 삭제")
