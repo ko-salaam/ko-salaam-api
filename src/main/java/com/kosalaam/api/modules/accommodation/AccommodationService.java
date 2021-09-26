@@ -1,20 +1,23 @@
 package com.kosalaam.api.modules.accommodation;
 
 import com.kosalaam.api.common.UnauthorizedException;
-import com.kosalaam.api.modules.accommodation.domain.Accommodation;
-import com.kosalaam.api.modules.accommodation.domain.AccommodationLike;
-import com.kosalaam.api.modules.accommodation.domain.AccommodationLikeRepository;
-import com.kosalaam.api.modules.accommodation.domain.AccommodationRepository;
+import com.kosalaam.api.modules.accommodation.domain.*;
 import com.kosalaam.api.modules.accommodation.dto.AccommodationDto;
+import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewRespDto;
+import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewSaveDto;
+import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewsRespDto;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
+import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.kosalaam.api.common.ExceptionFunction.wrapper;
@@ -26,6 +29,8 @@ public class AccommodationService {
     private final AccommodationRepository accommodationRepository;
 
     private final AccommodationLikeRepository accommodationLikeRepository;
+
+    private final AccommodationReviewRepository accommodationReviewRepository;
 
     private final KoUserRepository koUserRepository;
 
@@ -154,6 +159,11 @@ public class AccommodationService {
 
     }
 
+    /**
+     * 좋아요 취소
+     * @param accommodationId 숙소 ID
+     * @param firebaseUuid Firebase UUID
+     */
     public void deleteLikeAccommodation(Long accommodationId, String firebaseUuid) {
         // user
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
@@ -180,6 +190,69 @@ public class AccommodationService {
 
     }
 
+    /**
+     * 숙소 리뷰 리스트 조회
+     * @param id 숙소 ID
+     * @return 숙소 리뷰 DTO
+     */
+    public AccommodationReviewsRespDto getAccommodationReviews(Long id) {
+
+        List<AccommodationReviewRespDto> accommodationReviewRespDtos = Optional.ofNullable(
+                accommodationReviewRepository.findByAccommodationId(id))
+                .orElseGet(ArrayList::new)
+                .stream()
+                .map(AccommodationReviewRespDto::new)
+                .collect(Collectors.toList());
+
+        return AccommodationReviewsRespDto.builder()
+                .reviewCnt(accommodationReviewRespDtos.size())
+                .reviews(accommodationReviewRespDtos)
+                .build();
+    }
+
+    /**
+     * 숙소 리뷰 등록
+     * @param accommodationReviewSaveDto 리뷰 등록용 DTO
+     * @param firebaseUuid Firebase UUID
+     * @return 리뷰 ID
+     * @throws Exception Auth Error
+     */
+    public Long saveAccommodationReview(AccommodationReviewSaveDto accommodationReviewSaveDto, String firebaseUuid) throws Exception {
+        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
+                .orElseThrow(() -> new UnauthorizedException(
+                        "존재하지 않는 사용자입니다."
+                ));
+        AccommodationReview accommodationReview = accommodationReviewSaveDto.toEntity(koUser.getId());
+        return accommodationReviewRepository.save(accommodationReview).getId();
+    }
+
+    /**
+     * 숙소 리뷰 삭제
+     * @param id 숙소 리뷰 ID
+     * @param firebaseUuid Firebase UUID
+     * @return 숙소 리뷰 ID
+     * @throws Exception Auth Error
+     */
+    public Long deleteAccommodationReview(Long id, String firebaseUuid) throws Exception {
+        AccommodationReview accommodationReview = accommodationReviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 숙소 리뷰 ID 입니다."
+                ));
+
+        // 삭제 권한 확인
+        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
+                .orElseThrow(() -> new UnauthorizedException(
+                        "존재하지 않는 사용자입니다."
+                ));
+        if (accommodationReview.getKoUserId().equals(koUser.getId())) {
+            throw new UnauthorizedException("삭제 권한이 없는 식당 리뷰입니다.");
+        }
+
+        // 삭제
+        accommodationReviewRepository.delete(accommodationReview);
+
+        return id;
+    }
 
     /**
      * Entity to DTO + 좋아요 상태 반영

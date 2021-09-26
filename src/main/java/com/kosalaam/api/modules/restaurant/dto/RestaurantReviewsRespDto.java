@@ -16,6 +16,6 @@ public class RestaurantReviewsRespDto {
     private Integer reviewCnt;
 
     @ApiModelProperty(notes = "식당 리뷰 리스트")
-    private List<RestaurantReviewRespDto> restaurantReviews;
+    private List<RestaurantReviewRespDto> reviews;
 
 }

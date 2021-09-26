@@ -210,7 +210,7 @@ public class RestaurantService {
 
         return RestaurantReviewsRespDto.builder()
                 .reviewCnt(restaurantReviewRespDtos.size())
-                .restaurantReviews(restaurantReviewRespDtos)
+                .reviews(restaurantReviewRespDtos)
                 .build();
 
     }

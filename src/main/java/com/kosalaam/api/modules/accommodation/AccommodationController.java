@@ -2,6 +2,7 @@ package com.kosalaam.api.modules.accommodation;
 
 import com.kosalaam.api.modules.accommodation.dto.AccommodationDto;
 import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewRespDto;
+import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewSaveDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -93,17 +94,35 @@ public class AccommodationController {
     @ApiOperation(value = "숙소 리뷰 조회", notes = "숙소 리뷰 조회")
     @GetMapping("review/{id}")
     public ResponseEntity<List<AccommodationReviewRespDto>> setAccommodationReview(
-            @ApiParam(value="숙소 ID") @RequestParam Long id
+            @ApiParam(value="숙소 ID") @PathVariable Long id
     ) throws Exception {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity(accommodationService.getAccommodationReviews(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "숙소 리뷰 작성", notes = "숙소 리뷰 작성")
     @ResponseBody
     @PostMapping("review")
-    public void setAccommodationReview(
-            @ApiParam(value="숙소 ID") @RequestBody Long id,
-            @ApiParam(value="리뷰 내용") @RequestBody String comment
-    ) throws Exception {}
+    public ResponseEntity setAccommodationReview(
+            @ApiParam(value="숙소 ID") @RequestBody AccommodationReviewSaveDto accommodationReviewSaveDto,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
+    ) throws Exception {
+        return new ResponseEntity(
+                accommodationService.saveAccommodationReview(accommodationReviewSaveDto, firebaseUuid),
+                HttpStatus.OK
+        );
+    }
+
+    @ApiOperation(value = "숙소 리뷰 삭제", notes = "숙소 리뷰 삭제")
+    @ResponseBody
+    @PostMapping("review/{id}")
+    public ResponseEntity deleteAccommodationReview(
+            @ApiParam(value="삭제 ID") @PathVariable Long id,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
+    ) throws Exception {
+        return new ResponseEntity(
+                accommodationService.deleteAccommodationReview(id, firebaseUuid),
+                HttpStatus.OK
+        );
+    }
 
 }
