@@ -73,6 +73,7 @@ public class RestaurantDto {
      */
     public RestaurantDto(Restaurant entity) {
         this.id = entity.getId();
+        this.uuid = entity.getUuid();
         this.name = entity.getName();
         this.latitude = entity.getLatitude();
         this.longitude = entity.getLongitude();

@@ -64,6 +64,7 @@ public class RestaurantService {
     @Transactional
     public List<RestaurantDto> getRestaurants(double latitude, double longitude, int distance, String keyword, int pageNum, int pageSize, String firebaseUuid) {
 
+        if (keyword == null) { keyword = ""; }
         List<Restaurant> restaurants = restaurantRepository.findByLocation(
                 latitude,
                 longitude,
@@ -179,7 +180,7 @@ public class RestaurantService {
                         "'"+restaurantId+"' 는 존재하지 않는 식당 ID 입니다."
                 ));
 
-        // like
+        // cancel like
         RestaurantLike restaurantLike = restaurantLikeRepository
                 .findByKoUserIdAndRestaurantId(koUser.getId(), restaurantId)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -273,7 +274,7 @@ public class RestaurantService {
         RestaurantDto restaurantDto = new RestaurantDto(restaurant);
 
         // 좋아요 체크
-        if (firebaseUuid.equals("")) {
+        if (!firebaseUuid.equals("")) {
             KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                     .orElseThrow(() -> new UnauthorizedException("존재하지 않는 사용자입니다."));
 

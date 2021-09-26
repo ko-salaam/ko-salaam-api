@@ -2,10 +2,10 @@ package com.kosalaam.api.modules.accommodation;
 
 import com.kosalaam.api.modules.accommodation.dto.AccommodationDto;
 import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewRespDto;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +13,13 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Api(tags = "Accommodation")
 @RequestMapping("/api/accommodation")
 @RestController
 public class AccommodationController {
 
-    private AccommodationService accommodationService;
+    private final AccommodationService accommodationService;
 
     @ApiOperation(value = "숙소 리스트 조회", notes = "반경 5km 이내의 숙소 리스트를 조회")
     @GetMapping
@@ -45,35 +46,52 @@ public class AccommodationController {
 
     @ApiOperation(value = "숙소 등록", notes = "숙소 등록")
     @PostMapping
-    public ResponseEntity<AccommodationDto> saveRestaurant (
+    public ResponseEntity<AccommodationDto> saveAccommodation(
             @RequestBody AccommodationDto accommodationDto) throws Exception {
         return new ResponseEntity(accommodationService.saveAccommodation(accommodationDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "숙소 정보 수정", notes = "숙소 ID로 상세 정보 수정")
     @PutMapping("{id}")
-    public ResponseEntity updateRestaurant(
+    public ResponseEntity updateAccommodation(
             @ApiParam(value="숙소 ID") @PathVariable Long id,
             @ApiParam(value="수정할 정보") @RequestBody AccommodationDto accommodationDto
     ) throws Exception {
         return new ResponseEntity(accommodationService.updateAccommodation(id, accommodationDto), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "숙소 삭제", notes = "숙소 삭제")
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteAccommodation (
+            @ApiParam(value="숙소 ID") @PathVariable Long id
+    ) throws Exception {
+        accommodationService.deleteAccommodation(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @ApiOperation(value = "숙소 좋아요 등록", notes = "숙소에 좋아요 등록")
     @ResponseBody
-    @PostMapping("like")
-    public void setAccommodationLike(
-            @ApiParam(value="숙소 ID") @RequestBody Long id
-    ) throws Exception {}
+    @PostMapping("like/{id}")
+    public ResponseEntity setAccommodationLike(
+            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiIgnore(value="Firebase UUID") @RequestAttribute("firebaseUuid") String firebaseUuid
+    ) throws Exception {
+        accommodationService.setLikeAccommodation(id, firebaseUuid);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @ApiOperation(value = "숙소 좋아요 취소", notes = "숙소 좋아요 취소")
-    @DeleteMapping("like")
-    public void deleteAccommodationLike(
-            @ApiParam(value="숙소 ID") @RequestParam Long id
-    ) throws Exception {}
+    @DeleteMapping("like/{id}")
+    public ResponseEntity deleteAccommodationLike(
+            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiIgnore(value="Firebase UUID") @RequestAttribute("firebaseUuid") String firebaseUuid
+    ) throws Exception {
+        accommodationService.deleteLikeAccommodation(id, firebaseUuid);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @ApiOperation(value = "숙소 리뷰 조회", notes = "숙소 리뷰 조회")
-    @GetMapping("review")
+    @GetMapping("review/{id}")
     public ResponseEntity<List<AccommodationReviewRespDto>> setAccommodationReview(
             @ApiParam(value="숙소 ID") @RequestParam Long id
     ) throws Exception {

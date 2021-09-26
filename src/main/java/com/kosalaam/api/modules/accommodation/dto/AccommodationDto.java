@@ -55,7 +55,7 @@ public class AccommodationDto {
     private final String detailInfo;
 
     @ApiModelProperty(notes = "좋아요 여부", position = 15)
-    private final Boolean isLiked;
+    private Boolean isLiked;
 
     /**
      * Entity to DTO
@@ -106,5 +106,13 @@ public class AccommodationDto {
                 .isWashingRoom(praySupplies.getIsWashingRoom())
                 .detailInfo(detailInfo)
                 .build();
+    }
+
+    /**
+     * 좋아요 여부 setter
+     * @param isLiked 좋아요 여부
+     */
+    public void setIsLiked(Boolean isLiked) {
+        this.isLiked = isLiked;
     }
 }

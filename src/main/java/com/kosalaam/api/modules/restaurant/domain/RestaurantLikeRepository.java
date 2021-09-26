@@ -8,7 +8,7 @@ import java.util.Optional;
 @Repository
 public interface RestaurantLikeRepository extends JpaRepository<RestaurantLike, Long> {
 
-    public Optional<RestaurantLike> findByKoUserIdAndRestaurantId(Long koUserId, Long restaurantId);
+    Optional<RestaurantLike> findByKoUserIdAndRestaurantId(Long koUserId, Long restaurantId);
 
-    public Long deleteByKoUserId(Long koUserId);
+    Long deleteByKoUserId(Long koUserId);
 }
