@@ -65,4 +65,4 @@ jobs:
     - name: Deploy
       run: |
         cd $HOME
-        sudo sh ./deploy.sh &
+        sudo sh ./deploy.sh &> /tmp/kosal_deploy.log
