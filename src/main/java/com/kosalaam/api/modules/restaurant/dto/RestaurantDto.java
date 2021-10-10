@@ -1,11 +1,7 @@
 package com.kosalaam.api.modules.restaurant.dto;
 
-import com.kosalaam.api.common.UnauthorizedException;
-import com.kosalaam.api.modules.kouser.domain.KoUser;
-import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import com.kosalaam.api.modules.restaurant.domain.MuslimFriendlies;
 import com.kosalaam.api.modules.restaurant.domain.Restaurant;
-import com.kosalaam.api.modules.restaurant.domain.RestaurantLikeRepository;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -21,10 +17,7 @@ public class RestaurantDto {
 
 
     @ApiModelProperty(notes = "식당 ID", position = 1)
-    private Long id;
-
-    @ApiModelProperty(notes = "전체 UUID", position = 2)
-    private UUID uuid;
+    private UUID id;
 
     @ApiModelProperty(notes = "이름", position = 3)
     private String name;
@@ -73,7 +66,6 @@ public class RestaurantDto {
      */
     public RestaurantDto(Restaurant entity) {
         this.id = entity.getId();
-        this.uuid = entity.getUuid();
         this.name = entity.getName();
         this.latitude = entity.getLatitude();
         this.longitude = entity.getLongitude();

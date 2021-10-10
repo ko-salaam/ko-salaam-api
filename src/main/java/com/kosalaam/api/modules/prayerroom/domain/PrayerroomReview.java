@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.UUID;
 
 public class PrayerroomReview {
 
@@ -12,7 +13,7 @@ public class PrayerroomReview {
     private Long id;
 
     @Column(name = "prayerroom_id", nullable = false)
-    private Long prayerRoomId;
+    private UUID prayerRoomId;
 
     @Column(name = "ko_user_id", nullable = false)
     private Long KoUserId;

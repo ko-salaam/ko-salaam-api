@@ -4,11 +4,13 @@ import com.kosalaam.api.modules.accommodation.domain.AccommodationReview;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class AccommodationReviewSaveDto {
 
     @ApiModelProperty(notes = "숙소 ID")
-    private Long accommodationId;
+    private UUID accommodationId;
 
     @ApiModelProperty(notes = "리뷰 내용")
     private String comment;

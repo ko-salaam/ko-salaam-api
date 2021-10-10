@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -19,12 +20,12 @@ public class RestaurantLike {
     private Long id;
 
     @Column(name="restaurant_id")
-    private Long restaurantId;
+    private UUID restaurantId;
 
     @Column(name="ko_user_id")
     private Long koUserId;
 
-    public RestaurantLike(Long koUserId, Long restaurantId) {
+    public RestaurantLike(Long koUserId, UUID restaurantId) {
         this.koUserId = koUserId;
         this.restaurantId = restaurantId;
     }

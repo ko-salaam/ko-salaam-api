@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Api(tags = "Accommodation")
@@ -39,7 +40,7 @@ public class AccommodationController {
     @ApiOperation(value = "숙소 정보 조회", notes = "숙소 ID로 상세 정보 조회")
     @GetMapping("{id}")
     public ResponseEntity<AccommodationDto> getAccommodation(
-            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiParam(value="숙소 ID") @PathVariable UUID id,
             @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         return new ResponseEntity<>(accommodationService.getAccommodation(id, firebaseUuid), HttpStatus.OK);
@@ -55,7 +56,7 @@ public class AccommodationController {
     @ApiOperation(value = "숙소 정보 수정", notes = "숙소 ID로 상세 정보 수정")
     @PutMapping("{id}")
     public ResponseEntity updateAccommodation(
-            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiParam(value="숙소 ID") @PathVariable UUID id,
             @ApiParam(value="수정할 정보") @RequestBody AccommodationDto accommodationDto
     ) throws Exception {
         return new ResponseEntity(accommodationService.updateAccommodation(id, accommodationDto), HttpStatus.OK);
@@ -64,7 +65,7 @@ public class AccommodationController {
     @ApiOperation(value = "숙소 삭제", notes = "숙소 삭제")
     @DeleteMapping("{id}")
     public ResponseEntity deleteAccommodation (
-            @ApiParam(value="숙소 ID") @PathVariable Long id
+            @ApiParam(value="숙소 ID") @PathVariable UUID id
     ) throws Exception {
         accommodationService.deleteAccommodation(id);
         return new ResponseEntity(HttpStatus.OK);
@@ -74,7 +75,7 @@ public class AccommodationController {
     @ResponseBody
     @PostMapping("like/{id}")
     public ResponseEntity setAccommodationLike(
-            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiParam(value="숙소 ID") @PathVariable UUID id,
             @ApiIgnore(value="Firebase UUID") @RequestAttribute("firebaseUuid") String firebaseUuid
     ) throws Exception {
         accommodationService.setLikeAccommodation(id, firebaseUuid);
@@ -84,7 +85,7 @@ public class AccommodationController {
     @ApiOperation(value = "숙소 좋아요 취소", notes = "숙소 좋아요 취소")
     @DeleteMapping("like/{id}")
     public ResponseEntity deleteAccommodationLike(
-            @ApiParam(value="숙소 ID") @PathVariable Long id,
+            @ApiParam(value="숙소 ID") @PathVariable UUID id,
             @ApiIgnore(value="Firebase UUID") @RequestAttribute("firebaseUuid") String firebaseUuid
     ) throws Exception {
         accommodationService.deleteLikeAccommodation(id, firebaseUuid);
@@ -94,7 +95,7 @@ public class AccommodationController {
     @ApiOperation(value = "숙소 리뷰 조회", notes = "숙소 리뷰 조회")
     @GetMapping("review/{id}")
     public ResponseEntity<List<AccommodationReviewRespDto>> setAccommodationReview(
-            @ApiParam(value="숙소 ID") @PathVariable Long id
+            @ApiParam(value="숙소 ID") @PathVariable UUID id
     ) throws Exception {
         return new ResponseEntity(accommodationService.getAccommodationReviews(id), HttpStatus.OK);
     }

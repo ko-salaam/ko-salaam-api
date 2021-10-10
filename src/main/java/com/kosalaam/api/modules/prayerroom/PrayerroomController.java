@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Api(tags = "Prayer Room")
 @RequestMapping("/api/prayerroom")
@@ -28,7 +29,7 @@ public class PrayerroomController {
     @ApiOperation(value = "기도실 정보 조회", notes = "기도실 ID로 상세 정보 조회")
     @GetMapping("info")
     public ResponseEntity<PrayerroomRespDto> getPrayerroom(
-            @ApiParam(value="기도실 ID") @RequestParam Long id
+            @ApiParam(value="기도실 ID") @RequestParam UUID id
     ) throws Exception {
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -45,12 +46,12 @@ public class PrayerroomController {
     @ApiOperation(value = "기도실 삭제", notes = "kosalaam 호스트가 등록한 기도실을 삭제")
     @DeleteMapping
     public void deletePrayerroom(
-            @ApiParam(value="기도실 ID") @RequestParam Long id
+            @ApiParam(value="기도실 ID") @RequestParam UUID id
     ) throws  Exception {}
 
     @ApiOperation(value = "기도실 정보 수정", notes = "kosalaam 호스트가 등록한 기도실의 정보를 수정")
     @PutMapping
-    public void deletePrayerroom(
+    public void updatePrayerroom(
             @ApiParam(value="기도실 이름") @RequestBody String name,
             @ApiParam(value="주소") @RequestBody String address,
             @ApiParam(value="기도실 운영형태") @RequestBody String managingType,
@@ -61,19 +62,19 @@ public class PrayerroomController {
     @ResponseBody
     @PostMapping("like")
     public void setPrayerroomLike(
-            @ApiParam(value="기도실 ID") @RequestBody Long id
+            @ApiParam(value="기도실 ID") @RequestBody UUID id
     ) throws Exception {}
 
     @ApiOperation(value = "기도실 좋아요 취소", notes = "기도실 좋아요 취소")
     @DeleteMapping("like")
     public void deletePrayerroomLike(
-            @ApiParam(value="기도실 ID") @RequestParam Long id
+            @ApiParam(value="기도실 ID") @RequestParam UUID id
     ) throws Exception {}
 
     @ApiOperation(value = "기도실 리뷰 조회", notes = "기도실 리뷰 조회")
     @GetMapping("review")
     public ResponseEntity<List<PrayerroomReviewRespDto>> setPrayerroomReview(
-            @ApiParam(value="기도실 ID") @RequestParam Long id
+            @ApiParam(value="기도실 ID") @RequestParam UUID id
     ) throws Exception {
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -82,7 +83,7 @@ public class PrayerroomController {
     @ResponseBody
     @PostMapping("review")
     public void setPrayerroomReview(
-            @ApiParam(value="기도실 ID") @RequestBody Long id,
+            @ApiParam(value="기도실 ID") @RequestBody UUID id,
             @ApiParam(value="리뷰 내용") @RequestBody String comment
     ) throws Exception {}
 }

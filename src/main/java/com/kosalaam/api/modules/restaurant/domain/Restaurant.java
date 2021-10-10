@@ -1,7 +1,6 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
 import com.kosalaam.api.modules.restaurant.dto.RestaurantDto;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +21,8 @@ import java.util.UUID;
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
-    private Long id;
-
-    @Column(nullable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.AUTO) // auto generated
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -70,7 +66,7 @@ public class Restaurant {
 
     /**
      * 식당 정보 update
-     * @param restaurantDto
+     * @param restaurantDto 식당 DTO
      */
     public void update(RestaurantDto restaurantDto) {
         if (ObjectUtils.isEmpty(restaurantDto))

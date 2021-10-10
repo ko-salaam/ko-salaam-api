@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.kosalaam.api.common.ExceptionFunction.wrapper;
@@ -39,7 +40,7 @@ public class RestaurantService {
      * @throws IllegalArgumentException 존재하지 않는 식당 ID or Auth 에러
      */
     @Transactional
-    public RestaurantDto getRestaurant(Long id, String firebaseUuid) throws IllegalArgumentException {
+    public RestaurantDto getRestaurant(UUID id, String firebaseUuid) throws IllegalArgumentException {
 
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -99,7 +100,7 @@ public class RestaurantService {
      * @throws UnauthorizedException 존재하지 않는 식당 ID
      */
     @Transactional
-    public RestaurantDto updateRestaurant(Long id, RestaurantDto restaurantDto) throws UnauthorizedException {
+    public RestaurantDto updateRestaurant(UUID id, RestaurantDto restaurantDto) throws UnauthorizedException {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
@@ -116,7 +117,7 @@ public class RestaurantService {
      * @throws IllegalArgumentException 존재하지 않는 식당 ID
      */
     @Transactional
-    public void deleteRestaurant(Long id) throws IllegalArgumentException {
+    public void deleteRestaurant(UUID id) throws IllegalArgumentException {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
@@ -131,7 +132,7 @@ public class RestaurantService {
      * @param firebaseUuid Firebase UUID
      */
     @Transactional
-    public void setLikeRestaurant(Long restaurantId, String firebaseUuid) {
+    public void setLikeRestaurant(UUID restaurantId, String firebaseUuid) {
 
         // user
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
@@ -166,7 +167,7 @@ public class RestaurantService {
      * @throws RuntimeException 존재하지 않는 식당 ID or Auth 에러
      */
     @Transactional
-    public void deleteLikeRestaurant(Long restaurantId, String firebaseUuid) throws RuntimeException {
+    public void deleteLikeRestaurant(UUID restaurantId, String firebaseUuid) throws RuntimeException {
 
         // user
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
@@ -199,7 +200,7 @@ public class RestaurantService {
      * @return RestaurantReviewsDto 식당 리뷰 DTO
      */
     @Transactional
-    public RestaurantReviewsRespDto getRestaurantReviews(Long id) {
+    public RestaurantReviewsRespDto getRestaurantReviews(UUID id) {
 
         List<RestaurantReviewRespDto> restaurantReviewRespDtos = Optional.ofNullable(
                 restaurantReviewRepository.findByRestaurantId(id)

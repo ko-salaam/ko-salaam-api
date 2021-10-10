@@ -13,10 +13,7 @@ import java.util.UUID;
 public class AccommodationDto {
 
     @ApiModelProperty(notes = "숙소 ID", position = 1)
-    private final Long id;
-
-    @ApiModelProperty(notes = "UUID", position = 2)
-    private final UUID uuid;
+    private final UUID id;
 
     @ApiModelProperty(notes = "이름", position = 3)
     private final String name;
@@ -63,7 +60,6 @@ public class AccommodationDto {
      */
     public AccommodationDto(Accommodation entity) {
         this.id = entity.getId();
-        this.uuid = entity.getUuid();
         this.name = entity.getName();
         this.latitude = entity.getLatitude();
         this.longitude = entity.getLongitude();

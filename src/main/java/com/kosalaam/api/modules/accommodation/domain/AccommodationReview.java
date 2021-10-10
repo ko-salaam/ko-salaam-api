@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -20,7 +21,7 @@ public class AccommodationReview {
     private Long id;
 
     @Column(name = "accommodation_id", nullable = false)
-    private Long accommodationId;
+    private UUID accommodationId;
 
     @Column(name = "ko_user_id", nullable = false)
     private Long koUserId;

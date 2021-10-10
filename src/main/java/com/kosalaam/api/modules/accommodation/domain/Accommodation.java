@@ -19,11 +19,8 @@ import java.util.UUID;
 public class Accommodation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
-    private Long id;
-
-    @Column(nullable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.AUTO) // auto generated
+    private UUID id;
 
     @Column(nullable = false)
     private String name;

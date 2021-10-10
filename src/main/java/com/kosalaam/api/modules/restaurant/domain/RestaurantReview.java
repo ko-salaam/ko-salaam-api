@@ -3,6 +3,7 @@ package com.kosalaam.api.modules.restaurant.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class RestaurantReview {
     private Long id;
 
     @Column(name = "restaurant_id", nullable = false)
-    private Long restaurantId;
+    private UUID restaurantId;
 
     @Column(name = "ko_user_id", nullable = false)
     private Long koUserId;

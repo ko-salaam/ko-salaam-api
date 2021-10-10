@@ -1,6 +1,5 @@
 package com.kosalaam.api.modules.prayerroom.domain;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,11 +17,8 @@ import java.util.UUID;
 public class Prayerroom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
-    private Long id;
-
-    @Column(nullable = false)
-    private UUID uuid;
+    @GeneratedValue(strategy = GenerationType.AUTO) // auto generated
+    private UUID id;
 
     @Column(nullable = false)
     private String name;

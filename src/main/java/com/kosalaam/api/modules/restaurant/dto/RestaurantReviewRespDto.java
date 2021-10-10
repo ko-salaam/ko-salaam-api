@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @AllArgsConstructor
 @ApiModel
@@ -14,7 +16,7 @@ public class RestaurantReviewRespDto {
     private Long id;
 
     @ApiModelProperty(notes = "식당 ID")
-    private Long restaurantId;
+    private UUID restaurantId;
 
     @ApiModelProperty(notes = "사용자 ID")
     private Long koUserId;

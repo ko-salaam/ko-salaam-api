@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
 @RequiredArgsConstructor
 @ApiModel
@@ -16,7 +18,7 @@ public class AccommodationReviewRespDto {
     private Long id;
 
     @ApiModelProperty(notes = "숙소 ID")
-    private Long accommodationId;
+    private UUID accommodationId;
 
     @ApiModelProperty(notes = "사용자 ID")
     private Long koUserId;

@@ -8,7 +8,6 @@ import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewSaveDto;
 import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewsRespDto;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
-import com.kosalaam.api.modules.restaurant.dto.RestaurantReviewRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.kosalaam.api.common.ExceptionFunction.wrapper;
@@ -42,7 +42,7 @@ public class AccommodationService {
      * @throws Exception 존재하지 않는 숙소 ID
      */
     @Transactional
-    public AccommodationDto getAccommodation(Long id, String firebaseUuid) throws Exception {
+    public AccommodationDto getAccommodation(UUID id, String firebaseUuid) throws Exception {
         Accommodation accommodation = accommodationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 숙소 ID 입니다."
@@ -100,7 +100,7 @@ public class AccommodationService {
      * @throws Exception 존재하지 않는 숙소 ID
      */
     @Transactional
-    public AccommodationDto updateAccommodation(Long id, AccommodationDto accommodationDto) throws Exception {
+    public AccommodationDto updateAccommodation(UUID id, AccommodationDto accommodationDto) throws Exception {
         Accommodation accommodation = accommodationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 숙소 ID 입니다."
@@ -117,7 +117,7 @@ public class AccommodationService {
      * @throws IllegalArgumentException 존재하지 않는 숙소 ID
      */
     @Transactional
-    public void deleteAccommodation(Long id) throws IllegalArgumentException{
+    public void deleteAccommodation(UUID id) throws IllegalArgumentException{
         Accommodation accommodation = accommodationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 숙소 ID 입니다."
@@ -132,7 +132,7 @@ public class AccommodationService {
      * @throws RuntimeException 존재하지 않는 숙소 ID or 사용자
      */
     @Transactional
-    public void setLikeAccommodation(Long accommodationId, String firebaseUuid) throws RuntimeException {
+    public void setLikeAccommodation(UUID accommodationId, String firebaseUuid) throws RuntimeException {
         // user
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new UnauthorizedException(
@@ -164,7 +164,7 @@ public class AccommodationService {
      * @param accommodationId 숙소 ID
      * @param firebaseUuid Firebase UUID
      */
-    public void deleteLikeAccommodation(Long accommodationId, String firebaseUuid) {
+    public void deleteLikeAccommodation(UUID accommodationId, String firebaseUuid) {
         // user
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(() -> new UnauthorizedException(
@@ -195,7 +195,7 @@ public class AccommodationService {
      * @param id 숙소 ID
      * @return 숙소 리뷰 DTO
      */
-    public AccommodationReviewsRespDto getAccommodationReviews(Long id) {
+    public AccommodationReviewsRespDto getAccommodationReviews(UUID id) {
 
         List<AccommodationReviewRespDto> accommodationReviewRespDtos = Optional.ofNullable(
                 accommodationReviewRepository.findByAccommodationId(id))

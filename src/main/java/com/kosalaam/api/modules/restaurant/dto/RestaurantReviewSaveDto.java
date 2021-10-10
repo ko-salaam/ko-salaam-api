@@ -4,11 +4,13 @@ import com.kosalaam.api.modules.restaurant.domain.RestaurantReview;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter // swagger ui에서 필요
 public class RestaurantReviewSaveDto {
 
     @ApiModelProperty(notes = "식당 ID")
-    private Long restaurantId;
+    private UUID restaurantId;
 
     @ApiModelProperty(notes = "리뷰 내용")
     private String comment;

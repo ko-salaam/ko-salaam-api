@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Api(tags = "Restaurant")
@@ -39,7 +40,7 @@ public class RestaurantController {
     @ApiOperation(value = "식당 정보 조회", notes = "식당 ID로 상세 정보 조회")
     @GetMapping("{id}")
     public ResponseEntity<RestaurantDto> getRestaurant(
-            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiParam(value="식당 ID") @PathVariable UUID id,
             @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         return new ResponseEntity<>(
@@ -58,7 +59,7 @@ public class RestaurantController {
     @ApiOperation(value = "식당 정보 수정", notes = "식당 ID로 상세 정보 수정")
     @PutMapping("{id}")
     public ResponseEntity updateRestaurant(
-            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiParam(value="식당 ID") @PathVariable UUID id,
             @ApiParam(value="수정할 정보") @RequestBody RestaurantDto restaurantDto
     ) throws Exception {
         return new ResponseEntity(restaurantService.updateRestaurant(id, restaurantDto), HttpStatus.OK);
@@ -67,7 +68,7 @@ public class RestaurantController {
     @ApiOperation(value = "식당 삭제", notes = "식당 삭제")
     @DeleteMapping("{id}")
     public ResponseEntity deleteRestaurant (
-            @ApiParam(value="식당 ID") @PathVariable Long id) throws Exception {
+            @ApiParam(value="식당 ID") @PathVariable UUID id) throws Exception {
         restaurantService.deleteRestaurant(id);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -76,7 +77,7 @@ public class RestaurantController {
     @ResponseBody
     @PostMapping("like/{id}")
     public ResponseEntity setRestaurantLike(
-            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiParam(value="식당 ID") @PathVariable UUID id,
             @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         restaurantService.setLikeRestaurant(id, firebaseUuid);
@@ -86,7 +87,7 @@ public class RestaurantController {
     @ApiOperation(value = "식당 좋아요 취소", notes = "식당 좋아요 취소")
     @DeleteMapping("like/{id}")
     public ResponseEntity deleteRestaurantLike(
-            @ApiParam(value="식당 ID") @PathVariable Long id,
+            @ApiParam(value="식당 ID") @PathVariable UUID id,
             @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         restaurantService.deleteLikeRestaurant(id, firebaseUuid);
@@ -96,7 +97,7 @@ public class RestaurantController {
     @ApiOperation(value = "식당 리뷰 조회", notes = "식당 리뷰 조회")
     @GetMapping("review/{id}")
     public ResponseEntity<RestaurantReviewsRespDto> setRestaurantReview(
-            @ApiParam(value="식당 ID") @PathVariable Long id
+            @ApiParam(value="식당 ID") @PathVariable UUID id
     ) throws Exception {
         return new ResponseEntity<>(
                 restaurantService.getRestaurantReviews(id),

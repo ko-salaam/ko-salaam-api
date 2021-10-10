@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,12 +18,12 @@ public class AccommodationLike {
     private Long id;
 
     @Column(name="accommodation_id")
-    private Long accommodationId;
+    private UUID accommodationId;
 
     @Column(name="ko_user_id")
     private Long koUserId;
 
-    public AccommodationLike(Long accommodationId, Long koUserId) {
+    public AccommodationLike(UUID accommodationId, Long koUserId) {
         this.accommodationId = accommodationId;
         this.koUserId = koUserId;
     }
