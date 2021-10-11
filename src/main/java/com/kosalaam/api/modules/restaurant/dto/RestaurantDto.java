@@ -5,7 +5,6 @@ import com.kosalaam.api.modules.restaurant.domain.Restaurant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-
 import java.util.UUID;
 
 @Getter
@@ -34,8 +33,8 @@ public class RestaurantDto {
     @ApiModelProperty(notes = "전화번호", position = 7)
     private String phoneNumber;
 
-    @ApiModelProperty(notes = "사진 ID", position = 8)
-    private String imagesId;
+    @ApiModelProperty(notes = "사진 리스트", position = 8)
+    private String[] images;
 
     @ApiModelProperty(notes = "요리 분류", position = 9)
     private String dishType;
@@ -71,7 +70,7 @@ public class RestaurantDto {
         this.longitude = entity.getLongitude();
         this.address = entity.getAddress();
         this.phoneNumber = entity.getPhoneNumber();
-        this.imagesId = entity.getImagesId();
+        this.images = entity.getImages();
         this.dishType = entity.getDishType();
         this.muslimFriendly = entity.getMuslimFriendly();
         if (entity.getMuslimFriendly() == null) {
@@ -95,7 +94,7 @@ public class RestaurantDto {
                 .longitude(longitude)
                 .address(address)
                 .phoneNumber(phoneNumber)
-                .imagesId(imagesId)
+                .images(images)
                 .dishType(dishType)
                 .muslimFriendly(muslimFriendly)
                 .likedCount(likedCount)

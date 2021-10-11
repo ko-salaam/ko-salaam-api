@@ -1,11 +1,15 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
 import com.kosalaam.api.modules.restaurant.dto.RestaurantDto;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
@@ -16,12 +20,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicUpdate
+@TypeDef(name = "string-array",typeClass = StringArrayType.class)
 @Table(name="restaurant")
 @Entity
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // auto generated
+    @Column(updatable = false, nullable = false, columnDefinition = "uuid DEFAULT uuid_generate_v4()")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false)
@@ -39,8 +46,9 @@ public class Restaurant {
     @Column(name="phone_number")
     private String phoneNumber;
 
-    @Column(name="images_id")
-    private String imagesId;
+    @Type(type = "string-array")
+    @Column(columnDefinition = "text[]")
+    private String[] images;
 
     @Column(name="dish_type")
     private String dishType;
@@ -92,8 +100,8 @@ public class Restaurant {
             this.phoneNumber = restaurantDto.getPhoneNumber();
         }
 
-        if (restaurantDto.getImagesId() != null) {
-            this.imagesId = restaurantDto.getImagesId();
+        if (restaurantDto.getImages() != null) {
+            this.images = restaurantDto.getImages();
         }
 
         if (restaurantDto.getDishType() != null) {
