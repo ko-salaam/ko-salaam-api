@@ -1,31 +1,46 @@
-package com.kosalaam.api.modules.accommodation.dto;
+package com.kosalaam.api.modules.prayerroom.dto;
 
-import com.kosalaam.api.modules.accommodation.domain.Accommodation;
+
 import com.kosalaam.api.modules.place.domain.PraySupplies;
 import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.place.dto.PlaceType;
+import com.kosalaam.api.modules.prayerroom.domain.Prayerroom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.UUID;
 
 @Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @ApiModel
-public class AccommodationDto extends PlaceDto {
+public class PrayerroomDto extends PlaceDto {
 
-    @ApiModelProperty(notes = "무슬림 친화 여부", position = 12)
-    private final Boolean isMuslimFriendly;
+    @ApiModelProperty(notes = "코살람 등록 기도실 여부", position = 2)
+    private Boolean isKosalaamRoom;
 
-    @ApiModelProperty(notes = "기도 물품 구비 여부", position = 13)
-    private final PraySupplies praySupplies;
+    @ApiModelProperty(notes = "기도실 운영 타입", position = 14)
+    private String managingType;
 
+    @ApiModelProperty(notes = "기도 물품 구비 여부", position = 15)
+    private PraySupplies praySupplies;
+
+    @ApiModelProperty(notes = "호스트 ID", position = 16)
+    private Long hostId;
 
     /**
-     * Entity to DTO
-     * @param entity 숙소 Entity
+     * Entity To DTO
+     * @param entity 기도실 Entity
      */
-    public AccommodationDto(Accommodation entity) {
+    public PrayerroomDto(Prayerroom entity) {
         this.id = entity.getId();
-        this.placeType = PlaceType.ACCOMMODATION;
+        this.placeType = PlaceType.PRAYER_ROOM;
+        this.isKosalaamRoom = entity.getIsKosalaamRoom();
         this.name = entity.getName();
         this.latitude = entity.getLatitude();
         this.longitude = entity.getLongitude();
@@ -33,24 +48,27 @@ public class AccommodationDto extends PlaceDto {
         this.phoneNumber = entity.getPhoneNumber();
         this.images = entity.getImages();
         this.likedCount = entity.getLikedCount();
+        this.openingHours = entity.getOpeningHours();
         this.isParkingLot = entity.getIsParkingLot();
-        this.isMuslimFriendly = entity.getIsMuslimFriendly();
+        this.managingType = entity.getManagingType();
         this.praySupplies = new PraySupplies(
                 entity.getIsKoran(),
                 entity.getIsMat(),
                 entity.getIsQibla(),
                 entity.getIsWashingRoom()
-                );
+        );
+        this.hostId = entity.getHostId();
         this.detailInfo = entity.getDetailInfo();
         this.isLiked = Boolean.FALSE;
     }
 
     /**
      * DTO to Entity
-     * @return 숙소 Entity
+     * @return 기도실 Entity
      */
-    public Accommodation toEntity() {
-        return Accommodation.builder()
+    public Prayerroom toEntity() {
+        return Prayerroom.builder()
+                .isKosalaamRoom(isKosalaamRoom)
                 .name(name)
                 .latitude(latitude)
                 .longitude(longitude)
@@ -58,21 +76,15 @@ public class AccommodationDto extends PlaceDto {
                 .phoneNumber(phoneNumber)
                 .images(images)
                 .likedCount(likedCount)
+                .openingHours(openingHours)
                 .isParkingLot(isParkingLot)
-                .isMuslimFriendly(isMuslimFriendly)
+                .managingType(managingType)
                 .isKoran(praySupplies.getIsKoran())
                 .isMat(praySupplies.getIsMat())
                 .isQibla(praySupplies.getIsQibla())
                 .isWashingRoom(praySupplies.getIsWashingRoom())
+                .hostId(hostId)
                 .detailInfo(detailInfo)
                 .build();
-    }
-
-    /**
-     * 좋아요 여부 setter
-     * @param isLiked 좋아요 여부
-     */
-    public void setIsLiked(Boolean isLiked) {
-        this.isLiked = isLiked;
     }
 }

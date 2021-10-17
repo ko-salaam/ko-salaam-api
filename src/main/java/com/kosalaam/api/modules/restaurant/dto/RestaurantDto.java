@@ -1,5 +1,8 @@
 package com.kosalaam.api.modules.restaurant.dto;
 
+import com.kosalaam.api.modules.place.domain.Place;
+import com.kosalaam.api.modules.place.dto.PlaceDto;
+import com.kosalaam.api.modules.place.dto.PlaceType;
 import com.kosalaam.api.modules.restaurant.domain.MuslimFriendlies;
 import com.kosalaam.api.modules.restaurant.domain.Restaurant;
 import io.swagger.annotations.ApiModel;
@@ -8,56 +11,14 @@ import lombok.*;
 import java.util.UUID;
 
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
 @ApiModel
-public class RestaurantDto {
-
-
-    @ApiModelProperty(notes = "식당 ID", position = 1)
-    private UUID id;
-
-    @ApiModelProperty(notes = "이름", position = 3)
-    private String name;
-
-    @ApiModelProperty(notes = "위도", position = 4)
-    private double latitude;
-
-    @ApiModelProperty(notes = "경도", position = 5)
-    private double longitude;
-
-    @ApiModelProperty(notes = "상세 주소", position = 6)
-    private String address;
-
-    @ApiModelProperty(notes = "전화번호", position = 7)
-    private String phoneNumber;
-
-    @ApiModelProperty(notes = "사진 리스트", position = 8)
-    private String[] images;
+public class RestaurantDto extends PlaceDto {
 
     @ApiModelProperty(notes = "요리 분류", position = 9)
     private String dishType;
 
-    @ApiModelProperty(notes = "무슬림 친화", position = 10)
+    @ApiModelProperty(notes = "무슬림 친화도", position = 10)
     private MuslimFriendlies muslimFriendly;
-
-    @ApiModelProperty(notes = "좋아요 수", position = 11)
-    private int likedCount;
-
-    @ApiModelProperty(notes = "영업 시간", position = 12)
-    private String openingHours;
-
-    @ApiModelProperty(notes = "주차장 여부", position = 13)
-    private Boolean isParkingLot;
-
-    @ApiModelProperty(notes = "비고", position = 14)
-    private String detailInfo;
-
-    @ApiModelProperty(notes = "좋아요 여부", position = 15)
-    private Boolean isLiked;
-
-
 
     /**
      * Entity To DTO
@@ -65,6 +26,7 @@ public class RestaurantDto {
      */
     public RestaurantDto(Restaurant entity) {
         this.id = entity.getId();
+        this.placeType = PlaceType.RESTAURANT;
         this.name = entity.getName();
         this.latitude = entity.getLatitude();
         this.longitude = entity.getLongitude();

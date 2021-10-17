@@ -8,6 +8,7 @@ import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewSaveDto;
 import com.kosalaam.api.modules.accommodation.dto.AccommodationReviewsRespDto;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
+import com.kosalaam.api.modules.place.dto.PlaceDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -48,7 +49,7 @@ public class AccommodationService {
                         "'"+id+"' 는 존재하지 않는 숙소 ID 입니다."
                 ));
 
-        return writeDto(accommodation, firebaseUuid);
+        return writeAccommodationDto(accommodation, firebaseUuid);
 
     }
 
@@ -64,19 +65,27 @@ public class AccommodationService {
      * @return DTO 리스트
      */
     @Transactional
-    public List<AccommodationDto> getAccommodations(double latitude, double longitude, int distance, String keyword, int pageNum, int pageSize, String firebaseUuid) {
+    public List<PlaceDto> getAccommodations(double latitude, double longitude, int distance, String keyword, Boolean isMuslimFriendly, int pageNum, int pageSize, String firebaseUuid) {
 
         if (keyword == null) { keyword = ""; }
+
+//        String muslimFriendyFilter = "";
+//        if (isMuslimFriendly != null) {
+//            muslimFriendyFilter += "AND is_muslim_friendly=" + isMuslimFriendly.toString();
+//        }
+
         List<Accommodation> accommodations = accommodationRepository.findByLocation(
                 latitude,
                 longitude,
                 distance,
                 keyword,
+//                muslimFriendyFilter,
                 PageRequest.of(pageNum, pageSize, Sort.Direction.ASC, "liked_count")
         ).getContent();
 
         return accommodations.stream()
-                .map(wrapper(a -> writeDto(a, firebaseUuid)))
+                .map(wrapper(a -> writeAccommodationDto(a, firebaseUuid)))
+                .map(r -> r.toLimitedImages())
                 .collect(Collectors.toList());
     }
 
@@ -89,7 +98,7 @@ public class AccommodationService {
     @Transactional
     public AccommodationDto saveAccommodation(AccommodationDto accommodationDto) throws Exception {
         Accommodation accommodation = accommodationRepository.save(accommodationDto.toEntity());
-        return writeDto(accommodation, "");
+        return writeAccommodationDto(accommodation, "");
     }
 
     /**
@@ -108,7 +117,7 @@ public class AccommodationService {
 
         // update
         accommodation.update(accommodationDto);
-        return writeDto(accommodation, "");
+        return writeAccommodationDto(accommodation, "");
     }
 
     /**
@@ -261,7 +270,7 @@ public class AccommodationService {
      * @return 숙소 DTO
      * @throws Exception Auth 에러
      */
-    private AccommodationDto writeDto(Accommodation accommodation, String firebaseUuid) throws Exception {
+    public AccommodationDto writeAccommodationDto(Accommodation accommodation, String firebaseUuid) throws Exception {
 
         AccommodationDto accommodationDto = new AccommodationDto(accommodation);
 

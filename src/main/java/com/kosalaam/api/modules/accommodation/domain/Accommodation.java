@@ -1,53 +1,20 @@
 package com.kosalaam.api.modules.accommodation.domain;
 
 import com.kosalaam.api.modules.accommodation.dto.AccommodationDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.kosalaam.api.modules.place.domain.Place;
+import com.kosalaam.api.modules.restaurant.domain.MuslimFriendlies;
+import lombok.*;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
-@Data
-@Builder
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
 @Table(name="accommodation")
 @Entity
-public class Accommodation {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // auto generated
-    private UUID id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private double latitude;
-
-    @Column(nullable = false)
-    private double longitude;
-
-    @Column(length = 500, nullable = false)
-    private String address;
-
-    @Column(name="phone_number")
-    private String phoneNumber;
-
-    @Column(name="images_id")
-    private Long imagesId;
-
-    @Column(name="liked_count")
-    private int likedCount;
-
-    @Column(name="opening_hours")
-    private String openingHours;
-
-    @Column(name="is_parking_lot")
-    private Boolean isParkingLot;
+public class Accommodation extends Place {
 
     @Column(name="is_muslim_friendly")
     private Boolean isMuslimFriendly;
@@ -64,8 +31,16 @@ public class Accommodation {
     @Column(name="is_washing_room")
     private Boolean isWashingRoom;
 
-    @Column(name="detail_info")
-    private String detailInfo;
+
+    @Builder
+    public Accommodation(UUID id, String name, double latitude, double longitude, String address, String phoneNumber, String[] images, int likedCount, String openingHours, String holiday, Boolean isParkingLot, String detailInfo, Boolean isMuslimFriendly, Boolean isKoran, Boolean isMat, Boolean isQibla, Boolean isWashingRoom) {
+        super(id, name, latitude, longitude, address, phoneNumber, images, likedCount, openingHours, holiday, isParkingLot, detailInfo);
+        this.isMuslimFriendly = isMuslimFriendly;
+        this.isKoran = isKoran;
+        this.isMat = isMat;
+        this.isQibla = isQibla;
+        this.isWashingRoom = isWashingRoom;
+    }
 
     /**
      * Accommodation 정보 업데이트
@@ -89,8 +64,8 @@ public class Accommodation {
         if (accommodationDto.getPhoneNumber() != null) {
             this.phoneNumber = accommodationDto.getPhoneNumber();
         }
-        if (accommodationDto.getImagesId() != null) {
-            this.imagesId = accommodationDto.getImagesId();
+        if (accommodationDto.getImages() != null) {
+            this.images = accommodationDto.getImages();
         }
         if (accommodationDto.getIsMuslimFriendly() != null) {
             this.isMuslimFriendly = accommodationDto.getIsMuslimFriendly();
@@ -101,9 +76,7 @@ public class Accommodation {
             this.isQibla = accommodationDto.getPraySupplies().getIsQibla();
             this.isWashingRoom = accommodationDto.getPraySupplies().getIsWashingRoom();
         }
-        if (accommodationDto.getOpeningHours() != null) {
-            this.openingHours = accommodationDto.getOpeningHours();
-        }
+
         if (accommodationDto.getIsParkingLot() != null) {
             this.isParkingLot = accommodationDto.getIsParkingLot();
         }

@@ -15,20 +15,24 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, UU
 
     @Query( value =
             "SELECT * " +
-                    "FROM accommodation r " +
-                    "WHERE GET_DISTANCE(:latitude, :longitude, r.latitude, r.longitude) < :distance " +
-                    "AND r.name LIKE '%'||:keyword||'%'",
+                    "FROM accommodation a " +
+                    "WHERE GET_DISTANCE(:latitude, :longitude, a.latitude, a.longitude) < :distance " +
+//                    ":muslimFriendlyFilter " +
+                    "AND a.name LIKE '%'||:keyword||'%'",
             countQuery =
                     "SELECT COUNT(*) " +
-                            "FROM accommodation r " +
-                            "WHERE GET_DISTANCE(:latitude, :longitude, r.latitude, r.longitude) < :distance " +
-                            "AND r.name LIKE '%'||:keyword||'%'",
+                            "FROM accommodation a " +
+                            "WHERE GET_DISTANCE(:latitude, :longitude, a.latitude, a.longitude) < :distance " +
+//                            ":muslimFriendlyFilter " +
+                            "AND a.name LIKE '%'||:keyword||'%'",
+
             nativeQuery = true )
     Page<Accommodation> findByLocation(
             @Param("latitude") double latitude,
             @Param("longitude") double longitude,
             @Param("distance") int distance,
             @Param("keyword") String keyword,
+//            @Param("muslimFriendlyFilter") String muslimFriendlyFilter,
             Pageable pageable
     );
 }

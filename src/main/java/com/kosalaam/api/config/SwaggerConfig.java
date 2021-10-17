@@ -93,6 +93,21 @@ public class SwaggerConfig {
     }
 
     /**
+     * [place] group swagger Docket
+     *
+     * @return <Docket>
+     */
+    @Bean
+    public Docket placeApi() {
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("통합 장소").select()
+                .apis(RequestHandlerSelectors.basePackage("com.kosalaam.api.modules.place")).paths(PathSelectors.any())
+                .build();
+
+        return setDocketCommonConfig(docket, "[Place] API", "통합 API");
+    }
+
+    /**
      * Set Docket Common Config
      *
      * @param docket    <Docket>

@@ -3,6 +3,7 @@ package com.kosalaam.api.modules.restaurant;
 import com.kosalaam.api.common.UnauthorizedException;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
+import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.restaurant.domain.*;
 import com.kosalaam.api.modules.restaurant.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.kosalaam.api.common.ExceptionFunction.wrapper;
@@ -46,8 +44,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "'"+id+"' 는 존재하지 않는 식당 ID 입니다."
                 ));
-
-        return writeDto(restaurant, firebaseUuid);
+        return writeRestaurantDto(restaurant, firebaseUuid);
 
     }
 
@@ -63,20 +60,31 @@ public class RestaurantService {
      * @return DTO 리스트
      */
     @Transactional
-    public List<RestaurantDto> getRestaurants(double latitude, double longitude, int distance, String keyword, int pageNum, int pageSize, String firebaseUuid) {
+    public List<PlaceDto> getRestaurants(double latitude, double longitude, int distance, String keyword, List<String> muslimFriendlies, int pageNum, int pageSize, String firebaseUuid) {
 
+        // 필터링
         if (keyword == null) { keyword = ""; }
+
+//        String muslimFriendlyFilter = "";
+//        if (muslimFriendlies != null) {
+//            muslimFriendlyFilter += "AND muslim_friendly='";
+//            muslimFriendlyFilter += String.join("' OR muslim_friendly='", muslimFriendlies);
+//        }
+//        muslimFriendlyFilter += "'";
+
         List<Restaurant> restaurants = restaurantRepository.findByLocation(
                 latitude,
                 longitude,
                 distance,
                 keyword,
+//                muslimFriendlyFilter,
                 PageRequest.of(pageNum, pageSize, Sort.Direction.ASC, "liked_count")
         ).getContent();
 
 
         return restaurants.stream()
-                .map(wrapper(r -> writeDto(r, firebaseUuid)))
+                .map(wrapper(r -> writeRestaurantDto(r, firebaseUuid)))
+                .map(r -> r.toLimitedImages())
                 .collect(Collectors.toList());
 
     }
@@ -89,7 +97,7 @@ public class RestaurantService {
     @Transactional
     public RestaurantDto saveRestaurant(RestaurantDto restaurantDto) {
         Restaurant restaurant = restaurantRepository.save(restaurantDto.toEntity());
-        return writeDto(restaurant, "");
+        return writeRestaurantDto(restaurant, "");
     }
 
     /**
@@ -108,7 +116,7 @@ public class RestaurantService {
 
         // update
         restaurant.update(restaurantDto);
-        return writeDto(restaurant, "");
+        return writeRestaurantDto(restaurant, "");
     }
 
     /**
@@ -270,7 +278,7 @@ public class RestaurantService {
      * @return 식당 DTO
      * @throws UnauthorizedException Auth 에러
      */
-    private RestaurantDto writeDto(Restaurant restaurant, String firebaseUuid) throws UnauthorizedException {
+    public RestaurantDto writeRestaurantDto(Restaurant restaurant, String firebaseUuid) throws UnauthorizedException {
 
         RestaurantDto restaurantDto = new RestaurantDto(restaurant);
 

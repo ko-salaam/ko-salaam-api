@@ -1,54 +1,22 @@
 package com.kosalaam.api.modules.restaurant.domain;
 
+import com.kosalaam.api.modules.place.domain.Place;
 import com.kosalaam.api.modules.restaurant.dto.RestaurantDto;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
-@Data
-@Builder
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
-@DynamicUpdate
-@TypeDef(name = "string-array",typeClass = StringArrayType.class)
 @Table(name="restaurant")
 @Entity
-public class Restaurant {
-
-    @Id
-    @Column(updatable = false, nullable = false, columnDefinition = "uuid DEFAULT uuid_generate_v4()")
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private double latitude;
-
-    @Column(nullable = false)
-    private double longitude;
-
-    @Column(length = 500, nullable = false)
-    private String address;
-
-    @Column(name="phone_number")
-    private String phoneNumber;
-
-    @Type(type = "string-array")
-    @Column(columnDefinition = "text[]")
-    private String[] images;
+public class Restaurant extends Place {
 
     @Column(name="dish_type")
     private String dishType;
@@ -57,20 +25,12 @@ public class Restaurant {
     @Column(name="muslim_friendly")
     private MuslimFriendlies muslimFriendly;
 
-    @Column(name="liked_count")
-    private int likedCount;
-
-    @Column(name="opening_hours")
-    private String openingHours;
-
-    @Column
-    private String holiday;
-
-    @Column(name="is_parking_lot")
-    private Boolean isParkingLot;
-
-    @Column(name="detail_info")
-    private String detailInfo;
+    @Builder
+    public Restaurant(UUID id, String name, double latitude, double longitude, String address, String phoneNumber, String[] images, int likedCount, String openingHours, String holiday, Boolean isParkingLot, String detailInfo, String dishType, MuslimFriendlies muslimFriendly) {
+        super(id, name, latitude, longitude, address, phoneNumber, images, likedCount, openingHours, holiday, isParkingLot, detailInfo);
+        this.dishType = dishType;
+        this.muslimFriendly = muslimFriendly;
+    }
 
     /**
      * 식당 정보 update

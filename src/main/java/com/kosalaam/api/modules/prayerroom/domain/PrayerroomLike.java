@@ -8,25 +8,26 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.UUID;
 
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Table(name="Prayerroom_review")
+@Table(name="Prayerroom_like")
 @Entity
-public class PrayerroomReview {
+public class PrayerroomLike {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
     private Long id;
 
-    @Column(name = "prayerroom_id", nullable = false)
+    @Column(name="prayerroom_id")
     private UUID prayerroomId;
 
-    @Column(name = "ko_user_id", nullable = false)
+    @Column(name="ko_user_id")
     private Long koUserId;
 
-    @Column(length = 500, nullable = false)
-    private String comment;
-
+    public PrayerroomLike(Long koUserId, UUID prayerroomId) {
+        this.koUserId = koUserId;
+        this.prayerroomId = prayerroomId;
+    }
 }

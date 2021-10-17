@@ -1,10 +1,9 @@
-package com.kosalaam.api.modules.common.domain;
+package com.kosalaam.api.modules.place.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter

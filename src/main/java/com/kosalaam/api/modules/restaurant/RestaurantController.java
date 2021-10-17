@@ -1,5 +1,6 @@
 package com.kosalaam.api.modules.restaurant;
 
+import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.restaurant.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,16 +24,17 @@ public class RestaurantController {
 
     @ApiOperation(value = "식당 리스트 조회", notes = "반경 Nkm 이내의 식당 리스트를 조회")
     @GetMapping
-    public ResponseEntity<List<RestaurantDto>> getRestaurants(
+    public ResponseEntity<List<PlaceDto>> getRestaurants(
             @ApiParam(value="현재 위치 위도값", defaultValue = "37.498095") @RequestParam(defaultValue = "37.498095") double latitude,
             @ApiParam(value="현재 위치 경도값", defaultValue = "127.027610") @RequestParam(defaultValue = "127.027610") double longitude,
             @ApiParam(value="반경 N km", defaultValue = "5") @RequestParam(defaultValue = "5") int distance,
             @ApiParam(value="검색 키워드") @RequestParam(required = false) String keyword,
+            @ApiParam(value="무슬림 친화도 필터") @RequestParam(required = false) List<String> muslimFriendlies,
             @ApiParam(value="페이지 번호", defaultValue = "0") @RequestParam(defaultValue = "0") int pageNum,
             @ApiParam(value="페이지 사이즈", defaultValue = "10") @RequestParam(defaultValue = "10") int pageSize,
             @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
             ) throws Exception {
-        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, distance, keyword, pageNum, pageSize, firebaseUuid),
+        return new ResponseEntity<>(restaurantService.getRestaurants(latitude, longitude, distance, keyword, muslimFriendlies, pageNum, pageSize, firebaseUuid),
                 HttpStatus.OK
         );
     }

@@ -1,4 +1,4 @@
-package com.kosalaam.api.modules.common.dto;
+package com.kosalaam.api.modules.place.dto;
 
 import lombok.AllArgsConstructor;
 
