@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.util.UUID;
 
 @Getter
@@ -23,6 +24,9 @@ public class PrayerroomDto extends PlaceDto {
 
     @ApiModelProperty(notes = "코살람 등록 기도실 여부", position = 2)
     private Boolean isKosalaamRoom;
+
+    @ApiModelProperty(notes = "가격", position = 14)
+    private Integer price;
 
     @ApiModelProperty(notes = "기도실 운영 타입", position = 14)
     private String managingType;

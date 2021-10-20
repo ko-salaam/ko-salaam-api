@@ -19,7 +19,7 @@ public class Prayerroom extends Place {
     private Boolean isKosalaamRoom;
 
     @Column
-    private int price;
+    private Integer price;
 
     @Column(name="managing_type")
     private String managingType;
