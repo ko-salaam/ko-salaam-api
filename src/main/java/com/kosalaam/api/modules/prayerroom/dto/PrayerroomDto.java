@@ -7,10 +7,7 @@ import com.kosalaam.api.modules.place.dto.PlaceType;
 import com.kosalaam.api.modules.prayerroom.domain.Prayerroom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -18,6 +15,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel
 public class PrayerroomDto extends PlaceDto {
 

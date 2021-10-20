@@ -4,11 +4,13 @@ import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.prayerroom.dto.PrayerroomDto;
 import com.kosalaam.api.modules.prayerroom.dto.PrayerroomReviewSaveDto;
 import com.kosalaam.api.modules.prayerroom.dto.PrayerroomReviewsRespDto;
+import com.kosalaam.api.modules.prayerroom.dto.PrayerroomSaveDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -53,10 +55,10 @@ public class PrayerroomController {
     }
 
     @ApiOperation(value = "기도실 등록", notes = "기도실 등록")
-    @PostMapping
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<PrayerroomDto> savePrayerroom (
-            @RequestBody PrayerroomDto prayerroomDto) throws Exception {
-        return new ResponseEntity(prayerroomService.savePrayerroom(prayerroomDto), HttpStatus.OK);
+            @ModelAttribute PrayerroomDto prayerroomSaveDto) throws Exception {
+        return new ResponseEntity(prayerroomService.savePrayerroom(prayerroomSaveDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "기도실 정보 수정", notes = "기도실 ID로 상세 정보 수정")

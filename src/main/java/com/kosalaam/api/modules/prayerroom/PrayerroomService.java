@@ -93,7 +93,6 @@ public class PrayerroomService {
      */
     @Transactional
     public PrayerroomDto savePrayerroom(PrayerroomDto prayerroomDto) {
-        System.out.println(prayerroomDto.getIsKosalaamRoom());
         Prayerroom prayerroom = prayerroomRepository.save(prayerroomDto.toEntity());
         return writePrayreroomDto(prayerroom, "");
     }
