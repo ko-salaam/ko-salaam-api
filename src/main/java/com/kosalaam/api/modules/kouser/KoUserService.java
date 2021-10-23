@@ -24,15 +24,29 @@ public class KoUserService {
 
     /**
      * 사용자 정보 조회
-     * @param uid
+     * @param id 사용자 id
      * @return
      * @throws Exception
      */
     @Transactional
-    public KoUser getUser(Long uid) throws Exception {
-        return koUserRepository.findById(uid)
+    public KoUser getUser(Long id) throws Exception {
+        return koUserRepository.findById(id)
                 .orElseThrow(
                         () -> new IllegalArgumentException("존재하지 않는 id 입니다.")
+                );
+    }
+
+    /**
+     * 나의 정보 조회
+     * @param firebaseUuid
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public KoUser getMe(String firebaseUuid) throws Exception {
+        return koUserRepository.findByFirebaseUuid(firebaseUuid)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("존재하지 않는 token 입니다.")
                 );
     }
 
