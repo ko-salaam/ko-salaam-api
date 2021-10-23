@@ -33,6 +33,7 @@ public class AccommodationDto extends PlaceDto {
         this.phoneNumber = entity.getPhoneNumber();
         this.images = entity.getImages();
         this.likedCount = entity.getLikedCount();
+        this.openingHours = entity.getCheckInTime() + " ~ " + entity.getCheckOutTime();
         this.isParkingLot = entity.getIsParkingLot();
         this.isMuslimFriendly = entity.getIsMuslimFriendly();
         this.praySupplies = new PraySupplies(

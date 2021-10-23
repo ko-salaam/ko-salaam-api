@@ -31,6 +31,11 @@ public class Accommodation extends Place {
     @Column(name="is_washing_room")
     private Boolean isWashingRoom;
 
+    @Column(name="checkintime")
+    private String checkInTime;
+
+    @Column(name="checkouttime")
+    private String checkOutTime;
 
     @Builder
     public Accommodation(UUID id, String name, double latitude, double longitude, String address, String phoneNumber, String[] images, int likedCount, String openingHours, String holiday, Boolean isParkingLot, String detailInfo, Boolean isMuslimFriendly, Boolean isKoran, Boolean isMat, Boolean isQibla, Boolean isWashingRoom) {
