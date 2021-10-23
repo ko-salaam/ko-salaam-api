@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,5 +65,13 @@ public abstract class Place {
 
     @Column(name="detail_info")
     public String detailInfo;
+
+//    @CreatedDate
+//    @Column(name = "created_at", nullable = false, updatable = false)
+//    private Date createdAt;
+//
+//    @LastModifiedDate
+//    @Column(name = "updated_at")
+//    private LocalDateTime updatedAt;
 
 }

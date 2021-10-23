@@ -20,11 +20,19 @@ public class KoUserController {
     private final KoUserService koUserService;
 
     @ApiOperation(value = "사용자 정보 조회")
-    @GetMapping("{uid}")
+    @GetMapping("{id}")
     public ResponseEntity<KoUser> getUser(
-            @ApiParam(value="사용자 ID") @PathVariable Long uid
+            @ApiParam(value="사용 ID") @PathVariable Long id
     ) throws Exception {
-        return new ResponseEntity<>(koUserService.getUser(uid), HttpStatus.OK);
+        return new ResponseEntity<>(koUserService.getUser(id), HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "나의 정보 조회")
+    @GetMapping("me")
+    public ResponseEntity<KoUser> getMe(
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
+    ) throws Exception {
+        return new ResponseEntity<>(koUserService.getMe(firebaseUuid), HttpStatus.OK);
     }
 
     @ApiOperation(value = "로그인")
