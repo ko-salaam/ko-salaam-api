@@ -9,9 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,7 +64,7 @@ public class PrayerroomController {
             @ModelAttribute PrayerroomSaveDto prayerroomSaveDto,
             @RequestPart List<MultipartFile> imageFiles
             ) throws Exception {
-        return new ResponseEntity(prayerroomService.savePrayerroom(request, prayerroomSaveDto, imageFiles), HttpStatus.OK);
+        return new ResponseEntity(prayerroomService.savePrayerroom(prayerroomSaveDto, imageFiles), HttpStatus.OK);
     }
 
     @ApiOperation(value = "기도실 정보 수정", notes = "기도실 ID로 상세 정보 수정")

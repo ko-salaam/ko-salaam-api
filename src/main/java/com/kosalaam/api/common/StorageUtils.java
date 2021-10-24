@@ -1,14 +1,10 @@
 package com.kosalaam.api.common;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
-import com.amazonaws.services.s3.AmazonS3;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
@@ -25,22 +21,6 @@ import java.util.UUID;
 @Component
 public class StorageUtils {
 
-//    public static void getBucket() {
-//        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion("ap-northeast-2").build();
-////        List<Bucket> buckets = s3.listBuckets();
-////        System.out.println("Your {S3} buckets are:");
-////        for (Bucket b : buckets) {
-////            System.out.println("* " + b.getName());
-////        }
-//
-//        ListObjectsV2Result result = s3.listObjectsV2("kosalaam-storage");
-//        List<S3ObjectSummary> objects = result.getObjectSummaries();
-//        for (S3ObjectSummary os : objects) {
-//            System.out.println("* " + os.getKey());
-//            System.out.println(os.getStorageClass());
-//        }
-//    }
-
     private static String uploadPath;
 
     @Value("${upload.path}")
@@ -48,30 +28,42 @@ public class StorageUtils {
         uploadPath = path;
     }
 
-    @PostConstruct
-    public static void init() {
+//    @PostConstruct
+    public static void init(Path root) {
         try {
-            Files.createDirectories(Paths.get(uploadPath));
+            Files.createDirectory(root);
         } catch (IOException e) {
             throw new RuntimeException("Could not create upload folder!");
         }
     }
 
-    public static String[] save(List<MultipartFile> imageFiles) throws Exception {
+    public static String[] save(List<MultipartFile> imageFiles, UUID id) throws Exception {
 
-        Path root = Paths.get(uploadPath);
+        Path root = Paths.get(uploadPath + "/" + id);
         if (!Files.exists(root)) {
-            init();
+            init(root);
         }
 
         List<String> imagePaths = new ArrayList<>();
         for (MultipartFile image : imageFiles) {
             Path realPath = root.resolve(UUID.randomUUID().toString());
             Files.copy(image.getInputStream(), realPath);
-            imagePaths.add(realPath.toUri().toString());
+            imagePaths.add("http://localhost:8080/" + realPath.toString());
         }
         return imagePaths.toArray(new String[imagePaths.size()]);
 
     }
 
+    public static Resource load(String filename) throws Exception {
+
+        Path file = Paths.get(uploadPath)
+                .resolve(filename);
+        Resource resource = new UrlResource(file.toUri());
+
+        if (resource.exists() || resource.isReadable()) {
+            return resource;
+        } else {
+            throw new RuntimeException("Failed to load images");
+        }
+    }
 }

@@ -1,28 +1,13 @@
 package com.kosalaam.api.modules.prayerroom.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kosalaam.api.common.StorageUtils;
 import com.kosalaam.api.modules.place.domain.PraySupplies;
 import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.prayerroom.domain.Prayerroom;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
-//@Getter
 @AllArgsConstructor
 //@ApiModel
 public class PrayerroomSaveDto extends PlaceDto {
@@ -46,29 +31,7 @@ public class PrayerroomSaveDto extends PlaceDto {
     @ApiModelProperty(notes = "호스트 ID", position = 16)
     public Long hostId;
 
-
-
-
-    public String[] saveImages(List<MultipartFile> imageFiles) throws Exception {
-
-        if (imageFiles == null) {
-            return new String[]{};
-        }
-        return StorageUtils.save(imageFiles);
-//        List<String> imagePaths = new ArrayList<String>();
-//        for (MultipartFile image : imageFiles) {
-////            String orgName = image.getOriginalFilename();
-////            String filePath = uploadPath + orgName;
-////            File dest = new File(filePath);
-////            image.transferTo(dest);
-////            imagePaths.add(filePath);
-//            imagePaths.add(StorageUtils.save(image));
-//        }
-
-//        return imagePaths.toArray(new String[imagePaths.size()]);
-    }
-
-    public Prayerroom toEntity(List<MultipartFile> imageFiles) throws Exception {
+    public Prayerroom toEntity() throws Exception {
 
         final ObjectMapper mapper = new ObjectMapper();
         PraySupplies newPraySupplies = mapper.readValue(praySupplies, PraySupplies.class);
@@ -80,7 +43,6 @@ public class PrayerroomSaveDto extends PlaceDto {
                 .longitude(longitude)
                 .address(address)
                 .phoneNumber(phoneNumber)
-                .images(saveImages(imageFiles))
                 .likedCount(likedCount)
                 .openingHours(openingHours)
                 .isParkingLot(isParkingLot)

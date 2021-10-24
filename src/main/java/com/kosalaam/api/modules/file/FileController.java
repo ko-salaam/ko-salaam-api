@@ -1,29 +1,28 @@
 package com.kosalaam.api.modules.file;
 
+import com.google.common.net.HttpHeaders;
+import com.kosalaam.api.common.StorageUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiParam;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.kosalaam.api.modules.prayerroom.domain.PrayerroomRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-
-@RequiredArgsConstructor
+@Api(tags = "File")
 @RequestMapping("/uploads")
 @RestController
 public class FileController {
 
-    @GetMapping("{uuid}")
-    public ResponseEntity<PlaceDto> getFileSource(
-            @ApiParam(value="장소 ID") @PathVariable UUID id,
-            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
+    @GetMapping("{folder}/{filename}")
+    public ResponseEntity<Resource> getFile(
+            @PathVariable String folder,
+            @PathVariable String filename
     ) throws Exception {
-        return new ResponseEntity<>(placeService.getPlace(id, firebaseUuid), HttpStatus.OK);
-    }
-
-    @GetMapping("{uuid.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = fileService.load(filename);
+        Resource file = StorageUtils.load(folder + "/" + filename);
+        System.out.println(file);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "a")
                 .body(file);
+
     }
 }
