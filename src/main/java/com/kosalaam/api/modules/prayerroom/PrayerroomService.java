@@ -5,16 +5,15 @@ import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.prayerroom.domain.*;
-import com.kosalaam.api.modules.prayerroom.dto.PrayerroomDto;
-import com.kosalaam.api.modules.prayerroom.dto.PrayerroomReviewRespDto;
-import com.kosalaam.api.modules.prayerroom.dto.PrayerroomReviewSaveDto;
-import com.kosalaam.api.modules.prayerroom.dto.PrayerroomReviewsRespDto;
+import com.kosalaam.api.modules.prayerroom.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +34,7 @@ public class PrayerroomService {
     private final PrayerroomReviewRepository prayerroomReviewRepository;
 
     private final KoUserRepository koUserRepository;
+
 
     /**
      * 기도실 조회
@@ -75,7 +75,7 @@ public class PrayerroomService {
                 longitude,
                 distance,
                 keyword,
-                PageRequest.of(pageNum, pageSize, Sort.Direction.ASC, "liked_count")
+                PageRequest.of(pageNum, pageSize, Sort.Direction.DESC, "liked_count")
         ).getContent();
 
 
@@ -92,8 +92,8 @@ public class PrayerroomService {
      * @return 기도실 DTO
      */
     @Transactional
-    public PrayerroomDto savePrayerroom(PrayerroomDto prayerroomDto) {
-        Prayerroom prayerroom = prayerroomRepository.save(prayerroomDto.toEntity());
+    public PrayerroomDto savePrayerroom(HttpServletRequest request, PrayerroomSaveDto prayerroomDto, List<MultipartFile> imageFiles) throws Exception {
+        Prayerroom prayerroom = prayerroomRepository.save(prayerroomDto.toEntity(imageFiles));
         return writePrayreroomDto(prayerroom, "");
     }
 

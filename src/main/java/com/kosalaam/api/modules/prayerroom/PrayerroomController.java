@@ -9,12 +9,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +26,8 @@ import java.util.UUID;
 @RequestMapping("/api/prayerroom")
 @RestController
 public class PrayerroomController {
+
+    private final HttpServletRequest request;
 
     private final PrayerroomService prayerroomService;
 
@@ -54,11 +59,14 @@ public class PrayerroomController {
         );
     }
 
-    @ApiOperation(value = "기도실 등록", notes = "기도실 등록")
-    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+//    @ApiOperation(value = "기도실 등록", notes = "기도실 등록")
+//    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping
     public ResponseEntity<PrayerroomDto> savePrayerroom (
-            @ModelAttribute PrayerroomDto prayerroomSaveDto) throws Exception {
-        return new ResponseEntity(prayerroomService.savePrayerroom(prayerroomSaveDto), HttpStatus.OK);
+            @ModelAttribute PrayerroomSaveDto prayerroomSaveDto,
+            @RequestPart List<MultipartFile> imageFiles
+            ) throws Exception {
+        return new ResponseEntity(prayerroomService.savePrayerroom(request, prayerroomSaveDto, imageFiles), HttpStatus.OK);
     }
 
     @ApiOperation(value = "기도실 정보 수정", notes = "기도실 ID로 상세 정보 수정")

@@ -1,6 +1,7 @@
 package com.kosalaam.api.modules.prayerroom.dto;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosalaam.api.modules.place.domain.PraySupplies;
 import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.place.dto.PlaceType;
@@ -13,27 +14,24 @@ import javax.persistence.Column;
 import java.util.UUID;
 
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @ApiModel
 public class PrayerroomDto extends PlaceDto {
 
     @ApiModelProperty(notes = "코살람 등록 기도실 여부", position = 2)
-    private Boolean isKosalaamRoom;
+    public Boolean isKosalaamRoom;
 
     @ApiModelProperty(notes = "가격", position = 14)
-    private Integer price;
+    public Integer price;
 
     @ApiModelProperty(notes = "기도실 운영 타입", position = 14)
-    private String managingType;
+    public String managingType;
 
     @ApiModelProperty(notes = "기도 물품 구비 여부", position = 15)
     private PraySupplies praySupplies;
 
     @ApiModelProperty(notes = "호스트 ID", position = 16)
-    private Long hostId;
+    public Long hostId;
 
     /**
      * Entity To DTO
@@ -68,7 +66,8 @@ public class PrayerroomDto extends PlaceDto {
      * DTO to Entity
      * @return 기도실 Entity
      */
-    public Prayerroom toEntity() {
+    public Prayerroom toEntity() throws Exception {
+
         return Prayerroom.builder()
                 .isKosalaamRoom(isKosalaamRoom)
                 .name(name)

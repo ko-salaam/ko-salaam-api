@@ -47,4 +47,5 @@ public class PlaceController {
     ) throws Exception {
         return new ResponseEntity<>(placeService.getPlace(id, firebaseUuid), HttpStatus.OK);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.kosalaam.api.modules.place;
 
+import com.kosalaam.api.common.StorageUtils;
 import com.kosalaam.api.modules.accommodation.AccommodationService;
 import com.kosalaam.api.modules.accommodation.domain.Accommodation;
 import com.kosalaam.api.modules.accommodation.domain.AccommodationRepository;
@@ -33,6 +34,8 @@ public class PlaceService {
     private final RestaurantRepository restaurantRepository;
 
     private final AccommodationRepository accommodationRepository;
+
+    private final StorageUtils storageUtils;
 
     /**
      * 장소 리스트 통합 검색
@@ -102,4 +105,5 @@ public class PlaceService {
             throw new IllegalArgumentException("'"+id+"' 는 존재하지 않는 기도실 ID 입니다.");
         }
     }
+
 }

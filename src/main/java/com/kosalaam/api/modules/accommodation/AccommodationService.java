@@ -80,7 +80,7 @@ public class AccommodationService {
                 distance,
                 keyword,
 //                muslimFriendyFilter,
-                PageRequest.of(pageNum, pageSize, Sort.Direction.ASC, "liked_count")
+                PageRequest.of(pageNum, pageSize, Sort.Direction.DESC, "liked_count")
         ).getContent();
 
         return accommodations.stream()
