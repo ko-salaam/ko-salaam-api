@@ -46,7 +46,7 @@ public class KoUserController {
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/new")
-    public ResponseEntity<KoUser> signUp(
+    public ResponseEntity<KoUserDto> signUp(
             @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
     ) throws Exception {
         return new ResponseEntity<>(koUserService.signUp(firebaseUuid), HttpStatus.OK);
