@@ -3,6 +3,7 @@ package com.kosalaam.api.modules.kouser.dto;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@NoArgsConstructor
 @Getter
 @ApiModel
 public class KoUserDto {
