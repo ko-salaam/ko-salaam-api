@@ -2,6 +2,7 @@ package com.kosalaam.api.modules.kouser;
 
 
 import com.kosalaam.api.modules.kouser.domain.KoUser;
+import com.kosalaam.api.modules.kouser.dto.KoUserDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -58,5 +59,14 @@ public class KoUserController {
     ) throws Exception {
         koUserService.deleteUser(firebaseUuid);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "사용자 정보 수정")
+    @PutMapping
+    public ResponseEntity<KoUserDto> updateUser(
+            @ApiParam(value="수정할 정보") @RequestBody KoUserDto koUserDto,
+            @ApiIgnore @RequestAttribute(value="firebaseUuid") String firebaseUuid
+    ) throws Exception {
+        return new ResponseEntity<>(koUserService.updateUser(koUserDto, firebaseUuid), HttpStatus.OK);
     }
 }

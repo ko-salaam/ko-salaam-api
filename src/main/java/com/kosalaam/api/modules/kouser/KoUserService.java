@@ -6,6 +6,7 @@ import com.kosalaam.api.common.AuthUtils;
 
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
+import com.kosalaam.api.modules.kouser.dto.KoUserDto;
 import com.kosalaam.api.modules.restaurant.domain.RestaurantLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,18 @@ public class KoUserService {
         // Delete
         restaurantLikeRepository.deleteByKoUserId(koUser.getId());
         koUserRepository.deleteById(koUser.getId());
+
+    }
+
+    public KoUserDto updateUser(KoUserDto koUserDto, String firebaseUuid) throws Exception {
+
+        KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("존재하지 않는 id 입니다.")
+                );
+
+        return new KoUserDto(koUser.update(koUserDto));
+
 
     }
 }
