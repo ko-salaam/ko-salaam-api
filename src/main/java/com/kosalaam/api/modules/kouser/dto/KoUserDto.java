@@ -20,6 +20,9 @@ public class KoUserDto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String name;
+
     @Column(name="firebase_uuid")
     private String firebaseUuid;
 
@@ -40,6 +43,7 @@ public class KoUserDto {
 
     public KoUserDto(KoUser koUser) {
         this.id = koUser.getId();
+        this.name = koUser.getName();
         this.firebaseUuid = koUser.getFirebaseUuid();
         this.isCertificated = koUser.getIsCertificated();
         this.phoneNumber = koUser.getPhoneNumber();

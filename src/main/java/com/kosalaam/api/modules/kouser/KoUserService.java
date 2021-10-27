@@ -61,6 +61,8 @@ public class KoUserService {
         if (koUserRepository.findByFirebaseUuid(firebaseUuid).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 Firebase UUID 입니다.");
         }
+        KoUser koUser = koUserRepository.save(new KoUser(firebaseUuid));
+        koUser.setName("user" + koUser.getId());
         return koUserRepository.save(new KoUser(firebaseUuid));
     }
 

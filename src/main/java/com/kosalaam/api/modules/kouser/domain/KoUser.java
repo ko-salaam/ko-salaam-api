@@ -20,6 +20,9 @@ public class KoUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private String name;
+
     @Column(name="firebase_uuid")
     private String firebaseUuid;
 
@@ -58,6 +61,7 @@ public class KoUser {
      * @throws Exception
      */
     public KoUser update(KoUserDto koUserDto) {
+        this.name = Optional.ofNullable(koUserDto.getName()).orElse(name);
         this.firebaseUuid = Optional.ofNullable(koUserDto.getFirebaseUuid()).orElse(firebaseUuid);
         this.isCertificated = Optional.ofNullable(koUserDto.getIsCertificated()).orElse(isCertificated);
         this.isHost = Optional.ofNullable(koUserDto.getIsHost()).orElse(isHost);
