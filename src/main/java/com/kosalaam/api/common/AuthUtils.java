@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseToken;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
+@Log4j2
 public class AuthUtils {
 
     private final KoUserRepository koUserRepository;
@@ -61,6 +63,7 @@ public class AuthUtils {
         initFireBaseSDK();
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(authExtractor(token));
 
+        log.debug(decodedToken);
         return decodedToken.getUid();
     }
 

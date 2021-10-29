@@ -1,19 +1,16 @@
 package com.kosalaam.api.modules.kouser;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserRecord;
-import com.kosalaam.api.common.AuthUtils;
-
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
 import com.kosalaam.api.modules.kouser.dto.KoUserDto;
 import com.kosalaam.api.modules.restaurant.domain.RestaurantLikeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class KoUserService {
@@ -99,15 +96,16 @@ public class KoUserService {
 
     }
 
+
+    @Transactional
     public KoUserDto updateUser(KoUserDto koUserDto, String firebaseUuid) throws Exception {
 
         KoUser koUser = koUserRepository.findByFirebaseUuid(firebaseUuid)
                 .orElseThrow(
                         () -> new IllegalArgumentException("존재하지 않는 id 입니다.")
                 );
+        koUser.update(koUserDto);
 
-        return new KoUserDto(koUser.update(koUserDto));
-
-
+        return new KoUserDto(koUser);
     }
 }

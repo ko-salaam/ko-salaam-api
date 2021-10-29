@@ -8,7 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Optional;
 
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -60,7 +60,7 @@ public class KoUser {
      * @return Entity
      * @throws Exception
      */
-    public KoUser update(KoUserDto koUserDto) {
+    public void update(KoUserDto koUserDto) {
         this.name = Optional.ofNullable(koUserDto.getName()).orElse(name);
         this.firebaseUuid = Optional.ofNullable(koUserDto.getFirebaseUuid()).orElse(firebaseUuid);
         this.isCertificated = Optional.ofNullable(koUserDto.getIsCertificated()).orElse(isCertificated);
@@ -68,6 +68,13 @@ public class KoUser {
         this.phoneNumber = Optional.ofNullable(koUserDto.getPhoneNumber()).orElse(phoneNumber);
         this.email = Optional.ofNullable(koUserDto.getEmail()).orElse(email);
         this.profileImg = Optional.ofNullable(koUserDto.getProfileImg()).orElse(profileImg);
-        return this;
+    }
+
+    /**
+     * name setter
+     * @param name 수정할 name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }

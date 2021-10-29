@@ -2,6 +2,8 @@ package com.kosalaam.api.common;
 
 import com.google.common.net.HttpHeaders;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RequiredArgsConstructor
 @Component
+@Log4j2
 public class RequiredAuthInterceptor extends HandlerInterceptorAdapter {
 
     private final AuthUtils authUtils;
@@ -28,6 +31,7 @@ public class RequiredAuthInterceptor extends HandlerInterceptorAdapter {
 
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         String uid = authUtils.checkToken(token);
+        log.debug("firebase uuid: "+ uid);
         request.setAttribute("firebaseUuid", uid);
         return super.preHandle(request, response, handler);
 
