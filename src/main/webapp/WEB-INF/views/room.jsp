@@ -99,7 +99,7 @@
     }
 
     function goRoom(number, name){
-        location.href="/moveChating?roomName="+name+"&"+"roomNumber="+number;
+        location.href="/moveChating?roomName="+name+"&"+"hostId="+number;
     }
 
     function createChatingRoom(res){
@@ -107,11 +107,11 @@
             var tag = "<tr><th class='num'>순서</th><th class='room'>방 이름</th><th class='go'></th></tr>";
             res.forEach(function(d, idx){
                 var rn = d.roomName.trim();
-                var roomNumber = d.roomNumber;
+                var hostId = d.hostId;
                 tag += "<tr>"+
                     "<td class='num'>"+(idx+1)+"</td>"+
                     "<td class='room'>"+ rn +"</td>"+
-                    "<td class='go'><button type='button' onclick='goRoom(\""+roomNumber+"\", \""+rn+"\")'>참여</button></td>" +
+                    "<td class='go'><button type='button' onclick='goRoom(\""+hostId+"\", \""+rn+"\")'>참여</button></td>" +
                     "</tr>";
             });
             $("#roomList").empty().append(tag);
