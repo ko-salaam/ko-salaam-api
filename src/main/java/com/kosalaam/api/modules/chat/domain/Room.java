@@ -1,14 +1,14 @@
 package com.kosalaam.api.modules.chat.domain;
 
 public class Room {
-    int roomNumber;
+    int hostId;
     String roomName;
 
-    public int getRoomNumber() {
-        return roomNumber;
+    public int getHostId() {
+        return hostId;
     }
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setHostId(int hostId) {
+        this.hostId = hostId;
     }
     public String getRoomName() {
         return roomName;
@@ -19,6 +19,6 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room [roomNumber=" + roomNumber + ", roomName=" + roomName + "]";
+        return "Room [roomNumber=" + hostId + ", roomName=" + roomName + "]";
     }
 }

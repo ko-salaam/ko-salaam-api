@@ -29,12 +29,13 @@ public class ChatHandler extends TextWebSocketHandler {
         JSONObject obj = jsonToObjectParser(msg);
         log.info("message: " + msg);
 
-        String rN = (String) obj.get("roomNumber");
+        String rN = (String) obj.get("hostId");
+
         HashMap<String, Object> temp = new HashMap<String, Object>();
         if(rls.size() > 0) {
             for(int i=0; i<rls.size(); i++) {
-                String roomNumber = (String) rls.get(i).get("roomNumber"); //세션리스트의 저장된 방번호를 가져와서
-                if(roomNumber.equals(rN)) { //같은값의 방이 존재한다면
+                String hostId = (String) rls.get(i).get("hostId"); //세션리스트의 저장된 방번호를 가져와서
+                if(hostId.equals(rN)) { //같은값의 방이 존재한다면
                     temp = rls.get(i); //해당 방번호의 세션리스트의 존재하는 모든 object값을 가져온다.
                     break;
                 }
@@ -42,7 +43,7 @@ public class ChatHandler extends TextWebSocketHandler {
 
             //해당 방의 세션들만 찾아서 메시지를 발송해준다.
             for(String k : temp.keySet()) {
-                if(k.equals("roomNumber")) { //다만 방번호일 경우에는 건너뛴다.
+                if(k.equals("hostId")) { //다만 방번호일 경우에는 건너뛴다.
                     continue;
                 }
 
@@ -67,12 +68,12 @@ public class ChatHandler extends TextWebSocketHandler {
         boolean flag = false;
         String url = session.getUri().toString();
         System.out.println(url);
-        String roomNumber = url.split("/chating/")[1];
+        String hostId = url.split("/chating/")[1];
         int idx = rls.size(); //방의 사이즈를 조사한다.
         if(rls.size() > 0) {
             for(int i=0; i<rls.size(); i++) {
-                String rN = (String) rls.get(i).get("roomNumber");
-                if(rN.equals(roomNumber)) {
+                String rN = (String) rls.get(i).get("hostId");
+                if(rN.equals(hostId)) {
                     flag = true;
                     idx = i;
                     break;
@@ -85,7 +86,7 @@ public class ChatHandler extends TextWebSocketHandler {
             map.put(session.getId(), session);
         }else { //최초 생성하는 방이라면 방번호와 세션을 추가한다.
             HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("roomNumber", roomNumber);
+            map.put("hostId", hostId);
             map.put(session.getId(), session);
             rls.add(map);
         }

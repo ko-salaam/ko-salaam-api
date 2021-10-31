@@ -2,14 +2,16 @@ package com.kosalaam.api.modules.chat;
 
 import com.kosalaam.api.modules.chat.domain.Room;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
+import java.net.http.WebSocket;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 public class ChatController {
 
     List<Room> roomList = new ArrayList<Room>();
-    static int roomNumber = 0;
+    static int hostId = 0;
 
     @RequestMapping("/chat")
     public ModelAndView chat() {
@@ -47,12 +49,13 @@ public class ChatController {
         String roomName = (String) params.get("roomName");
         if(roomName != null && !roomName.trim().equals("")) {
             Room room = new Room();
-            room.setRoomNumber(++roomNumber);
+            room.setHostId(++hostId);
             room.setRoomName(roomName);
             roomList.add(room);
         }
         return roomList;
     }
+    
 
     /**
      * 방 정보가져오기
@@ -71,12 +74,12 @@ public class ChatController {
     @RequestMapping("/moveChating")
     public ModelAndView chating(@RequestParam HashMap<Object, Object> params) {
         ModelAndView mv = new ModelAndView();
-        int roomNumber = Integer.parseInt((String) params.get("roomNumber"));
+        int hostId = Integer.parseInt((String) params.get("hostId"));
 
-        List<Room> new_list = roomList.stream().filter(o->o.getRoomNumber()==roomNumber).collect(Collectors.toList());
+        List<Room> new_list = roomList.stream().filter(o->o.getHostId()==hostId).collect(Collectors.toList());
         if(new_list != null && new_list.size() > 0) {
             mv.addObject("roomName", params.get("roomName"));
-            mv.addObject("roomNumber", params.get("roomNumber"));
+            mv.addObject("hostId", params.get("hostId"));
             mv.setViewName("chat");
         }else {
             mv.setViewName("room");
