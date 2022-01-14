@@ -1,6 +1,4 @@
-// 빌드 과정에서 필요한 설정. 외부 라이브러리를 클래스패스에 추가하는 등의 기능을 함
 buildscript {
-    // 개발에 필요한 의존성 선언
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.0.RELEASE")
     }
@@ -16,76 +14,45 @@ group = 'com.kosalaam'
 version = '1.0'
 sourceCompatibility = '14'
 
-// 각종 의존성 라이브러리들을 어떤 원격 저장소에서 받을지 정함
 repositories {
     mavenCentral()
-    jcenter()
 }
-
-
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-test'
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-websocket')
+    implementation('org.springframework.boot:spring-boot-starter-test')
 
     // database
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'junit:junit:4.12'
-    runtimeOnly 'org.postgresql:postgresql'
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    runtimeOnly('org.postgresql:postgresql')
 
     // lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
 
     // Swagger 2
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
-    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation('io.springfox:springfox-boot-starter:3.0.0')
+    implementation('io.springfox:springfox-swagger-ui:3.0.0')
 
     // Security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation('org.springframework.boot:spring-boot-starter-security')
 
     // hibernate-validator
-    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.8.Final'
-    implementation 'com.vladmihalcea:hibernate-types-55:2.13.0'
+    implementation(group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.0.8.Final')
+    implementation('com.vladmihalcea:hibernate-types-55:2.13.0')
 
     // firebase admin sdk
-    implementation 'com.google.firebase:firebase-admin:8.0.0'
+    implementation('com.google.firebase:firebase-admin:8.0.0')
 
-    // aws sdk
-    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
-    implementation 'com.amazonaws:aws-java-sdk-s3'
-
-
-    compile 'commons-io:commons-io:2.11.0'
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-    // jsp
-    compile('org.apache.tomcat.embed:tomcat-embed-jasper')
-    compile('javax.servlet:jstl:1.2')
+    compile('commons-io:commons-io:2.11.0')
+    annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
 
     // json parser
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation('com.googlecode.json-simple:json-simple:1.1.1')
 }
+
 test {
     useJUnitPlatform()
-}
-
-sourceSets {
-    main {
-        resources {
-            srcDirs "src/main/resources"
-        }
-    }
-    test {
-        resources {
-            srcDirs "src/main/resources"
-        }
-    }
-}
-
-bootJar {
-    layered()
 }
