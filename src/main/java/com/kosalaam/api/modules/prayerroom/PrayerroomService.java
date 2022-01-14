@@ -1,6 +1,5 @@
 package com.kosalaam.api.modules.prayerroom;
 
-import com.kosalaam.api.common.StorageUtils;
 import com.kosalaam.api.common.UnauthorizedException;
 import com.kosalaam.api.modules.kouser.domain.KoUser;
 import com.kosalaam.api.modules.kouser.domain.KoUserRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -95,9 +93,6 @@ public class PrayerroomService {
     @Transactional
     public PrayerroomDto savePrayerroom(PrayerroomSaveDto prayerroomDto, List<MultipartFile> imageFiles) throws Exception {
         Prayerroom prayerroom = prayerroomRepository.save(prayerroomDto.toEntity());
-        if (imageFiles != null) {
-            prayerroom.setImages(StorageUtils.save(imageFiles, prayerroom.getId()));
-        }
         return writePrayreroomDto(prayerroom, "");
     }
 
