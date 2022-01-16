@@ -1,12 +1,14 @@
 package com.kosalaam.api.modules.prayerroom.dto;
 
 import com.kosalaam.api.modules.prayerroom.domain.PrayerroomReview;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter // swagger ui에서 필요
+@Getter
+@ApiModel
 public class PrayerroomReviewSaveDto {
 
     @ApiModelProperty(notes = "기도실 ID")

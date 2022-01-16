@@ -3,13 +3,11 @@ package com.kosalaam.api.modules.prayerroom.dto;
 import com.kosalaam.api.modules.prayerroom.domain.PrayerroomReview;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
 @ApiModel
 public class PrayerroomReviewRespDto {
 

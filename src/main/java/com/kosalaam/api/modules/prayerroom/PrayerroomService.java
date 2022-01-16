@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +90,7 @@ public class PrayerroomService {
      * @return 기도실 DTO
      */
     @Transactional
-    public PrayerroomDto savePrayerroom(PrayerroomSaveDto prayerroomDto, List<MultipartFile> imageFiles) throws Exception {
+    public PrayerroomDto savePrayerroom(PrayerroomSaveDto prayerroomDto) throws Exception {
         Prayerroom prayerroom = prayerroomRepository.save(prayerroomDto.toEntity());
         return writePrayreroomDto(prayerroom, "");
     }

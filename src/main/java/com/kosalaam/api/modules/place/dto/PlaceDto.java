@@ -1,16 +1,12 @@
 package com.kosalaam.api.modules.place.dto;
 
-import com.kosalaam.api.modules.place.domain.Place;
-import com.kosalaam.api.modules.place.domain.PraySupplies;
-import com.kosalaam.api.modules.restaurant.domain.MuslimFriendlies;
-import com.kosalaam.api.modules.restaurant.domain.Restaurant;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @Getter

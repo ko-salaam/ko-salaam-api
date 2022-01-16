@@ -33,7 +33,7 @@ public class SwaggerConfig {
 
 
     /**
-     * [restaurant] group swagger Docket
+     * [Prayerroom] group swagger Docket
      *
      * @return <Docket>
      */

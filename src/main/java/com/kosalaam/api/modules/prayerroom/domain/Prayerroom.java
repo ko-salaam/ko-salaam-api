@@ -6,7 +6,6 @@ import lombok.*;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Getter

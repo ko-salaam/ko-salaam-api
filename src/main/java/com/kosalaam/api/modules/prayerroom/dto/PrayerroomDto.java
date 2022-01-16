@@ -1,20 +1,15 @@
 package com.kosalaam.api.modules.prayerroom.dto;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosalaam.api.modules.place.domain.PraySupplies;
 import com.kosalaam.api.modules.place.dto.PlaceDto;
 import com.kosalaam.api.modules.place.dto.PlaceType;
 import com.kosalaam.api.modules.prayerroom.domain.Prayerroom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-
-import javax.persistence.Column;
-import java.util.UUID;
+import lombok.Getter;
 
 @Getter
-@NoArgsConstructor
 @ApiModel
 public class PrayerroomDto extends PlaceDto {
 
