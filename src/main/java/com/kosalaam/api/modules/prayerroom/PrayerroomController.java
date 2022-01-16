@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +23,6 @@ import java.util.UUID;
 @RequestMapping("/api/prayerroom")
 @RestController
 public class PrayerroomController {
-
-    private final HttpServletRequest request;
 
     private final PrayerroomService prayerroomService;
 
@@ -57,14 +54,13 @@ public class PrayerroomController {
         );
     }
 
-//    @ApiOperation(value = "기도실 등록", notes = "기도실 등록")
-//    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ApiOperation(value = "기도실 등록", notes = "기도실 등록")
     @PostMapping
     public ResponseEntity<PrayerroomDto> savePrayerroom (
-            @ModelAttribute PrayerroomSaveDto prayerroomSaveDto,
-            @RequestPart List<MultipartFile> imageFiles
-            ) throws Exception {
-        return new ResponseEntity(prayerroomService.savePrayerroom(prayerroomSaveDto, imageFiles), HttpStatus.OK);
+            @ApiParam(value="기도실 정보") @RequestParam PrayerroomSaveDto prayerroomSaveDto,
+            @ApiParam(value="사진 리스트") @RequestParam List<MultipartFile> files
+    ) throws Exception {
+        return new ResponseEntity(prayerroomService.savePrayerroom(prayerroomSaveDto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "기도실 정보 수정", notes = "기도실 ID로 상세 정보 수정")
